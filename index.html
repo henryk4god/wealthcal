@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEALTH STRATEGY CALCULATOR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #0f172a;
+            --accent-color: #3b82f6;
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--primary-color);
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--card-shadow);
+            border-radius: 1.5rem;
+        }
+
+        .input-field { transition: all 0.3s ease; border: 2px solid #e2e8f0; }
+        .input-field:focus { border-color: var(--accent-color); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); outline: none; }
+
+        .btn-generate { background: var(--accent-color); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4); }
+
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 20px; height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        #result-content table { width: 100%; margin: 1rem 0; border-collapse: collapse; font-size: 0.9rem; }
+        #result-content th, #result-content td { border: 1px solid #e2e8f0; padding: 0.75rem; text-align: left; }
+        #result-content th { background: #f8fafc; font-weight: 600; }
+        #result-content h3 { font-weight: 700; font-size: 1.25rem; margin-top: 2rem; color: #1e293b; border-left: 4px solid #3b82f6; padding-left: 10px; page-break-after: avoid; }
+        #result-content h4 { font-weight: 600; margin-top: 1.5rem; color: #334155; }
+
+        .print-header { display: none; }
+
+        @media print {
+            body { background: white !important; padding: 0 !important; color: black; }
+            .no-print { display: none !important; }
+            .glass-card { box-shadow: none !important; border: none !important; width: 100% !important; padding: 0 !important; }
+            #result-container { display: block !important; }
+            .print-header { display: block; border-bottom: 2px solid #3b82f6; margin-bottom: 2rem; padding-bottom: 1rem; }
+            .recommendation-banner { border: 1px solid #ccc !important; background: #f9f9f9 !important; page-break-inside: avoid; }
+            a { color: #3b82f6 !important; text-decoration: underline; }
+        }
+
+        .recommendation-banner {
+            background: linear-gradient(90deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px dashed #3b82f6;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-5xl mx-auto">
+        <!-- Main Web Header -->
+        <header class="text-center mb-10 no-print">
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-2 uppercase">WEALTH STRATEGY <span class="text-blue-600">CALCULATOR</span></h1>
+            <p class="text-slate-500 font-medium">Global Execution-Focused Financial Roadmap</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Sidebar: Inputs -->
+            <div class="lg:col-span-4 no-print">
+                <div class="glass-card p-6 sticky top-8">
+                    <form id="wealthForm" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Monthly Income</label>
+                            <input type="number" id="income" required placeholder="e.g. 100000" class="input-field w-full p-3 rounded-xl bg-slate-50">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Country</label>
+                                <input type="text" id="country" required placeholder="Nigeria" class="input-field w-full p-3 rounded-xl bg-slate-50">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Currency</label>
+                                <input type="text" id="currency" required placeholder="NGN" class="input-field w-full p-3 rounded-xl bg-slate-50">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Financial Goal</label>
+                            <select id="goal" class="input-field w-full p-3 rounded-xl bg-slate-50">
+                                <option value="Build Wealth">Build Wealth</option>
+                                <option value="Escape Low Income">Escape Low Income</option>
+                                <option value="Start Investing">Start Investing</option>
+                                <option value="Grow Business">Grow Business</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Risk Tolerance</label>
+                            <select id="risk" class="input-field w-full p-3 rounded-xl bg-slate-50">
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="btn-generate w-full text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3">
+                            <span>GENERATE STRATEGY</span>
+                            <div id="loader" class="loading-spinner hidden"></div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Content: Results -->
+            <div class="lg:col-span-8">
+                <!-- Welcome UI -->
+                <div id="welcome-state" class="glass-card h-full p-12 flex flex-col items-center justify-center text-center space-y-4 no-print">
+                    <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-2xl">📈</div>
+                    <h2 class="text-xl font-bold">Plan Your Financial Freedom</h2>
+                    <p class="text-slate-500 max-w-sm">Enter your details to generate a detailed allocation and execution roadmap.</p>
+                </div>
+
+                <!-- Result Container -->
+                <div id="result-container" class="hidden glass-card p-6 md:p-10">
+                    <!-- PDF Only Header -->
+                    <div class="print-header">
+                        <h1 style="font-size: 24pt; font-weight: bold; margin-bottom: 5px;">WEALTH STRATEGY REPORT</h1>
+                        <p style="color: #666;" id="print-meta"></p>
+                    </div>
+
+                    <!-- Result Header (Web) -->
+                    <div class="flex flex-wrap justify-between items-center mb-8 border-b pb-6 no-print gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800">Strategy Roadmap</h2>
+                            <p id="meta-info" class="text-sm text-slate-500 font-medium"></p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button id="downloadBtn" title="Download as PDF" class="flex items-center gap-2 text-sm font-semibold bg-slate-900 text-white px-4 py-2.5 rounded-lg hover:bg-slate-800 transition-all">
+                                📥 Download
+                            </button>
+                            <button id="copyBtn" title="Copy to Clipboard" class="flex items-center gap-2 text-sm font-semibold border border-slate-200 px-4 py-2.5 rounded-lg hover:bg-slate-50 transition-all">
+                                📋 Copy
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Markdown Output Area -->
+                    <div id="result-content" class="prose prose-slate max-w-none">
+                        <!-- AI Response Here -->
+                    </div>
+
+                    <!-- Recommended Product (Nairatodollar) -->
+                    <div class="mt-12 pt-8 border-t border-slate-200">
+                        <div class="recommendation-banner p-6 md:p-8 rounded-2xl">
+                            <h4 class="text-blue-800 font-bold mb-3 flex items-center gap-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                RECOMMENDED SCALING TOOL
+                            </h4>
+                            <p class="text-blue-900 text-base mb-6">
+                                To protect your wealth from local inflation and accelerate your transition to global assets, we recommend using our specialized scaling platform.
+                            </p>
+                            <a href="https://nairatodollar.com" target="_blank" class="inline-block bg-blue-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-blue-700 transition-all text-center shadow-lg shadow-blue-200">
+                                Access Nairatodollar Strategy Tool →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1enICZFH4DFdhaglEiJN9df0mjgJ1zn4q1XfYJ1K4ZOXe_gsBbnfrO2wSFTTCjeOO/exec';
+
+        const form = document.getElementById('wealthForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const loader = document.getElementById('loader');
+        const resultContainer = document.getElementById('result-container');
+        const welcomeState = document.getElementById('welcome-state');
+        const resultContent = document.getElementById('result-content');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            submitBtn.disabled = true;
+            loader.classList.remove('hidden');
+
+            const params = {
+                income: document.getElementById('income').value,
+                country: document.getElementById('country').value,
+                currency: document.getElementById('currency').value,
+                goal: document.getElementById('goal').value,
+                risk: document.getElementById('risk').value
+            };
+
+            const queryString = new URLSearchParams(params).toString();
+
+            try {
+                const response = await fetch(`${SCRIPT_URL}?${queryString}`);
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    welcomeState.classList.add('hidden');
+                    resultContainer.classList.remove('hidden');
+                    
+                    // Render Markdown
+                    resultContent.innerHTML = marked.parse(data.content);
+                    
+                    // Update Meta Info
+                    const metaText = `Target: ${params.goal} | Country: ${params.country} | Base: ${params.income} ${params.currency}`;
+                    document.getElementById('meta-info').innerText = metaText;
+                    document.getElementById('print-meta').innerText = metaText + " | Generated: " + new Date().toLocaleDateString();
+
+                    window.scrollTo({ top: resultContainer.offsetTop - 20, behavior: 'smooth' });
+                }
+            } catch (err) {
+                console.error("Fetch Error:", err);
+                alert("Failed to connect to the backend. Please ensure the Apps Script URL is correct and deployed.");
+            } finally {
+                submitBtn.disabled = false;
+                loader.classList.add('hidden');
+            }
+        });
+
+        // PDF Download
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            window.print();
+        });
+
+        // Copy Text
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const text = resultContent.innerText;
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            
+            const originalText = this.innerHTML;
+            this.innerHTML = '✅ Copied';
+            setTimeout(() => this.innerHTML = originalText, 2000);
+        });
+    </script>
+</body>
+</html>
