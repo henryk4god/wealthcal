@@ -46,22 +46,13 @@
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        #result-content table { width: 100%; margin: 1rem 0; border-collapse: collapse; font-size: 0.9rem; }
-        #result-content th, #result-content td { border: 1px solid #e2e8f0; padding: 0.75rem; text-align: left; }
-        #result-content th { background: #f8fafc; font-weight: 600; }
-        #result-content h3 { font-weight: 700; font-size: 1.25rem; margin-top: 2rem; color: #1e293b; border-left: 4px solid #3b82f6; padding-left: 10px; page-break-after: avoid; }
-        #result-content h4 { font-weight: 600; margin-top: 1.5rem; color: #334155; }
-
-        .print-header { display: none; }
-
+        #result-content table { width: 100%; margin: 1rem 0; border-collapse: collapse; font-size: 0.85rem; }
+        #result-content th, #result-content td { border: 1px solid #e2e8f0; padding: 0.5rem; text-align: left; }
+        #result-content h3 { font-weight: 700; font-size: 1.25rem; margin-top: 2rem; color: #1e293b; border-left: 4px solid #3b82f6; padding-left: 10px; }
+        
         @media print {
-            body { background: white !important; padding: 0 !important; color: black; }
             .no-print { display: none !important; }
-            .glass-card { box-shadow: none !important; border: none !important; width: 100% !important; padding: 0 !important; }
-            #result-container { display: block !important; }
-            .print-header { display: block; border-bottom: 2px solid #3b82f6; margin-bottom: 2rem; padding-bottom: 1rem; }
-            .recommendation-banner { border: 1px solid #ccc !important; background: #f9f9f9 !important; page-break-inside: avoid; }
-            a { color: #3b82f6 !important; text-decoration: underline; }
+            .glass-card { box-shadow: none !important; border: none !important; }
         }
 
         .recommendation-banner {
@@ -72,109 +63,85 @@
 </head>
 <body class="p-4 md:p-8">
 
-    <div class="max-w-5xl mx-auto">
-        <!-- Main Web Header -->
+    <div class="max-w-6xl mx-auto">
         <header class="text-center mb-10 no-print">
             <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-2 uppercase">WEALTH STRATEGY <span class="text-blue-600">CALCULATOR</span></h1>
-            <p class="text-slate-500 font-medium">Global Execution-Focused Financial Roadmap</p>
+            <p class="text-slate-500 font-medium">Precision Financial Engineering for Global Wealth</p>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <!-- Sidebar: Inputs -->
+            <!-- Sidebar: User Input -->
             <div class="lg:col-span-4 no-print">
                 <div class="glass-card p-6 sticky top-8">
                     <form id="wealthForm" class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Monthly Income</label>
-                            <input type="number" id="income" required placeholder="e.g. 100000" class="input-field w-full p-3 rounded-xl bg-slate-50">
+                            <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Monthly Income</label>
+                            <input type="number" id="income" required placeholder="Enter amount" class="input-field w-full p-3 rounded-xl bg-slate-50">
                         </div>
-                        <div class="grid grid-cols-2 gap-3">
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Country (Type to Search)</label>
+                            <input list="country-list" id="country" required placeholder="Select or type..." class="input-field w-full p-3 rounded-xl bg-slate-50">
+                            <datalist id="country-list"></datalist>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Currency</label>
+                            <input list="currency-list" id="currency" required placeholder="Select or type..." class="input-field w-full p-3 rounded-xl bg-slate-50">
+                            <datalist id="currency-list"></datalist>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4">
                             <div>
-                                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Country</label>
-                                <input type="text" id="country" required placeholder="Nigeria" class="input-field w-full p-3 rounded-xl bg-slate-50">
+                                <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Goal</label>
+                                <select id="goal" class="input-field w-full p-3 rounded-xl bg-slate-50">
+                                    <option>Build Wealth</option>
+                                    <option>Escape Low Income</option>
+                                    <option>Start Investing</option>
+                                    <option>Grow Business</option>
+                                </select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Currency</label>
-                                <input type="text" id="currency" required placeholder="NGN" class="input-field w-full p-3 rounded-xl bg-slate-50">
+                                <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Risk Tolerance</label>
+                                <select id="risk" class="input-field w-full p-3 rounded-xl bg-slate-50">
+                                    <option>Low</option>
+                                    <option selected>Medium</option>
+                                    <option>High</option>
+                                </select>
                             </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Financial Goal</label>
-                            <select id="goal" class="input-field w-full p-3 rounded-xl bg-slate-50">
-                                <option value="Build Wealth">Build Wealth</option>
-                                <option value="Escape Low Income">Escape Low Income</option>
-                                <option value="Start Investing">Start Investing</option>
-                                <option value="Grow Business">Grow Business</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Risk Tolerance</label>
-                            <select id="risk" class="input-field w-full p-3 rounded-xl bg-slate-50">
-                                <option value="Low">Low</option>
-                                <option value="Medium" selected>Medium</option>
-                                <option value="High">High</option>
-                            </select>
                         </div>
 
                         <button type="submit" id="submitBtn" class="btn-generate w-full text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3">
-                            <span>GENERATE STRATEGY</span>
+                            <span>GENERATE PLAN</span>
                             <div id="loader" class="loading-spinner hidden"></div>
                         </button>
                     </form>
                 </div>
             </div>
 
-            <!-- Content: Results -->
+            <!-- Main Display: Results -->
             <div class="lg:col-span-8">
-                <!-- Welcome UI -->
-                <div id="welcome-state" class="glass-card h-full p-12 flex flex-col items-center justify-center text-center space-y-4 no-print">
-                    <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-2xl">📈</div>
-                    <h2 class="text-xl font-bold">Plan Your Financial Freedom</h2>
-                    <p class="text-slate-500 max-w-sm">Enter your details to generate a detailed allocation and execution roadmap.</p>
+                <div id="welcome-state" class="glass-card h-full p-12 flex flex-col items-center justify-center text-center no-print">
+                    <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-3xl mb-4">🌎</div>
+                    <h2 class="text-xl font-bold mb-2">Ready for Global Strategy</h2>
+                    <p class="text-slate-500">Your custom wealth-building execution plan will appear here.</p>
                 </div>
 
-                <!-- Result Container -->
                 <div id="result-container" class="hidden glass-card p-6 md:p-10">
-                    <!-- PDF Only Header -->
-                    <div class="print-header">
-                        <h1 style="font-size: 24pt; font-weight: bold; margin-bottom: 5px;">WEALTH STRATEGY REPORT</h1>
-                        <p style="color: #666;" id="print-meta"></p>
-                    </div>
-
-                    <!-- Result Header (Web) -->
-                    <div class="flex flex-wrap justify-between items-center mb-8 border-b pb-6 no-print gap-4">
-                        <div>
-                            <h2 class="text-2xl font-bold text-slate-800">Strategy Roadmap</h2>
-                            <p id="meta-info" class="text-sm text-slate-500 font-medium"></p>
-                        </div>
+                    <div class="flex justify-between items-center mb-6 no-print">
+                        <h2 class="text-2xl font-bold">Execution Strategy</h2>
                         <div class="flex gap-2">
-                            <button id="downloadBtn" title="Download as PDF" class="flex items-center gap-2 text-sm font-semibold bg-slate-900 text-white px-4 py-2.5 rounded-lg hover:bg-slate-800 transition-all">
-                                📥 Download
-                            </button>
-                            <button id="copyBtn" title="Copy to Clipboard" class="flex items-center gap-2 text-sm font-semibold border border-slate-200 px-4 py-2.5 rounded-lg hover:bg-slate-50 transition-all">
-                                📋 Copy
-                            </button>
+                            <button id="downloadBtn" class="bg-slate-900 text-white px-3 py-2 rounded-lg text-sm">📥 PDF</button>
+                            <button id="copyBtn" class="border px-3 py-2 rounded-lg text-sm">📋 Copy</button>
                         </div>
                     </div>
-                    
-                    <!-- Markdown Output Area -->
-                    <div id="result-content" class="prose prose-slate max-w-none">
-                        <!-- AI Response Here -->
-                    </div>
+                    <div id="result-content" class="prose max-w-none"></div>
 
-                    <!-- Recommended Product (Nairatodollar) -->
-                    <div class="mt-12 pt-8 border-t border-slate-200">
-                        <div class="recommendation-banner p-6 md:p-8 rounded-2xl">
-                            <h4 class="text-blue-800 font-bold mb-3 flex items-center gap-2">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                RECOMMENDED SCALING TOOL
-                            </h4>
-                            <p class="text-blue-900 text-base mb-6">
-                                To protect your wealth from local inflation and accelerate your transition to global assets, we recommend using our specialized scaling platform.
-                            </p>
-                            <a href="https://nairatodollar.com" target="_blank" class="inline-block bg-blue-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-blue-700 transition-all text-center shadow-lg shadow-blue-200">
-                                Access Nairatodollar Strategy Tool →
-                            </a>
+                    <div class="mt-8 pt-8 border-t">
+                        <div class="recommendation-banner p-6 rounded-2xl">
+                            <h4 class="text-blue-800 font-bold mb-2 uppercase">🚀 Recommended Scaling Tool</h4>
+                            <p class="text-blue-900 text-sm mb-4">Protect your capital from local currency devaluation by scaling through international assets.</p>
+                            <a href="https://nairatodollar.com" target="_blank" class="inline-block bg-blue-600 text-white font-bold px-6 py-3 rounded-xl">Visit Nairatodollar.com →</a>
                         </div>
                     </div>
                 </div>
@@ -185,74 +152,75 @@
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw1enICZFH4DFdhaglEiJN9df0mjgJ1zn4q1XfYJ1K4ZOXe_gsBbnfrO2wSFTTCjeOO/exec';
 
-        const form = document.getElementById('wealthForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const loader = document.getElementById('loader');
-        const resultContainer = document.getElementById('result-container');
-        const welcomeState = document.getElementById('welcome-state');
-        const resultContent = document.getElementById('result-content');
+        const data = [
+            {n:"Afghanistan",c:"AFN"},{n:"Albania",c:"ALL"},{n:"Algeria",c:"DZD"},{n:"Andorra",c:"EUR"},{n:"Angola",c:"AOA"},{n:"Antigua and Barbuda",c:"XCD"},{n:"Argentina",c:"ARS"},{n:"Armenia",c:"AMD"},{n:"Australia",c:"AUD"},{n:"Austria",c:"EUR"},{n:"Azerbaijan",c:"AZN"},{n:"Bahamas",c:"BSD"},{n:"Bahrain",c:"BHD"},{n:"Bangladesh",c:"BDT"},{n:"Barbados",c:"BBD"},{n:"Belarus",c:"BYN"},{n:"Belgium",c:"EUR"},{n:"Belize",c:"BZD"},{n:"Benin",c:"XOF"},{n:"Bhutan",c:"BTN"},{n:"Bolivia",c:"BOB"},{n:"Bosnia and Herzegovina",c:"BAM"},{n:"Botswana",c:"BWP"},{n:"Brazil",c:"BRL"},{n:"Brunei",c:"BND"},{n:"Bulgaria",c:"BGN"},{n:"Burkina Faso",c:"XOF"},{n:"Burundi",c:"BIF"},{n:"Cabo Verde",c:"CVE"},{n:"Cambodia",c:"KHR"},{n:"Cameroon",c:"XAF"},{n:"Canada",c:"CAD"},{n:"Central African Republic",c:"XAF"},{n:"Chad",c:"XAF"},{n:"Chile",c:"CLP"},{n:"China",c:"CNY"},{n:"Colombia",c:"COP"},{n:"Comoros",c:"KMF"},{n:"Congo",c:"XAF"},{n:"Costa Rica",c:"CRC"},{n:"Croatia",c:"EUR"},{n:"Cuba",c:"CUP"},{n:"Cyprus",c:"EUR"},{n:"Czech Republic",c:"CZK"},{n:"Denmark",c:"DKK"},{n:"Djibouti",c:"DJF"},{n:"Dominica",c:"XCD"},{n:"Dominican Republic",c:"DOP"},{n:"Ecuador",c:"USD"},{n:"Egypt",c:"EGP"},{n:"El Salvador",c:"USD"},{n:"Equatorial Guinea",c:"XAF"},{n:"Eritrea",c:"ERN"},{n:"Estonia",c:"EUR"},{n:"Eswatini",c:"SZL"},{n:"Ethiopia",c:"ETB"},{n:"Fiji",c:"FJD"},{n:"Finland",c:"EUR"},{n:"France",c:"EUR"},{n:"Gabon",c:"XAF"},{n:"Gambia",c:"GMD"},{n:"Georgia",c:"GEL"},{n:"Germany",c:"EUR"},{n:"Ghana",c:"GHS"},{n:"Greece",c:"EUR"},{n:"Grenada",c:"XCD"},{n:"Guatemala",c:"GTQ"},{n:"Guinea",c:"GNF"},{n:"Guyana",c:"GYD"},{n:"Haiti",c:"HTG"},{n:"Honduras",c:"HNL"},{n:"Hungary",c:"HUF"},{n:"Iceland",c:"ISK"},{n:"India",c:"INR"},{n:"Indonesia",c:"IDR"},{n:"Iran",c:"IRR"},{n:"Iraq",c:"IQD"},{n:"Ireland",c:"EUR"},{n:"Israel",c:"ILS"},{n:"Italy",c:"EUR"},{n:"Jamaica",c:"JMD"},{n:"Japan",c:"JPY"},{n:"Jordan",c:"JOD"},{n:"Kazakhstan",c:"KZT"},{n:"Kenya",c:"KES"},{n:"Kuwait",c:"KWD"},{n:"Kyrgyzstan",c:"KGS"},{n:"Laos",c:"LAK"},{n:"Latvia",c:"EUR"},{n:"Lebanon",c:"LBP"},{n:"Lesotho",c:"LSL"},{n:"Liberia",c:"LRD"},{n:"Libya",c:"LYD"},{n:"Lithuania",c:"EUR"},{n:"Luxembourg",c:"EUR"},{n:"Madagascar",c:"MGA"},{n:"Malawi",c:"MWK"},{n:"Malaysia",c:"MYR"},{n:"Maldives",c:"MVR"},{n:"Mali",c:"XOF"},{n:"Malta",c:"EUR"},{n:"Mauritania",c:"MRU"},{n:"Mauritius",c:"MUR"},{n:"Mexico",c:"MXN"},{n:"Moldova",c:"MDL"},{n:"Monaco",c:"EUR"},{n:"Mongolia",c:"MNT"},{n:"Montenegro",c:"EUR"},{n:"Morocco",c:"MAD"},{n:"Mozambique",c:"MZN"},{n:"Myanmar",c:"MMK"},{n:"Namibia",c:"NAD"},{n:"Nepal",c:"NPR"},{n:"Netherlands",c:"EUR"},{n:"New Zealand",c:"NZD"},{n:"Nicaragua",c:"NIO"},{n:"Niger",c:"XOF"},{n:"Nigeria",c:"NGN"},{n:"Norway",c:"NOK"},{n:"Oman",c:"OMR"},{n:"Pakistan",c:"PKR"},{n:"Panama",c:"PAB"},{n:"Papua New Guinea",c:"PGK"},{n:"Paraguay",c:"PYG"},{n:"Peru",c:"PEN"},{n:"Philippines",c:"PHP"},{n:"Poland",c:"PLN"},{n:"Portugal",c:"EUR"},{n:"Qatar",c:"QAR"},{n:"Romania",c:"RON"},{n:"Russia",c:"RUB"},{n:"Rwanda",c:"RWF"},{n:"Saudi Arabia",c:"SAR"},{n:"Senegal",c:"XOF"},{n:"Serbia",c:"RSD"},{n:"Seychelles",c:"SCR"},{n:"Sierra Leone",c:"SLE"},{n:"Singapore",c:"SGD"},{n:"Slovakia",c:"EUR"},{n:"Slovenia",c:"EUR"},{n:"Somalia",c:"SOS"},{n:"South Africa",c:"ZAR"},{n:"South Korea",c:"KRW"},{n:"South Sudan",c:"SSP"},{n:"Spain",c:"EUR"},{n:"Sri Lanka",c:"LKR"},{n:"Sudan",c:"SDG"},{n:"Suriname",c:"SRD"},{n:"Sweden",c:"SEK"},{n:"Switzerland",c:"CHF"},{n:"Syria",c:"SYP"},{n:"Taiwan",c:"TWD"},{n:"Tajikistan",c:"TJS"},{n:"Tanzania",c:"TZS"},{n:"Thailand",c:"THB"},{n:"Togo",c:"XOF"},{n:"Trinidad and Tobago",c:"TTD"},{n:"Tunisia",c:"TND"},{n:"Turkey",c:"TRY"},{n:"Turkmenistan",c:"TMT"},{n:"Uganda",c:"UGX"},{n:"Ukraine",c:"UAH"},{n:"United Arab Emirates",c:"AED"},{n:"United Kingdom",c:"GBP"},{n:"United States",c:"USD"},{n:"Uruguay",c:"UYU"},{n:"Uzbekistan",c:"UZS"},{n:"Venezuela",c:"VES"},{n:"Vietnam",c:"VND"},{n:"Yemen",c:"YER"},{n:"Zambia",c:"ZMW"},{n:"Zimbabwe",c:"ZWG"}
+        ];
 
+        const cList = document.getElementById('country-list');
+        const currList = document.getElementById('currency-list');
+        const cInp = document.getElementById('country');
+        const currInp = document.getElementById('currency');
+
+        // Populate lists
+        data.forEach(x => {
+            const opt = document.createElement('option');
+            opt.value = x.n;
+            cList.appendChild(opt);
+        });
+
+        const currencies = [...new Set(data.map(x => x.c))].sort();
+        currencies.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c;
+            currList.appendChild(opt);
+        });
+
+        // Auto-match currency
+        cInp.addEventListener('input', (e) => {
+            const match = data.find(x => x.n.toLowerCase() === e.target.value.toLowerCase());
+            if(match) currInp.value = match.c;
+        });
+
+        const form = document.getElementById('wealthForm');
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            submitBtn.disabled = true;
-            loader.classList.remove('hidden');
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('loader').classList.remove('hidden');
 
-            const params = {
+            const params = new URLSearchParams({
                 income: document.getElementById('income').value,
-                country: document.getElementById('country').value,
-                currency: document.getElementById('currency').value,
+                country: cInp.value,
+                currency: currInp.value,
                 goal: document.getElementById('goal').value,
                 risk: document.getElementById('risk').value
-            };
-
-            const queryString = new URLSearchParams(params).toString();
+            });
 
             try {
-                const response = await fetch(`${SCRIPT_URL}?${queryString}`);
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    welcomeState.classList.add('hidden');
-                    resultContainer.classList.remove('hidden');
-                    
-                    // Render Markdown
-                    resultContent.innerHTML = marked.parse(data.content);
-                    
-                    // Update Meta Info
-                    const metaText = `Target: ${params.goal} | Country: ${params.country} | Base: ${params.income} ${params.currency}`;
-                    document.getElementById('meta-info').innerText = metaText;
-                    document.getElementById('print-meta').innerText = metaText + " | Generated: " + new Date().toLocaleDateString();
-
-                    window.scrollTo({ top: resultContainer.offsetTop - 20, behavior: 'smooth' });
+                const res = await fetch(`${SCRIPT_URL}?${params.toString()}`);
+                const json = await res.json();
+                if(json.status === 'success') {
+                    document.getElementById('welcome-state').classList.add('hidden');
+                    document.getElementById('result-container').classList.remove('hidden');
+                    document.getElementById('result-content').innerHTML = marked.parse(json.content);
                 }
-            } catch (err) {
-                console.error("Fetch Error:", err);
-                alert("Failed to connect to the backend. Please ensure the Apps Script URL is correct and deployed.");
-            } finally {
-                submitBtn.disabled = false;
-                loader.classList.add('hidden');
+            } catch (err) { alert("Deployment Error: Check your Apps Script URL."); }
+            finally {
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('loader').classList.add('hidden');
             }
         });
 
-        // PDF Download
-        document.getElementById('downloadBtn').addEventListener('click', () => {
-            window.print();
-        });
-
-        // Copy Text
-        document.getElementById('copyBtn').addEventListener('click', function() {
-            const text = resultContent.innerText;
+        document.getElementById('downloadBtn').onclick = () => window.print();
+        document.getElementById('copyBtn').onclick = () => {
+            const text = document.getElementById('result-content').innerText;
             const el = document.createElement('textarea');
             el.value = text;
             document.body.appendChild(el);
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            
-            const originalText = this.innerHTML;
-            this.innerHTML = '✅ Copied';
-            setTimeout(() => this.innerHTML = originalText, 2000);
-        });
+            alert("Copied to clipboard!");
+        };
     </script>
 </body>
 </html>
