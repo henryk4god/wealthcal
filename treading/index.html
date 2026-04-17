@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIND HOT DIGITAL PRODUCT IDEA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --accent-color: #f43f5e;
+            --border-radius: 12px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .search-box {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background-color: #cbd5e1;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #resultContainer {
+            display: none;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .result-content {
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+            color: var(--text-color);
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: auto;
+            padding: 8px 15px;
+            font-size: 0.75rem;
+            background-color: #f1f5f9;
+            color: var(--text-color);
+            border: 1px solid #e2e8f0;
+        }
+
+        .copy-btn:hover {
+            background-color: #e2e8f0;
+            color: var(--primary-color);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loader {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #FFF;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: none;
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Markdown Styling Mockup */
+        .result-content h3 { margin-top: 20px; color: var(--primary-color); }
+        .result-content table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.85rem; }
+        .result-content th, .result-content td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
+        .result-content th { background: #f8fafc; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.6rem; }
+            .search-box { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Find Hot Digital Product Idea</h1>
+        <p class="subtitle">Spotting "hot" opportunities using AI Market Analysis</p>
+    </header>
+
+    <div class="search-box">
+        <div class="input-group">
+            <label for="promptInput">Enter Niche, Region, or Price Point</label>
+            <input type="text" id="promptInput" placeholder="e.g., in health tech, for Nigerian entrepreneurs, under $50">
+        </div>
+        <button id="triggerBtn">
+            <span class="loader" id="loader"></span>
+            <span id="btnText">Trending Now</span>
+        </button>
+    </div>
+
+    <div id="resultContainer">
+        <div class="result-card">
+            <button class="copy-btn" id="copyBtn">Copy Results</button>
+            <div id="output" class="result-content"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // IMPORTANT: Replace this with your Google Apps Script Web App URL
+    const webAppUrl = 'https://script.google.com/macros/s/AKfycbwfbVxBFOrAci9exxVnxTwNL5YVXaPB83m-WaTop2c7RNSRpBi63ZnuUtoKdHWxZB4GRQ/exec';
+
+    const promptInput = document.getElementById('promptInput');
+    const triggerBtn = document.getElementById('triggerBtn');
+    const loader = document.getElementById('loader');
+    const btnText = document.getElementById('btnText');
+    const resultContainer = document.getElementById('resultContainer');
+    const output = document.getElementById('output');
+    const copyBtn = document.getElementById('copyBtn');
+
+    triggerBtn.addEventListener('click', async () => {
+        const userInput = promptInput.value.trim();
+        const command = `trending now ${userInput}`;
+        
+        setLoading(true);
+        resultContainer.style.display = 'none';
+
+        try {
+            // Using Form Data to bypass typical CORS Preflight issues in Apps Script
+            const formData = new FormData();
+            formData.append('prompt', command);
+
+            const response = await fetch(webAppUrl, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) throw new Error('Network response was not ok');
+            
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                displayResults(data.content);
+            } else {
+                throw new Error(data.message || 'Failed to fetch ideas');
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            displayResults(`⚠️ Error: ${error.message}. Please ensure the Web App URL is correct and deployed for "Anyone".`);
+        } finally {
+            setLoading(false);
+        }
+    });
+
+    function setLoading(isLoading) {
+        triggerBtn.disabled = isLoading;
+        loader.style.display = isLoading ? 'block' : 'none';
+        btnText.style.display = isLoading ? 'none' : 'block';
+    }
+
+    function displayResults(content) {
+        // Basic Markdown-to-HTML formatting for better visualization
+        const formatted = content
+            .replace(/\n/g, '<br>')
+            .replace(/🔹 (.*?)(?=<br>|$)/g, '<h3 style="color:var(--primary-color); margin-top:25px;">🔹 $1</h3>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+        output.innerHTML = formatted;
+        resultContainer.style.display = 'block';
+        resultContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    copyBtn.addEventListener('click', () => {
+        const text = output.innerText;
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand('copy');
+            copyBtn.innerText = 'Copied!';
+            setTimeout(() => copyBtn.innerText = 'Copy Results', 2000);
+        } catch (err) {
+            console.error('Copy failed', err);
+        }
+        document.body.removeChild(tempTextArea);
+    });
+</script>
+
+</body>
+</html>
