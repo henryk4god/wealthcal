@@ -1,596 +1,476 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Claude Command Cheat Sheet – Henry</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0f;
-    --card: #111118;
-    --border: #1e1e2e;
-    --accent1: #7c3aed;
-    --accent2: #06b6d4;
-    --accent3: #f59e0b;
-    --accent4: #10b981;
-    --accent5: #ef4444;
-    --accent6: #ec4899;
-    --text: #e2e8f0;
-    --muted: #64748b;
-    --white: #ffffff;
+    --primary-color: #6366f1;
+    --primary-glow: rgba(99, 102, 241, 0.4);
+    --secondary-color: #06b6d4;
+    --bg-color: #030712;
+    --card-bg: rgba(17, 24, 39, 0.7);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --text-color: #f3f4f6;
+    --text-muted: #9ca3af;
+    --accent-gold: #fbbf24;
+    --accent-emerald: #10b981;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Space Mono', monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
     min-height: 100vh;
     overflow-x: hidden;
   }
 
-  /* Background grid */
+  /* Animated Ambient Background */
   body::before {
     content: '';
     position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(124,58,237,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(124,58,237,0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
+    top: -10%;
+    left: -10%;
+    width: 50%;
+    height: 50%;
+    background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+    z-index: -1;
+    filter: blur(80px);
+    animation: pulse 15s infinite alternate;
+  }
+
+  @keyframes pulse {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+    100% { transform: translate(30%, 20%) scale(1.3); opacity: 0.5; }
   }
 
   .container {
-    position: relative;
-    z-index: 1;
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 24px 80px;
+    padding: 60px 20px;
   }
 
-  /* HEADER */
   header {
     text-align: center;
     margin-bottom: 60px;
-    position: relative;
+    animation: fadeInDown 0.8s ease-out;
   }
 
-  .header-badge {
-    display: inline-block;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .badge {
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
     text-transform: uppercase;
-    color: var(--accent2);
-    border: 1px solid var(--accent2);
-    padding: 4px 14px;
-    border-radius: 2px;
-    margin-bottom: 20px;
+    letter-spacing: 2px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    display: inline-block;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
   }
 
   h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
     font-weight: 800;
-    line-height: 1.05;
     letter-spacing: -1px;
-    background: linear-gradient(135deg, #fff 0%, var(--accent1) 50%, var(--accent2) 100%);
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #fff, var(--text-muted));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 14px;
   }
 
-  .subtitle {
-    font-size: 13px;
-    color: var(--muted);
-    letter-spacing: 1px;
+  .subtitle { color: var(--text-muted); font-size: 1.1rem; }
+  .subtitle span { color: var(--primary-color); font-weight: 600; }
+
+  /* SEARCH BAR */
+  .search-container {
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+    margin-bottom: 60px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .subtitle span {
-    color: var(--accent3);
-  }
-
-  /* Decorative line */
-  .divider {
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    margin: 20px auto 0;
-    border-radius: 2px;
-  }
-
-  /* SEARCH */
-  .search-wrap {
-    margin-bottom: 40px;
-    position: relative;
-  }
-
-  .search-wrap input {
+  .search-box {
     width: 100%;
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    padding: 14px 20px 14px 48px;
-    border-radius: 6px;
+    background: rgba(17, 24, 39, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--card-border);
+    padding: 18px 25px;
+    border-radius: 16px;
+    color: white;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: var(--transition);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .search-box:focus {
     outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .search-wrap input:focus {
-    border-color: var(--accent1);
-  }
-
-  .search-wrap input::placeholder { color: var(--muted); }
-
-  .search-icon {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    font-size: 16px;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 20px var(--primary-glow);
   }
 
   /* SECTIONS */
   .section {
-    margin-bottom: 44px;
-    animation: fadeUp 0.5s ease both;
+    margin-bottom: 60px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s forwards;
   }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
   }
-
-  .section:nth-child(1) { animation-delay: 0.05s; }
-  .section:nth-child(2) { animation-delay: 0.1s; }
-  .section:nth-child(3) { animation-delay: 0.15s; }
-  .section:nth-child(4) { animation-delay: 0.2s; }
-  .section:nth-child(5) { animation-delay: 0.25s; }
-  .section:nth-child(6) { animation-delay: 0.3s; }
-  .section:nth-child(7) { animation-delay: 0.35s; }
-  .section:nth-child(8) { animation-delay: 0.4s; }
-  .section:nth-child(9) { animation-delay: 0.45s; }
-  .section:nth-child(10) { animation-delay: 0.5s; }
 
   .section-header {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 16px;
-  }
-
-  .section-icon {
-    font-size: 18px;
+    margin-bottom: 25px;
+    border-left: 4px solid var(--primary-color);
+    padding-left: 15px;
   }
 
   .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
+    font-size: 1.4rem;
     font-weight: 700;
-    letter-spacing: 3px;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff;
   }
 
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* COLOR VARIANTS */
-  .cat-format  .section-title { color: var(--accent2); }
-  .cat-tone    .section-title { color: var(--accent4); }
-  .cat-power   .section-title { color: var(--accent3); }
-  .cat-writing .section-title { color: var(--accent6); }
-  .cat-think   .section-title { color: var(--accent1); }
-  .cat-biz     .section-title { color: var(--accent3); }
-  .cat-dev     .section-title { color: var(--accent2); }
-  .cat-lang    .section-title { color: var(--accent4); }
-  .cat-special .section-title { color: var(--accent5); }
-  .cat-tips    .section-title { color: var(--white); }
-
-  /* GRID */
-  .cmd-grid {
+  /* GRID & CARDS */
+  .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 15px;
   }
 
-  /* COMMAND CARD */
-  .cmd-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 12px 14px;
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 18px;
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
+    flex-direction: column;
+    gap: 8px;
     cursor: pointer;
-    transition: border-color 0.2s, transform 0.15s, background 0.2s;
+    transition: var(--transition);
+    backdrop-filter: blur(4px);
     position: relative;
     overflow: hidden;
   }
 
-  .cmd-card:hover {
-    transform: translateY(-2px);
-    background: #161622;
+  .card:hover {
+    background: rgba(31, 41, 55, 0.9);
+    border-color: var(--primary-color);
+    transform: translateY(-3px);
   }
 
-  .cat-format  .cmd-card:hover { border-color: var(--accent2); }
-  .cat-tone    .cmd-card:hover { border-color: var(--accent4); }
-  .cat-power   .cmd-card:hover { border-color: var(--accent3); }
-  .cat-writing .cmd-card:hover { border-color: var(--accent6); }
-  .cat-think   .cmd-card:hover { border-color: var(--accent1); }
-  .cat-biz     .cmd-card:hover { border-color: var(--accent3); }
-  .cat-dev     .cmd-card:hover { border-color: var(--accent2); }
-  .cat-lang    .cmd-card:hover { border-color: var(--accent4); }
-  .cat-special .cmd-card:hover { border-color: var(--accent5); }
-
-  .cmd-tag {
-    font-size: 11px;
-    font-weight: 700;
-    white-space: nowrap;
-    flex-shrink: 0;
-    padding: 2px 7px;
-    border-radius: 3px;
-    letter-spacing: 0.5px;
-    font-family: 'Space Mono', monospace;
+  .tag {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--primary-color);
   }
 
-  .cat-format  .cmd-tag { background: rgba(6,182,212,0.15);  color: var(--accent2); }
-  .cat-tone    .cmd-tag { background: rgba(16,185,129,0.15); color: var(--accent4); }
-  .cat-power   .cmd-tag { background: rgba(245,158,11,0.15); color: var(--accent3); }
-  .cat-writing .cmd-tag { background: rgba(236,72,153,0.15); color: var(--accent6); }
-  .cat-think   .cmd-tag { background: rgba(124,58,237,0.15); color: var(--accent1); }
-  .cat-biz     .cmd-tag { background: rgba(245,158,11,0.15); color: var(--accent3); }
-  .cat-dev     .cmd-tag { background: rgba(6,182,212,0.15);  color: var(--accent2); }
-  .cat-lang    .cmd-tag { background: rgba(16,185,129,0.15); color: var(--accent4); }
-  .cat-special .cmd-tag { background: rgba(239,68,68,0.15);  color: var(--accent5); }
-
-  .cmd-desc {
-    font-size: 11px;
-    color: var(--muted);
-    line-height: 1.5;
-    padding-top: 1px;
+  .description {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
   }
 
-  /* COPIED TOAST */
-  .cmd-card.copied::after {
-    content: 'Copied!';
+  /* COPIED STATE */
+  .card.copied {
+    border-color: var(--accent-emerald) !important;
+    background: rgba(16, 185, 129, 0.1);
+  }
+  
+  .card.copied::after {
+    content: 'COPIED';
     position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(16,185,129,0.15);
-    color: var(--accent4);
-    font-size: 11px;
-    font-weight: 700;
+    top: 10px;
+    right: 10px;
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: var(--accent-emerald);
     letter-spacing: 1px;
-    border-radius: 6px;
   }
 
-  /* TIPS SECTION */
+  /* TIPS */
   .tips-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
   }
 
   .tip-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent3);
-    border-radius: 6px;
-    padding: 14px 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--card-border);
+    padding: 20px;
+    border-radius: 16px;
   }
 
   .tip-label {
-    font-size: 10px;
-    letter-spacing: 2px;
+    color: var(--accent-gold);
+    font-weight: 700;
+    font-size: 0.8rem;
     text-transform: uppercase;
-    color: var(--accent3);
-    margin-bottom: 6px;
+    margin-bottom: 10px;
+    display: block;
   }
 
-  .tip-text {
-    font-size: 12px;
-    color: var(--text);
-    line-height: 1.6;
-  }
-
+  .tip-text { font-size: 0.9rem; color: #e2e8f0; }
   .tip-code {
-    display: inline-block;
-    background: rgba(124,58,237,0.15);
-    color: var(--accent1);
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-size: 11px;
-    font-family: 'Space Mono', monospace;
+    font-family: 'Fira Code', monospace;
+    color: var(--secondary-color);
+    background: rgba(0,0,0,0.2);
+    padding: 1px 4px;
+    border-radius: 4px;
   }
 
-  /* FOOTER */
   footer {
     text-align: center;
-    margin-top: 60px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 1px;
+    margin-top: 80px;
+    padding: 40px;
+    border-top: 1px solid var(--card-border);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  footer span { color: var(--primary-color); font-weight: 600; }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; }
+    h1 { font-size: 2rem; }
   }
 
-  footer span { color: var(--accent1); }
-
-  /* HIDDEN for search */
-  .cmd-card.hidden { display: none; }
-  .section.all-hidden { display: none; }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  /* Category colors */
+  .cat-1 { --primary-color: #06b6d4; }
+  .cat-2 { --primary-color: #10b981; }
+  .cat-3 { --primary-color: #f59e0b; }
+  .cat-4 { --primary-color: #ec4899; }
+  .cat-5 { --primary-color: #8b5cf6; }
+  .cat-6 { --primary-color: #3b82f6; }
+  .cat-7 { --primary-color: #f97316; }
+  .cat-8 { --primary-color: #2dd4bf; }
+  .cat-9 { --primary-color: #ef4444; }
 </style>
 </head>
 <body>
 
 <div class="container">
-
   <header>
-    <div class="header-badge">Henry's Toolkit</div>
-    <h1>Claude Command<br>Cheat Sheet</h1>
-    <p class="subtitle">100 commands · <span>Click any card to copy</span></p>
-    <div class="divider"></div>
+    <div class="badge">Reference Guide</div>
+    <h1>Claude Mastery Cheat Sheet</h1>
+    <p class="subtitle">Personalized for <span>Henry</span> • 100 Commands</p>
   </header>
 
-  <div class="search-wrap">
-    <span class="search-icon">⌕</span>
-    <input type="text" id="searchInput" placeholder="Search commands... e.g. /ghost or 'sales'" />
+  <div class="search-container">
+    <input type="text" id="searchInput" class="search-box" placeholder="Search any command or keyword..." />
   </div>
 
-  <!-- 1. FORMAT -->
-  <div class="section cat-format" id="sec-format">
+  <!-- SECTION 1 -->
+  <div class="section cat-1">
     <div class="section-header">
-      <span class="section-icon">🎨</span>
-      <span class="section-title">Format & Structure</span>
-      <div class="section-line"></div>
+      <h2 class="section-title">Output Format & Structure</h2>
     </div>
-    <div class="cmd-grid">
-      <div class="cmd-card" onclick="copyCmd(this, '/bullet')"><span class="cmd-tag">/bullet</span><span class="cmd-desc">Bullet point format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/numbered')"><span class="cmd-tag">/numbered</span><span class="cmd-desc">Numbered list format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/table')"><span class="cmd-tag">/table</span><span class="cmd-desc">Table format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/json')"><span class="cmd-tag">/json</span><span class="cmd-desc">JSON data format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/xml')"><span class="cmd-tag">/xml</span><span class="cmd-desc">XML structure format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/code')"><span class="cmd-tag">/code</span><span class="cmd-desc">Code block format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/outline')"><span class="cmd-tag">/outline</span><span class="cmd-desc">Structured outline</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/steps')"><span class="cmd-tag">/steps</span><span class="cmd-desc">Step-by-step instructions</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/checklist')"><span class="cmd-tag">/checklist</span><span class="cmd-desc">Checkbox-style list</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/mindmap')"><span class="cmd-tag">/mindmap</span><span class="cmd-desc">Text-based mind map</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/artifact')"><span class="cmd-tag">/artifact</span><span class="cmd-desc">Interactive visual artifact</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/diagram')"><span class="cmd-tag">/diagram</span><span class="cmd-desc">Text-based diagram or flowchart</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/timeline')"><span class="cmd-tag">/timeline</span><span class="cmd-desc">Chronological timeline format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/kanban')"><span class="cmd-tag">/kanban</span><span class="cmd-desc">To-do / Doing / Done board</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/tree')"><span class="cmd-tag">/tree</span><span class="cmd-desc">Hierarchical tree structure</span></div>
+    <div class="grid">
+      <div class="card" onclick="copyCmd(this, '/bullet')"><div class="tag">/bullet</div><div class="description">Format as bullet points</div></div>
+      <div class="card" onclick="copyCmd(this, '/table')"><div class="tag">/table</div><div class="description">Format as a table</div></div>
+      <div class="card" onclick="copyCmd(this, '/json')"><div class="tag">/json</div><div class="description">Format as JSON code</div></div>
+      <div class="card" onclick="copyCmd(this, '/outline')"><div class="tag">/outline</div><div class="description">Provide a hierarchical outline</div></div>
+      <div class="card" onclick="copyCmd(this, '/kanban')"><div class="tag">/kanban</div><div class="description">Format as a Kanban board</div></div>
+      <div class="card" onclick="copyCmd(this, '/mindmap')"><div class="tag">/mindmap</div><div class="description">Textual mind map structure</div></div>
+      <div class="card" onclick="copyCmd(this, '/brief')"><div class="tag">/brief</div><div class="description">Short, concise summary</div></div>
+      <div class="card" onclick="copyCmd(this, '/artifact')"><div class="tag">/artifact</div><div class="description">Create visual component (React/HTML)</div></div>
+      <div class="card" onclick="copyCmd(this, '/checklist')"><div class="tag">/checklist</div><div class="description">Format as an actionable checklist</div></div>
+      <div class="card" onclick="copyCmd(this, '/markdown')"><div class="tag">/markdown</div><div class="description">Use rich Markdown formatting</div></div>
+      <div class="card" onclick="copyCmd(this, '/csv')"><div class="tag">/csv</div><div class="description">Format as comma-separated values</div></div>
+      <div class="card" onclick="copyCmd(this, '/mermaid')"><div class="tag">/mermaid</div><div class="description">Generate Mermaid.js diagrams</div></div>
     </div>
   </div>
 
-  <!-- 2. TONE -->
-  <div class="section cat-tone" id="sec-tone">
+  <!-- SECTION 2 -->
+  <div class="section cat-2">
     <div class="section-header">
-      <span class="section-icon">✍️</span>
-      <span class="section-title">Tone & Style</span>
-      <div class="section-line"></div>
+      <h2 class="section-title">Tone & Personality</h2>
     </div>
-    <div class="cmd-grid">
-      <div class="cmd-card" onclick="copyCmd(this, '/formal')"><span class="cmd-tag">/formal</span><span class="cmd-desc">Professional, formal tone</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/casual')"><span class="cmd-tag">/casual</span><span class="cmd-desc">Relaxed, friendly tone</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/expert')"><span class="cmd-tag">/expert</span><span class="cmd-desc">Deep technical response</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/eli5')"><span class="cmd-tag">/eli5</span><span class="cmd-desc">Explain Like I'm 5</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/eli15')"><span class="cmd-tag">/eli15</span><span class="cmd-desc">Explain Like I'm 15</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/short')"><span class="cmd-tag">/short</span><span class="cmd-desc">Ultra-brief answer</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/long')"><span class="cmd-tag">/long</span><span class="cmd-desc">Fully expanded answer</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/dense')"><span class="cmd-tag">/dense</span><span class="cmd-desc">Maximum info, minimum words</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/simple')"><span class="cmd-tag">/simple</span><span class="cmd-desc">Plain language, no jargon</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/academic')"><span class="cmd-tag">/academic</span><span class="cmd-desc">Scholarly, citation-ready tone</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/socratic')"><span class="cmd-tag">/socratic</span><span class="cmd-desc">Responds with guiding questions</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/debate')"><span class="cmd-tag">/debate</span><span class="cmd-desc">Argues both sides of a topic</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/devil')"><span class="cmd-tag">/devil</span><span class="cmd-desc">Plays devil's advocate</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/contrarian')"><span class="cmd-tag">/contrarian</span><span class="cmd-desc">Challenges the mainstream view</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/balanced')"><span class="cmd-tag">/balanced</span><span class="cmd-desc">Neutral, both sides equally</span></div>
+    <div class="grid">
+      <div class="card" onclick="copyCmd(this, '/formal')"><div class="tag">/formal</div><div class="description">Professional and academic tone</div></div>
+      <div class="card" onclick="copyCmd(this, '/casual')"><div class="tag">/casual</div><div class="description">Relaxed and conversational tone</div></div>
+      <div class="card" onclick="copyCmd(this, '/eli5')"><div class="tag">/eli5</div><div class="description">Explain like I'm five</div></div>
+      <div class="card" onclick="copyCmd(this, '/socratic')"><div class="tag">/socratic</div><div class="description">Guide me through questions</div></div>
+      <div class="card" onclick="copyCmd(this, '/dense')"><div class="tag">/dense</div><div class="description">Maximize info per word</div></div>
+      <div class="card" onclick="copyCmd(this, '/empathetic')"><div class="tag">/empathetic</div><div class="description">Supportive and warm tone</div></div>
+      <div class="card" onclick="copyCmd(this, '/witty')"><div class="tag">/witty</div><div class="description">Humorous and clever style</div></div>
+      <div class="card" onclick="copyCmd(this, '/stoic')"><div class="tag">/stoic</div><div class="description">Logical and objective tone</div></div>
+      <div class="card" onclick="copyCmd(this, '/bold')"><div class="tag">/bold</div><div class="description">Confident and direct style</div></div>
+      <div class="card" onclick="copyCmd(this, '/expert')"><div class="tag">/expert</div><div class="description">Top-tier professional depth</div></div>
+      <div class="card" onclick="copyCmd(this, '/pidgin')"><div class="tag">/pidgin</div><div class="description">Nigerian Pidgin English style</div></div>
     </div>
   </div>
 
-  <!-- 3. POWER MODES -->
-  <div class="section cat-power" id="sec-power">
+  <!-- SECTION 3 -->
+  <div class="section cat-3">
     <div class="section-header">
-      <span class="section-icon">🚀</span>
-      <span class="section-title">Power Modes</span>
-      <div class="section-line"></div>
+      <h2 class="section-title">Power Modes (Multi-Step)</h2>
     </div>
-    <div class="cmd-grid">
-      <div class="cmd-card" onclick="copyCmd(this, '/godmode')"><span class="cmd-tag">/godmode</span><span class="cmd-desc">Maximum depth, full expert analysis</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/L99')"><span class="cmd-tag">/L99</span><span class="cmd-desc">Level 99 — ultra-thorough mode</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/OODA')"><span class="cmd-tag">/OODA</span><span class="cmd-desc">Observe, Orient, Decide, Act</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/10x')"><span class="cmd-tag">/10x</span><span class="cmd-desc">10x operator — decisive, high-leverage</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/deepdive')"><span class="cmd-tag">/deepdive</span><span class="cmd-desc">Exhaustive research-style breakdown</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/firstprinciples')"><span class="cmd-tag">/firstprinciples</span><span class="cmd-desc">Break down to root fundamentals</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/systemsthink')"><span class="cmd-tag">/systemsthink</span><span class="cmd-desc">Systems thinking lens</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/80-20')"><span class="cmd-tag">/80-20</span><span class="cmd-desc">The 20% that gives 80% of results</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/warroom')"><span class="cmd-tag">/warroom</span><span class="cmd-desc">Crisis/urgent problem-solving mode</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/blitzscale')"><span class="cmd-tag">/blitzscale</span><span class="cmd-desc">Rapid growth strategy focus</span></div>
+    <div class="grid">
+      <div class="card" onclick="copyCmd(this, '/godmode')"><div class="tag">/godmode</div><div class="description">Maximum reasoning and expertise</div></div>
+      <div class="card" onclick="copyCmd(this, '/OODA')"><div class="tag">/OODA</div><div class="description">Observe-Orient-Decide-Act loop</div></div>
+      <div class="card" onclick="copyCmd(this, '/80-20')"><div class="tag">/80-20</div><div class="description">Identify 20% effort for 80% result</div></div>
+      <div class="card" onclick="copyCmd(this, '/step-by-step')"><div class="tag">/step-by-step</div><div class="description">Slow, chain-of-thought reasoning</div></div>
+      <div class="card" onclick="copyCmd(this, '/steelman')"><div class="tag">/steelman</div><div class="description">Argue for the opposing view</div></div>
+      <div class="card" onclick="copyCmd(this, '/root-cause')"><div class="tag">/root-cause</div><div class="description">5-Whys analysis</div></div>
+      <div class="card" onclick="copyCmd(this, '/swot')"><div class="tag">/swot</div><div class="description">Strengths, Weaknesses, Ops, Threats</div></div>
+      <div class="card" onclick="copyCmd(this, '/first-principles')"><div class="tag">/first-principles</div><div class="description">Deconstruct to basic truths</div></div>
+      <div class="card" onclick="copyCmd(this, '/warroom')"><div class="tag">/warroom</div><div class="description">Strategic crisis problem solving</div></div>
+      <div class="card" onclick="copyCmd(this, '/simulate')"><div class="tag">/simulate</div><div class="description">Act as a specific environment</div></div>
     </div>
   </div>
 
-  <!-- 4. WRITING -->
-  <div class="section cat-writing" id="sec-writing">
+  <!-- SECTION 4 -->
+  <div class="section cat-4">
     <div class="section-header">
-      <span class="section-icon">🖊️</span>
-      <span class="section-title">Writing & Content</span>
-      <div class="section-line"></div>
+      <h2 class="section-title">Content Writing</h2>
     </div>
-    <div class="cmd-grid">
-      <div class="cmd-card" onclick="copyCmd(this, '/ghost')"><span class="cmd-tag">/ghost</span><span class="cmd-desc">Ghostwriting — sounds like YOU</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/sales')"><span class="cmd-tag">/sales</span><span class="cmd-desc">Persuasive sales copy</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/email')"><span class="cmd-tag">/email</span><span class="cmd-desc">Professional email format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/tweet')"><span class="cmd-tag">/tweet</span><span class="cmd-desc">Twitter/X thread format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/script')"><span class="cmd-tag">/script</span><span class="cmd-desc">Video or dialogue script</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/story')"><span class="cmd-tag">/story</span><span class="cmd-desc">Narrative / story format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/poem')"><span class="cmd-tag">/poem</span><span class="cmd-desc">Poetic format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/hook')"><span class="cmd-tag">/hook</span><span class="cmd-desc">Powerful attention-grabbing hook</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/headline')"><span class="cmd-tag">/headline</span><span class="cmd-desc">Punchy headlines only</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/cta')"><span class="cmd-tag">/cta</span><span class="cmd-desc">Call-to-action focused writing</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/newsletter')"><span class="cmd-tag">/newsletter</span><span class="cmd-desc">Email newsletter format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/blog')"><span class="cmd-tag">/blog</span><span class="cmd-desc">Full blog post format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/caption')"><span class="cmd-tag">/caption</span><span class="cmd-desc">Social media caption style</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/adcopy')"><span class="cmd-tag">/adcopy</span><span class="cmd-desc">Ad copy (Facebook/Google style)</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/pressrelease')"><span class="cmd-tag">/pressrelease</span><span class="cmd-desc">Formal press release format</span></div>
+    <div class="grid">
+      <div class="card" onclick="copyCmd(this, '/ghost')"><div class="tag">/ghost</div><div class="description">Write in my exact writing style</div></div>
+      <div class="card" onclick="copyCmd(this, '/sales')"><div class="tag">/sales</div><div class="description">Persuasive high-conversion copy</div></div>
+      <div class="card" onclick="copyCmd(this, '/hook')"><div class="tag">/hook</div><div class="description">Viral attention-grabbing opening</div></div>
+      <div class="card" onclick="copyCmd(this, '/blog')"><div class="tag">/blog</div><div class="description">SEO-optimized blog structure</div></div>
+      <div class="card" onclick="copyCmd(this, '/tweet')"><div class="tag">/tweet</div><div class="description">Viral Twitter/X thread style</div></div>
+      <div class="card" onclick="copyCmd(this, '/email')"><div class="tag">/email</div><div class="description">High-impact professional email</div></div>
+      <div class="card" onclick="copyCmd(this, '/rephrase')"><div class="tag">/rephrase</div><div class="description">Give 3 ways to say this better</div></div>
+      <div class="card" onclick="copyCmd(this, '/expand')"><div class="tag">/expand</div><div class="description">Add detail and storytelling</div></div>
+      <div class="card" onclick="copyCmd(this, '/shorten')"><div class="tag">/shorten</div><div class="description">Remove fluff, keep core message</div></div>
+      <div class="card" onclick="copyCmd(this, '/cta')"><div class="tag">/cta</div><div class="description">Compelling call-to-action</div></div>
     </div>
   </div>
 
-  <!-- 5. THINKING -->
-  <div class="section cat-think" id="sec-think">
+  <!-- SECTION 5 -->
+  <div class="section cat-5">
     <div class="section-header">
-      <span class="section-icon">🧠</span>
-      <span class="section-title">Thinking Frameworks</span>
-      <div class="section-line"></div>
+      <h2 class="section-title">Logical Reasoning</h2>
     </div>
-    <div class="cmd-grid">
-      <div class="cmd-card" onclick="copyCmd(this, '/swot')"><span class="cmd-tag">/swot</span><span class="cmd-desc">SWOT analysis format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/pros-cons')"><span class="cmd-tag">/pros-cons</span><span class="cmd-desc">Pros and cons breakdown</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/5whys')"><span class="cmd-tag">/5whys</span><span class="cmd-desc">Root cause analysis</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/pestle')"><span class="cmd-tag">/pestle</span><span class="cmd-desc">PESTLE analysis</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/porter')"><span class="cmd-tag">/porter</span><span class="cmd-desc">Porter's Five Forces</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/lean')"><span class="cmd-tag">/lean</span><span class="cmd-desc">Lean thinking / waste elimination</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/agile')"><span class="cmd-tag">/agile</span><span class="cmd-desc">Agile / sprint planning style</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/hypothesis')"><span class="cmd-tag">/hypothesis</span><span class="cmd-desc">Scientific hypothesis format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/compare')"><span class="cmd-tag">/compare</span><span class="cmd-desc">Side-by-side comparison</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/rank')"><span class="cmd-tag">/rank</span><span class="cmd-desc">Ranks options best to worst</span></div>
+    <div class="grid">
+      <div class="card" onclick="copyCmd(this, '/critique')"><div class="tag">/critique</div><div class="description">Find flaws in my logic</div></div>
+      <div class="card" onclick="copyCmd(this, '/debate')"><div class="tag">/debate</div><div class="description">Challenge my conclusion</div></div>
+      <div class="card" onclick="copyCmd(this, '/factcheck')"><div class="tag">/factcheck</div><div class="description">Verify specific claims</div></div>
+      <div class="card" onclick="copyCmd(this, '/simplify')"><div class="tag">/simplify</div><div class="description">Reduce complexity</div></div>
+      <div class="card" onclick="copyCmd(this, '/predict')"><div class="tag">/predict</div><div class="description">Forecast potential outcomes</div></div>
+      <div class="card" onclick="copyCmd(this, '/pre-mortem')"><div class="tag">/pre-mortem</div><div class="description">Explain why this will fail</div></div>
+      <div class="card" onclick="copyCmd(this, '/nuance')"><div class="tag">/nuance</div><div class="description">Add balance and perspective</div></div>
+      <div class="card" onclick="copyCmd(this, '/unbias')"><div class="tag">/unbias</div><div class="description">Remove logical fallacies</div></div>
     </div>
   </div>
 
-  <!-- 6. BUSINESS -->
-  <div class="section cat-biz" id="sec-biz">
+  <!-- SECTION 6 -->
+  <div class="section cat-6">
     <div class="section-header">
-      <span class="section-icon">💼</span>
-      <span class="section-title">Business & Strategy</span>
-      <div class="section-line"></div>
+      <h2 class="section-title">Business & Marketing</h2>
     </div>
-    <div class="cmd-grid">
-      <div class="cmd-card" onclick="copyCmd(this, '/pitch')"><span class="cmd-tag">/pitch</span><span class="cmd-desc">Startup pitch format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/bizplan')"><span class="cmd-tag">/bizplan</span><span class="cmd-desc">Business plan structure</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/funnel')"><span class="cmd-tag">/funnel</span><span class="cmd-desc">Marketing funnel breakdown</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/mvp')"><span class="cmd-tag">/mvp</span><span class="cmd-desc">Minimum Viable Product thinking</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/roadmap')"><span class="cmd-tag">/roadmap</span><span class="cmd-desc">Project roadmap format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/okr')"><span class="cmd-tag">/okr</span><span class="cmd-desc">Objectives & Key Results format</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/kpi')"><span class="cmd-tag">/kpi</span><span class="cmd-desc">KPI tracking framework</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/pricing')"><span class="cmd-tag">/pricing</span><span class="cmd-desc">Pricing strategy advice</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/gtm')"><span class="cmd-tag">/gtm</span><span class="cmd-desc">Go-To-Market strategy</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/persona')"><span class="cmd-tag">/persona</span><span class="cmd-desc">Customer persona profile</span></div>
+    <div class="grid">
+      <div class="card" onclick="copyCmd(this, '/avatar')"><div class="tag">/avatar</div><div class="description">Define target customer profile</div></div>
+      <div class="card" onclick="copyCmd(this, '/strategy')"><div class="tag">/strategy</div><div class="description">Long-term growth plan</div></div>
+      <div class="card" onclick="copyCmd(this, '/funnel')"><div class="tag">/funnel</div><div class="description">Marketing funnel map</div></div>
+      <div class="card" onclick="copyCmd(this, '/pitch')"><div class="tag">/pitch</div><div class="description">Elevator pitch for investors</div></div>
+      <div class="card" onclick="copyCmd(this, '/brand')"><div class="tag">/brand</div><div class="description">Brand voice and identity guide</div></div>
+      <div class="card" onclick="copyCmd(this, '/bizplan')"><div class="tag">/bizplan</div><div class="description">Executive summary structure</div></div>
+      <div class="card" onclick="copyCmd(this, '/competitor')"><div class="tag">/competitor</div><div class="description">Market gap analysis</div></div>
+      <div class="card" onclick="copyCmd(this, '/roadmap')"><div class="tag">/roadmap</div><div class="description">Product launch timeline</div></div>
     </div>
   </div>
 
-  <!-- 7. DEV -->
-  <div class="section cat-dev" id="sec-dev">
+  <!-- SECTION 7 -->
+  <div class="section cat-7">
     <div class="section-header">
-      <span class="section-icon">💻</span>
-      <span class="section-title">Developer Commands</span>
-      <div class="section-line"></div>
+      <h2 class="section-title">Coding & Technical</h2>
     </div>
-    <div class="cmd-grid">
-      <div class="cmd-card" onclick="copyCmd(this, '/refactor')"><span class="cmd-tag">/refactor</span><span class="cmd-desc">Rewrites code cleaner</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/debug')"><span class="cmd-tag">/debug</span><span class="cmd-desc">Finds and fixes bugs</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/comment')"><span class="cmd-tag">/comment</span><span class="cmd-desc">Adds comments to code</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/api')"><span class="cmd-tag">/api</span><span class="cmd-desc">Structures as API design</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/regex')"><span class="cmd-tag">/regex</span><span class="cmd-desc">Generates regex pattern</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/pseudocode')"><span class="cmd-tag">/pseudocode</span><span class="cmd-desc">Writes pseudocode version</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/docs')"><span class="cmd-tag">/docs</span><span class="cmd-desc">Generates documentation</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/test')"><span class="cmd-tag">/test</span><span class="cmd-desc">Writes test cases</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/optimize')"><span class="cmd-tag">/optimize</span><span class="cmd-desc">Optimizes for performance</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/security')"><span class="cmd-tag">/security</span><span class="cmd-desc">Reviews security vulnerabilities</span></div>
+    <div class="grid">
+      <div class="card" onclick="copyCmd(this, '/refactor')"><div class="tag">/refactor</div><div class="description">Clean and optimize code</div></div>
+      <div class="card" onclick="copyCmd(this, '/debug')"><div class="tag">/debug</div><div class="description">Find and fix the error</div></div>
+      <div class="card" onclick="copyCmd(this, '/docs')"><div class="tag">/docs</div><div class="description">Write technical documentation</div></div>
+      <div class="card" onclick="copyCmd(this, '/boilerplate')"><div class="tag">/boilerplate</div><div class="description">Generate starter code</div></div>
+      <div class="card" onclick="copyCmd(this, '/security')"><div class="tag">/security</div><div class="description">Scan for vulnerabilities</div></div>
+      <div class="card" onclick="copyCmd(this, '/sql')"><div class="tag">/sql</div><div class="description">Write/optimize queries</div></div>
+      <div class="card" onclick="copyCmd(this, '/python')"><div class="tag">/python</div><div class="description">Best practice Python code</div></div>
+      <div class="card" onclick="copyCmd(this, '/comment')"><div class="tag">/comment</div><div class="description">Explain code line-by-line</div></div>
+      <div class="card" onclick="copyCmd(this, '/regex')"><div class="tag">/regex</div><div class="description">Create regular expressions</div></div>
     </div>
   </div>
 
-  <!-- 8. LANGUAGE -->
-  <div class="section cat-lang" id="sec-lang">
+  <!-- SECTION 8 -->
+  <div class="section cat-8">
     <div class="section-header">
-      <span class="section-icon">🌍</span>
-      <span class="section-title">Language & Localization</span>
-      <div class="section-line"></div>
+      <h2 class="section-title">Learning & Languages</h2>
     </div>
-    <div class="cmd-grid">
-      <div class="cmd-card" onclick="copyCmd(this, '/igbo')"><span class="cmd-tag">/igbo</span><span class="cmd-desc">Responds in Igbo</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/pidgin')"><span class="cmd-tag">/pidgin</span><span class="cmd-desc">Nigerian Pidgin English</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/translate')"><span class="cmd-tag">/translate</span><span class="cmd-desc">Translate to specified language</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/bilingual')"><span class="cmd-tag">/bilingual</span><span class="cmd-desc">English + Igbo side by side</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/simplify')"><span class="cmd-tag">/simplify</span><span class="cmd-desc">Rewrite in simpler language</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/rewrite')"><span class="cmd-tag">/rewrite</span><span class="cmd-desc">Rewrites what you give it</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/expand')"><span class="cmd-tag">/expand</span><span class="cmd-desc">Expand a short idea into full content</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/shrink')"><span class="cmd-tag">/shrink</span><span class="cmd-desc">Condense long content to key points</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/tone-check')"><span class="cmd-tag">/tone-check</span><span class="cmd-desc">Evaluate the tone of your text</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/proofread')"><span class="cmd-tag">/proofread</span><span class="cmd-desc">Grammar and style corrections</span></div>
+    <div class="grid">
+      <div class="card" onclick="copyCmd(this, '/translate')"><div class="tag">/translate</div><div class="description">Accurate contextual translation</div></div>
+      <div class="card" onclick="copyCmd(this, '/vocab')"><div class="tag">/vocab</div><div class="description">Define and give examples</div></div>
+      <div class="card" onclick="copyCmd(this, '/quiz')"><div class="tag">/quiz</div><div class="description">Test my knowledge</div></div>
+      <div class="card" onclick="copyCmd(this, '/syllabi')"><div class="tag">/syllabi</div><div class="description">Create a learning path</div></div>
+      <div class="card" onclick="copyCmd(this, '/analogy')"><div class="tag">/analogy</div><div class="description">Explain using a metaphor</div></div>
+      <div class="card" onclick="copyCmd(this, '/igbo')"><div class="tag">/igbo</div><div class="description">Translate/Write in Igbo</div></div>
+      <div class="card" onclick="copyCmd(this, '/yoruba')"><div class="tag">/yoruba</div><div class="description">Translate/Write in Yoruba</div></div>
+      <div class="card" onclick="copyCmd(this, '/hausa')"><div class="tag">/hausa</div><div class="description">Translate/Write in Hausa</div></div>
     </div>
   </div>
 
-  <!-- 9. SPECIAL -->
-  <div class="section cat-special" id="sec-special">
+  <!-- SECTION 9 -->
+  <div class="section cat-9">
     <div class="section-header">
-      <span class="section-icon">⚡</span>
-      <span class="section-title">Special & Fun</span>
-      <div class="section-line"></div>
+      <h2 class="section-title">Special Functions</h2>
     </div>
-    <div class="cmd-grid">
-      <div class="cmd-card" onclick="copyCmd(this, '/roast')"><span class="cmd-tag">/roast</span><span class="cmd-desc">Humorously roasts the idea</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/hype')"><span class="cmd-tag">/hype</span><span class="cmd-desc">Maximum energy and excitement</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/calm')"><span class="cmd-tag">/calm</span><span class="cmd-desc">Slow, grounded, reassuring tone</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/motivate')"><span class="cmd-tag">/motivate</span><span class="cmd-desc">Full motivational speech mode</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/mentor')"><span class="cmd-tag">/mentor</span><span class="cmd-desc">Responds like a wise mentor</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/coach')"><span class="cmd-tag">/coach</span><span class="cmd-desc">Action-focused coaching style</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/interview')"><span class="cmd-tag">/interview</span><span class="cmd-desc">Formats as Q&A interview</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/feedback')"><span class="cmd-tag">/feedback</span><span class="cmd-desc">Honest critical feedback</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/rate')"><span class="cmd-tag">/rate</span><span class="cmd-desc">Rates your idea out of 10</span></div>
-      <div class="cmd-card" onclick="copyCmd(this, '/futurist')"><span class="cmd-tag">/futurist</span><span class="cmd-desc">Predicts future trends on the topic</span></div>
+    <div class="grid">
+      <div class="card" onclick="copyCmd(this, '/rewrite')"><div class="tag">/rewrite</div><div class="description">Complete content overhaul</div></div>
+      <div class="card" onclick="copyCmd(this, '/creative')"><div class="tag">/creative</div><div class="description">Maximum creative freedom</div></div>
+      <div class="card" onclick="copyCmd(this, '/L10')"><div class="tag">/L10</div><div class="description">Output level 10 depth</div></div>
+      <div class="card" onclick="copyCmd(this, '/L99')"><div class="tag">/L99</div><div class="description">Ultimate expert depth</div></div>
+      <div class="card" onclick="copyCmd(this, '/no-yapping')"><div class="tag">/no-yapping</div><div class="description">Straight to answer, no intro</div></div>
+      <div class="card" onclick="copyCmd(this, '/extract')"><div class="tag">/extract</div><div class="description">Pull key data from text</div></div>
+      <div class="card" onclick="copyCmd(this, '/ref')"><div class="tag">/ref</div><div class="description">Provide citations/sources</div></div>
+      <div class="card" onclick="copyCmd(this, '/brainstorm')"><div class="tag">/brainstorm</div><div class="description">Generate 20+ ideas</div></div>
+      <div class="card" onclick="copyCmd(this, '/audit')"><div class="tag">/audit</div><div class="description">Strict compliance check</div></div>
+      <div class="card" onclick="copyCmd(this, '/persona')"><div class="tag">/persona</div><div class="description">Adopt a specific persona</div></div>
     </div>
   </div>
 
-  <!-- 10. PRO TIPS -->
-  <div class="section cat-tips" id="sec-tips">
+  <!-- TIPS SECTION -->
+  <div class="section" id="sec-tips">
     <div class="section-header">
-      <span class="section-icon">💡</span>
-      <span class="section-title">Pro Tips</span>
-      <div class="section-line"></div>
+      <h2 class="section-title">Pro Tips for Henry</h2>
     </div>
     <div class="tips-grid">
       <div class="tip-card">
-        <div class="tip-label">Stack Commands</div>
-        <div class="tip-text">Combine multiple commands: <span class="tip-code">/ghost /long /hook</span> — ghostwrite a long post with a strong opening hook</div>
+        <span class="tip-label">Command Chaining</span>
+        <div class="tip-text">Combine commands for precision: <span class="tip-code">/ghost /sales /bullet</span> for personalized high-conversion bullets.</div>
       </div>
       <div class="tip-card">
-        <div class="tip-label">App Projects</div>
-        <div class="tip-text">Use <span class="tip-code">/godmode</span> + <span class="tip-code">/artifact</span> to build interactive tools inside the chat for your prayer app</div>
+        <span class="tip-label">Nigerian Context</span>
+        <div class="tip-text">Use <span class="tip-code">/pidgin</span> or <span class="tip-code">/expert</span> to switch between localized relatability and global professional depth.</div>
       </div>
       <div class="tip-card">
-        <div class="tip-label">Business Launches</div>
-        <div class="tip-text"><span class="tip-code">/OODA</span> is perfect for app launches. Use <span class="tip-code">/funnel /sales</span> for your ₦100k savings course</div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-label">Local First</div>
-        <div class="tip-text">Use <span class="tip-code">/pidgin</span> or <span class="tip-code">/igbo</span> when creating content for Nigerian audiences — keeps it authentic</div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-label">Dev Workflow</div>
-        <div class="tip-text">Chain <span class="tip-code">/debug</span> → <span class="tip-code">/refactor</span> → <span class="tip-code">/docs</span> for a clean full dev cycle on any codebase</div>
-      </div>
-      <div class="tip-card">
-        <div class="tip-label">Content Creation</div>
-        <div class="tip-text">Use <span class="tip-code">/L99 /bizplan</span> for your digital products. Always add <span class="tip-code">/hook</span> to every piece of sales content</div>
+        <span class="tip-label">Content Creation</span>
+        <div class="tip-text">Use <span class="tip-code">/L99 /bizplan</span> for your digital products. Always add <span class="tip-code">/hook</span> to every piece of sales content.</div>
       </div>
     </div>
   </div>
@@ -598,15 +478,25 @@
   <footer>
     Made for <span>Henry</span> · Claude Command Cheat Sheet · 100 Commands
   </footer>
-
 </div>
 
 <script>
   function copyCmd(el, cmd) {
-    navigator.clipboard.writeText(cmd).then(() => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(cmd).then(() => {
+        el.classList.add('copied');
+        setTimeout(() => el.classList.remove('copied'), 1200);
+      });
+    } else {
+      const ta = document.createElement("textarea");
+      ta.value = cmd;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
       el.classList.add('copied');
       setTimeout(() => el.classList.remove('copied'), 1200);
-    });
+    }
   }
 
   const input = document.getElementById('searchInput');
@@ -614,21 +504,30 @@
     const q = input.value.toLowerCase().trim();
     document.querySelectorAll('.section').forEach(sec => {
       let anyVisible = false;
-      sec.querySelectorAll('.cmd-card').forEach(card => {
-        const tag = card.querySelector('.cmd-tag')?.textContent.toLowerCase() || '';
-        const desc = card.querySelector('.cmd-desc')?.textContent.toLowerCase() || '';
+      sec.querySelectorAll('.card').forEach(card => {
+        const tag = card.querySelector('.tag')?.textContent.toLowerCase() || '';
+        const desc = card.querySelector('.description')?.textContent.toLowerCase() || '';
         const match = !q || tag.includes(q) || desc.includes(q);
         card.classList.toggle('hidden', !match);
         if (match) anyVisible = true;
       });
-      // For tips section, always show if no query
       if (sec.id === 'sec-tips') {
-        sec.classList.toggle('all-hidden', q.length > 0 && !anyVisible);
+        sec.classList.toggle('hidden', q.length > 0 && !anyVisible);
       } else {
-        sec.classList.toggle('all-hidden', !anyVisible);
+        sec.classList.toggle('hidden', !anyVisible);
       }
     });
   });
+
+  // Reveal sections with slight delay
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.section').forEach((s, i) => {
+      s.style.animationDelay = `${i * 0.1}s`;
+    });
+  });
 </script>
+
 </body>
 </html>
+
+```
