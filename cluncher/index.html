@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Command Launcher — Henry's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+
+/* ═══════════════════════════════════════
+   CSS VARIABLES — LIGHT MODE
+═══════════════════════════════════════ */
+:root {
+  /* Brand */
+  --primary-color:      #5C6EFF;
+  --primary-dark:       #3D52E6;
+  --primary-light:      #EEF0FF;
+  --primary-glow:       rgba(92,110,255,0.18);
+
+  /* AI provider brand colors */
+  --claude-color:       #CF6679;
+  --openai-color:       #10A37F;
+  --gemini-color:       #4285F4;
+  --mistral-color:      #F8722A;
+
+  /* Accents */
+  --accent-green:       #00C897;
+  --accent-amber:       #F59E0B;
+  --accent-rose:        #F43F5E;
+  --accent-violet:      #8B5CF6;
+  --accent-sky:         #0EA5E9;
+  --accent-emerald:     #10B981;
+
+  /* Backgrounds */
+  --bg-color:           #F5F7FF;
+  --bg-secondary:       #FFFFFF;
+  --bg-card:            #FFFFFF;
+  --bg-card-hover:      #F8F9FF;
+  --bg-input:           #FFFFFF;
+  --bg-chip:            #F0F2FF;
+  --bg-sidebar:         #FFFFFF;
+
+  /* Text */
+  --text-color:         #1A1D3A;
+  --text-secondary:     #4B5280;
+  --text-muted:         #8892B8;
+  --text-faint:         #C4CAEA;
+
+  /* Borders */
+  --border-color:       #E2E6F3;
+  --border-focus:       var(--primary-color);
+  --border-card:        #E8ECF8;
+
+  /* Shadows */
+  --shadow-sm:          0 1px 4px rgba(92,110,255,0.06);
+  --shadow-md:          0 4px 16px rgba(92,110,255,0.10);
+  --shadow-lg:          0 8px 32px rgba(92,110,255,0.14);
+  --shadow-btn:         0 4px 14px rgba(92,110,255,0.28);
+
+  /* Typography */
+  --font-body:          'Poppins', sans-serif;
+  --font-code:          'Fira Code', monospace;
+
+  /* Spacing & shape */
+  --radius-sm:          8px;
+  --radius-md:          12px;
+  --radius-lg:          18px;
+  --radius-xl:          24px;
+  --radius-pill:        999px;
+  --ease:               cubic-bezier(0.4, 0, 0.2, 1);
+  --transition:         0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Soft decorative blobs */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 800px 600px at -10% -10%, rgba(92,110,255,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 600px 500px at 110% 110%, rgba(0,200,151,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 500px 400px at 110% -5%,  rgba(139,92,246,0.04) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+
+/* ═══════════════════════════════════════
+   KEYFRAME ANIMATIONS
+═══════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity:0; } to { opacity:1; }
+}
+@keyframes fadeDown {
+  from { opacity:0; transform:translateY(-16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:0.6; transform:scale(0.9); }
+}
+@keyframes spin {
+  to { transform:rotate(360deg); }
+}
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+@keyframes slideInLeft {
+  from { opacity:0; transform:translateX(-12px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+@keyframes bounceIn {
+  0%   { transform:scale(0.75); opacity:0; }
+  55%  { transform:scale(1.06); opacity:1; }
+  100% { transform:scale(1); }
+}
+@keyframes gradientFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes floatBob {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-5px); }
+}
+@keyframes ringPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(92,110,255,0.35); }
+  70%  { box-shadow: 0 0 0 10px rgba(92,110,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(92,110,255,0); }
+}
+
+/* ═══════════════════════════════════════
+   LAYOUT WRAPPER
+═══════════════════════════════════════ */
+.app {
+  position: relative; z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ═══════════════════════════════════════
+   HEADER
+═══════════════════════════════════════ */
+header {
+  padding: 22px 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  border-bottom: 2px solid var(--border-card);
+  animation: fadeDown 0.6s var(--ease) both;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-mark {
+  width: 42px; height: 42px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-violet));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  box-shadow: var(--shadow-btn);
+  animation: ringPulse 3s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.logo-text { line-height: 1.2; }
+
+.logo-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text-color);
+  letter-spacing: -0.4px;
+}
+
+.logo-sub {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+/* AI Provider Selector */
+.provider-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-color);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  flex-wrap: wrap;
+}
+
+.provider-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.provider-tab:hover {
+  background: var(--bg-card);
+  color: var(--text-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.provider-tab.active {
+  background: var(--bg-card);
+  color: var(--text-color);
+  box-shadow: var(--shadow-md);
+}
+
+.provider-tab[data-provider="claude"].active   { color: var(--claude-color); }
+.provider-tab[data-provider="openai"].active   { color: var(--openai-color); }
+.provider-tab[data-provider="gemini"].active   { color: var(--gemini-color); }
+.provider-tab[data-provider="mistral"].active  { color: var(--mistral-color); }
+
+.provider-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.provider-tab[data-provider="claude"]  .provider-dot { background: var(--claude-color); }
+.provider-tab[data-provider="openai"]  .provider-dot { background: var(--openai-color); }
+.provider-tab[data-provider="gemini"]  .provider-dot { background: var(--gemini-color); }
+.provider-tab[data-provider="mistral"] .provider-dot { background: var(--mistral-color); }
+
+/* Live badge */
+.live-badge {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600;
+  color: var(--accent-emerald);
+  background: rgba(16,185,129,0.08);
+  border: 1.5px solid rgba(16,185,129,0.2);
+  border-radius: var(--radius-pill);
+  padding: 5px 12px;
+}
+.live-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════
+   MAIN GRID
+═══════════════════════════════════════ */
+.main {
+  display: grid;
+  grid-template-columns: 290px 1fr;
+  gap: 20px;
+  padding: 20px 0 40px;
+  flex: 1;
+  align-items: start;
+}
+
+/* ═══════════════════════════════════════
+   LEFT PANEL
+═══════════════════════════════════════ */
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeUp 0.6s var(--ease) 0.1s both;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  padding-right: 4px;
+  position: sticky;
+  top: 16px;
+}
+
+.left-panel::-webkit-scrollbar { width: 4px; }
+.left-panel::-webkit-scrollbar-track { background: transparent; }
+.left-panel::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+
+.panel-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--text-faint);
+  padding: 0 4px;
+}
+
+/* CATEGORY BLOCK */
+.cat-block {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition);
+}
+.cat-block:hover { box-shadow: var(--shadow-md); }
+
+.cat-header {
+  display: flex; align-items: center; gap: 9px;
+  padding: 11px 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--transition);
+}
+.cat-header:hover { background: var(--bg-card-hover); }
+
+.cat-icon { font-size: 15px; animation: floatBob 3.5s ease-in-out infinite; }
+.cat-name { font-size: 12px; font-weight: 700; flex: 1; color: var(--text-color); }
+.cat-count {
+  font-size: 10px; font-weight: 600;
+  background: var(--bg-color);
+  color: var(--text-muted);
+  padding: 1px 7px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-color);
+}
+.cat-arrow {
+  font-size: 9px;
+  color: var(--text-muted);
+  transition: transform 0.25s var(--ease);
+}
+.cat-block.open .cat-arrow { transform: rotate(180deg); }
+.cat-block.open .cat-header { border-bottom: 1px solid var(--border-card); }
+
+.cat-commands {
+  display: none;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 12px 12px;
+}
+.cat-block.open .cat-commands { display: flex; }
+
+/* CHIPS */
+.chip {
+  font-family: var(--font-code);
+  font-size: 11px; font-weight: 500;
+  padding: 5px 11px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-chip);
+  color: var(--text-secondary);
+  transition: all var(--transition);
+  user-select: none;
+  line-height: 1.4;
+}
+.chip:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: var(--primary-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+.chip.active {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+  color: #FFFFFF;
+  font-weight: 600;
+  box-shadow: 0 3px 10px rgba(92,110,255,0.3);
+  animation: bounceIn 0.22s var(--ease);
+}
+
+/* Category-specific chip active colors */
+.cat-format  .chip.active { background:#0EA5E9; border-color:#0EA5E9; box-shadow:0 3px 10px rgba(14,165,233,0.3); }
+.cat-tone    .chip.active { background:#10B981; border-color:#10B981; box-shadow:0 3px 10px rgba(16,185,129,0.3); }
+.cat-power   .chip.active { background:#F59E0B; border-color:#F59E0B; box-shadow:0 3px 10px rgba(245,158,11,0.3); }
+.cat-writing .chip.active { background:#F43F5E; border-color:#F43F5E; box-shadow:0 3px 10px rgba(244,63,94,0.3); }
+.cat-think   .chip.active { background:#5C6EFF; border-color:#5C6EFF; box-shadow:0 3px 10px rgba(92,110,255,0.3); }
+.cat-biz     .chip.active { background:#F59E0B; border-color:#F59E0B; box-shadow:0 3px 10px rgba(245,158,11,0.3); }
+.cat-dev     .chip.active { background:#00C897; border-color:#00C897; box-shadow:0 3px 10px rgba(0,200,151,0.3); }
+.cat-lang    .chip.active { background:#10B981; border-color:#10B981; box-shadow:0 3px 10px rgba(16,185,129,0.3); }
+.cat-special .chip.active { background:#8B5CF6; border-color:#8B5CF6; box-shadow:0 3px 10px rgba(139,92,246,0.3); }
+
+/* ═══════════════════════════════════════
+   RIGHT PANEL
+═══════════════════════════════════════ */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeUp 0.6s var(--ease) 0.15s both;
+}
+
+/* CARD BASE */
+.card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition);
+}
+.card:hover { box-shadow: var(--shadow-md); }
+
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px 10px;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.card-title {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--text-muted);
+  display: flex; align-items: center; gap: 6px;
+}
+.card-title-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--primary-color);
+}
+
+/* ── QUICK STACKS ── */
+.stacks-card { padding: 14px 16px; }
+
+.stacks-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 7px;
+}
+.stacks-label::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: var(--border-color);
+}
+
+.stacks-row { display: flex; flex-wrap: wrap; gap: 7px; }
+
+.stack-btn {
+  font-family: var(--font-body);
+  font-size: 11.5px; font-weight: 600;
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.stack-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.stack-btn:active { transform: translateY(0); }
+
+/* ── SELECTED BAR ── */
+.selected-bar {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 13px 16px;
+  min-height: 56px;
+  display: flex; align-items: center; flex-wrap: wrap; gap: 7px;
+  box-shadow: var(--shadow-sm);
+}
+.selected-placeholder {
+  font-size: 13px; font-weight: 400;
+  color: var(--text-faint);
+  font-style: italic;
+}
+.selected-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-code);
+  font-size: 12px; font-weight: 500;
+  padding: 5px 11px 5px 13px;
+  border-radius: var(--radius-sm);
+  background: var(--primary-light);
+  border: 1.5px solid rgba(92,110,255,0.25);
+  color: var(--primary-color);
+  animation: slideInLeft 0.2s var(--ease);
+}
+.selected-tag .remove-tag {
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--transition);
+  font-style: normal;
+}
+.selected-tag .remove-tag:hover { color: var(--accent-rose); }
+
+/* ── PROMPT PREVIEW ── */
+.prompt-preview-card { padding: 16px 18px; }
+
+.prompt-inner {
+  font-family: var(--font-code);
+  font-size: 12.5px;
+  line-height: 1.8;
+  background: var(--bg-color);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  min-height: 48px;
+  word-break: break-word;
+  color: var(--text-color);
+}
+.cmd-hl  { color: var(--primary-color); font-weight: 700; }
+.text-hl { color: var(--text-secondary); }
+.empty-hl{ color: var(--text-faint); font-style: italic; }
+
+/* ── API KEY SECTION ── */
+.apikey-card { padding: 14px 18px; }
+
+.apikey-row {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+
+.apikey-input-wrap {
+  flex: 1;
+  position: relative;
+  min-width: 200px;
+}
+
+.apikey-input {
+  width: 100%;
+  font-family: var(--font-code);
+  font-size: 12px;
+  background: var(--bg-color);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-color);
+  padding: 10px 42px 10px 14px;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.apikey-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+.apikey-input::placeholder { color: var(--text-faint); font-style: italic; }
+
+.eye-btn {
+  position: absolute;
+  right: 12px; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none;
+  cursor: pointer; font-size: 14px;
+  color: var(--text-muted);
+  transition: color var(--transition);
+}
+.eye-btn:hover { color: var(--primary-color); }
+
+.apikey-note {
+  font-size: 11px; color: var(--text-muted);
+  margin-top: 7px;
+  display: flex; align-items: center; gap: 5px;
+}
+
+/* Provider-colored note */
+.provider-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px; font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  margin-left: 6px;
+}
+.provider-note.claude  { background: rgba(207,102,121,0.1); color: var(--claude-color); }
+.provider-note.openai  { background: rgba(16,163,127,0.1);  color: var(--openai-color); }
+.provider-note.gemini  { background: rgba(66,133,244,0.1);  color: var(--gemini-color); }
+.provider-note.mistral { background: rgba(248,114,42,0.1);  color: var(--mistral-color); }
+
+/* ── INPUT + SEND ── */
+.input-card { padding: 16px 18px; }
+
+textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  line-height: 1.65;
+  background: var(--bg-color);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-color);
+  padding: 13px 16px;
+  resize: none;
+  min-height: 90px;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  margin-bottom: 12px;
+}
+textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+textarea::placeholder { color: var(--text-faint); }
+
+/* BUTTONS */
+.btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  padding: 0 20px;
+  height: 44px;
+  min-width: 44px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  transition: all var(--transition);
+  white-space: nowrap;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+.btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.18s;
+}
+.btn:hover::after { background: rgba(255,255,255,0.12); }
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-violet) 100%);
+  color: #FFFFFF;
+  box-shadow: var(--shadow-btn);
+  font-size: 14px;
+  height: 46px;
+  padding: 0 28px;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(92,110,255,0.38);
+}
+
+/* Provider-specific primary button */
+.btn-primary.prov-claude  { background: linear-gradient(135deg, var(--claude-color), #E8889A); }
+.btn-primary.prov-openai  { background: linear-gradient(135deg, var(--openai-color), #14C99A); }
+.btn-primary.prov-gemini  { background: linear-gradient(135deg, var(--gemini-color), #7C4DFF); }
+.btn-primary.prov-mistral { background: linear-gradient(135deg, var(--mistral-color), #FFAB76); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border-color);
+}
+.btn-outline:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: var(--primary-light);
+  transform: translateY(-1px);
+}
+
+.btn-teal {
+  background: rgba(0,200,151,0.1);
+  color: var(--accent-green);
+  border: 1.5px solid rgba(0,200,151,0.25);
+  font-size: 12px;
+  height: 38px;
+  padding: 0 14px;
+}
+.btn-teal:hover {
+  background: rgba(0,200,151,0.18);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,200,151,0.2);
+}
+
+.btn-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; gap: 10px;
+}
+.btn-row-left  { display: flex; gap: 9px; flex-wrap: wrap; }
+
+/* ── OUTPUT ── */
+.output-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.output-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.output-body {
+  padding: 16px 18px;
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--text-color);
+  overflow-y: auto;
+  min-height: 180px;
+  max-height: 360px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  flex: 1;
+}
+.output-body::-webkit-scrollbar { width: 5px; }
+.output-body::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+
+.output-empty {
+  color: var(--text-faint);
+  font-style: italic;
+  font-size: 13px;
+}
+
+/* LOADER */
+.loader-wrap {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.loader-top {
+  display: flex; align-items: center; gap: 10px;
+  color: var(--text-muted); font-size: 13px; font-weight: 500;
+}
+.spinner {
+  width: 18px; height: 18px;
+  border: 2.5px solid var(--border-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+  flex-shrink: 0;
+}
+
+/* Shimmer placeholders */
+.shimmer {
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--bg-color) 0%, var(--border-card) 50%, var(--bg-color) 100%);
+  background-size: 600px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  height: 14px;
+  margin-bottom: 8px;
+}
+.shimmer.w-full { width: 100%; }
+.shimmer.w-80   { width: 80%; }
+.shimmer.w-60   { width: 60%; }
+.shimmer.w-90   { width: 90%; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  max-width: 320px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  border-left: 4px solid var(--accent-emerald);
+  border-radius: var(--radius-md);
+  padding: 13px 18px;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-color);
+  box-shadow: var(--shadow-lg);
+  animation: bounceIn 0.3s var(--ease);
+  z-index: 9999;
+  display: none;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  padding: 16px 0 24px;
+  border-top: 1.5px solid var(--border-card);
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
+}
+footer strong {
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-violet));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+/* ═══════════════════════════════════════
+   SEARCH / HIDDEN
+═══════════════════════════════════════ */
+.cmd-card.hidden, .section.all-hidden { display: none; }
+
+/* ═══════════════════════════════════════
+   MOBILE RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 900px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+  .left-panel {
+    max-height: none;
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+  }
+  .panel-label { grid-column: 1 / -1; }
+  .stacks-card { grid-column: 1 / -1; }
+}
+
+@media (max-width: 640px) {
+  header { padding: 16px 0 14px; }
+  .provider-tabs { gap: 3px; padding: 3px; }
+  .provider-tab  { padding: 6px 10px; font-size: 11px; }
+  .left-panel { grid-template-columns: 1fr; }
+  .btn-primary { width: 100%; justify-content: center; }
+  .btn-row { flex-direction: column; }
+  .btn-row-left { width: 100%; }
+  .btn-row-left .btn { flex: 1; }
+  .apikey-row { flex-direction: column; }
+  .apikey-input-wrap { width: 100%; }
+  .live-badge { display: none; }
+}
+
+@media (max-width: 400px) {
+  .app { padding: 0 12px; }
+  h1 { font-size: 1.3rem; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ══════════════ HEADER ══════════════ -->
+  <header>
+    <div class="logo">
+      <div class="logo-mark">⚡</div>
+      <div class="logo-text">
+        <div class="logo-title">AI Command Launcher</div>
+        <div class="logo-sub">Henry's Toolkit · All AI Providers</div>
+      </div>
+    </div>
+
+    <!-- Provider Tabs -->
+    <div class="provider-tabs" id="providerTabs">
+      <button class="provider-tab active" data-provider="claude" onclick="setProvider('claude')">
+        <span class="provider-dot"></span> Claude
+      </button>
+      <button class="provider-tab" data-provider="openai" onclick="setProvider('openai')">
+        <span class="provider-dot"></span> ChatGPT
+      </button>
+      <button class="provider-tab" data-provider="gemini" onclick="setProvider('gemini')">
+        <span class="provider-dot"></span> Gemini
+      </button>
+      <button class="provider-tab" data-provider="mistral" onclick="setProvider('mistral')">
+        <span class="provider-dot"></span> Mistral
+      </button>
+    </div>
+
+    <div class="live-badge">
+      <span class="live-dot"></span> Live
+    </div>
+  </header>
+
+  <!-- ══════════════ MAIN ══════════════ -->
+  <div class="main">
+
+    <!-- ── LEFT: COMMAND PICKER ── -->
+    <div class="left-panel">
+      <div class="panel-label">Pick Commands</div>
+
+      <!-- Quick Stacks -->
+      <div class="cat-block stacks-card open" style="padding:14px 16px;">
+        <div class="stacks-label">⚡ Quick Stacks</div>
+        <div class="stacks-row">
+          <button class="stack-btn" onclick="applyStack(['/ghost','/hook','/sales'])">🔥 Ghost + Hook + Sales</button>
+          <button class="stack-btn" onclick="applyStack(['/godmode','/deepdive'])">🚀 GodMode + DeepDive</button>
+          <button class="stack-btn" onclick="applyStack(['/OODA','/bizplan'])">📊 OODA + BizPlan</button>
+          <button class="stack-btn" onclick="applyStack(['/debug','/refactor','/docs'])">💻 Full Dev Cycle</button>
+          <button class="stack-btn" onclick="applyStack(['/igbo','/ghost'])">🌍 Igbo Ghost</button>
+          <button class="stack-btn" onclick="applyStack(['/L99','/funnel','/sales'])">💰 L99 Funnel</button>
+          <button class="stack-btn" onclick="applyStack(['/eli5','/steps','/simple'])">📚 Teach Simply</button>
+          <button class="stack-btn" onclick="applyStack(['/swot','/compare','/rank'])">🧠 Full Analysis</button>
+        </div>
+      </div>
+
+      <!-- 1. Format -->
+      <div class="cat-block cat-format open">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <span class="cat-icon">🎨</span>
+          <span class="cat-name" style="color:#0EA5E9">Format & Structure</span>
+          <span class="cat-count">15</span>
+          <span class="cat-arrow">▼</span>
+        </div>
+        <div class="cat-commands">
+          <span class="chip" onclick="toggleCmd(this,'/bullet')">/bullet</span>
+          <span class="chip" onclick="toggleCmd(this,'/numbered')">/numbered</span>
+          <span class="chip" onclick="toggleCmd(this,'/table')">/table</span>
+          <span class="chip" onclick="toggleCmd(this,'/json')">/json</span>
+          <span class="chip" onclick="toggleCmd(this,'/xml')">/xml</span>
+          <span class="chip" onclick="toggleCmd(this,'/code')">/code</span>
+          <span class="chip" onclick="toggleCmd(this,'/outline')">/outline</span>
+          <span class="chip" onclick="toggleCmd(this,'/steps')">/steps</span>
+          <span class="chip" onclick="toggleCmd(this,'/checklist')">/checklist</span>
+          <span class="chip" onclick="toggleCmd(this,'/mindmap')">/mindmap</span>
+          <span class="chip" onclick="toggleCmd(this,'/artifact')">/artifact</span>
+          <span class="chip" onclick="toggleCmd(this,'/diagram')">/diagram</span>
+          <span class="chip" onclick="toggleCmd(this,'/timeline')">/timeline</span>
+          <span class="chip" onclick="toggleCmd(this,'/kanban')">/kanban</span>
+          <span class="chip" onclick="toggleCmd(this,'/tree')">/tree</span>
+        </div>
+      </div>
+
+      <!-- 2. Tone -->
+      <div class="cat-block cat-tone">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <span class="cat-icon">✍️</span>
+          <span class="cat-name" style="color:#10B981">Tone & Style</span>
+          <span class="cat-count">15</span>
+          <span class="cat-arrow">▼</span>
+        </div>
+        <div class="cat-commands">
+          <span class="chip" onclick="toggleCmd(this,'/formal')">/formal</span>
+          <span class="chip" onclick="toggleCmd(this,'/casual')">/casual</span>
+          <span class="chip" onclick="toggleCmd(this,'/expert')">/expert</span>
+          <span class="chip" onclick="toggleCmd(this,'/eli5')">/eli5</span>
+          <span class="chip" onclick="toggleCmd(this,'/eli15')">/eli15</span>
+          <span class="chip" onclick="toggleCmd(this,'/short')">/short</span>
+          <span class="chip" onclick="toggleCmd(this,'/long')">/long</span>
+          <span class="chip" onclick="toggleCmd(this,'/dense')">/dense</span>
+          <span class="chip" onclick="toggleCmd(this,'/simple')">/simple</span>
+          <span class="chip" onclick="toggleCmd(this,'/academic')">/academic</span>
+          <span class="chip" onclick="toggleCmd(this,'/socratic')">/socratic</span>
+          <span class="chip" onclick="toggleCmd(this,'/debate')">/debate</span>
+          <span class="chip" onclick="toggleCmd(this,'/devil')">/devil</span>
+          <span class="chip" onclick="toggleCmd(this,'/contrarian')">/contrarian</span>
+          <span class="chip" onclick="toggleCmd(this,'/balanced')">/balanced</span>
+        </div>
+      </div>
+
+      <!-- 3. Power -->
+      <div class="cat-block cat-power">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <span class="cat-icon">🚀</span>
+          <span class="cat-name" style="color:#F59E0B">Power Modes</span>
+          <span class="cat-count">10</span>
+          <span class="cat-arrow">▼</span>
+        </div>
+        <div class="cat-commands">
+          <span class="chip" onclick="toggleCmd(this,'/godmode')">/godmode</span>
+          <span class="chip" onclick="toggleCmd(this,'/L99')">/L99</span>
+          <span class="chip" onclick="toggleCmd(this,'/OODA')">/OODA</span>
+          <span class="chip" onclick="toggleCmd(this,'/10x')">/10x</span>
+          <span class="chip" onclick="toggleCmd(this,'/deepdive')">/deepdive</span>
+          <span class="chip" onclick="toggleCmd(this,'/firstprinciples')">/firstprinciples</span>
+          <span class="chip" onclick="toggleCmd(this,'/systemsthink')">/systemsthink</span>
+          <span class="chip" onclick="toggleCmd(this,'/80-20')">/80-20</span>
+          <span class="chip" onclick="toggleCmd(this,'/warroom')">/warroom</span>
+          <span class="chip" onclick="toggleCmd(this,'/blitzscale')">/blitzscale</span>
+        </div>
+      </div>
+
+      <!-- 4. Writing -->
+      <div class="cat-block cat-writing">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <span class="cat-icon">🖊️</span>
+          <span class="cat-name" style="color:#F43F5E">Writing & Content</span>
+          <span class="cat-count">15</span>
+          <span class="cat-arrow">▼</span>
+        </div>
+        <div class="cat-commands">
+          <span class="chip" onclick="toggleCmd(this,'/ghost')">/ghost</span>
+          <span class="chip" onclick="toggleCmd(this,'/sales')">/sales</span>
+          <span class="chip" onclick="toggleCmd(this,'/email')">/email</span>
+          <span class="chip" onclick="toggleCmd(this,'/tweet')">/tweet</span>
+          <span class="chip" onclick="toggleCmd(this,'/script')">/script</span>
+          <span class="chip" onclick="toggleCmd(this,'/story')">/story</span>
+          <span class="chip" onclick="toggleCmd(this,'/poem')">/poem</span>
+          <span class="chip" onclick="toggleCmd(this,'/hook')">/hook</span>
+          <span class="chip" onclick="toggleCmd(this,'/headline')">/headline</span>
+          <span class="chip" onclick="toggleCmd(this,'/cta')">/cta</span>
+          <span class="chip" onclick="toggleCmd(this,'/newsletter')">/newsletter</span>
+          <span class="chip" onclick="toggleCmd(this,'/blog')">/blog</span>
+          <span class="chip" onclick="toggleCmd(this,'/caption')">/caption</span>
+          <span class="chip" onclick="toggleCmd(this,'/adcopy')">/adcopy</span>
+          <span class="chip" onclick="toggleCmd(this,'/pressrelease')">/pressrelease</span>
+        </div>
+      </div>
+
+      <!-- 5. Thinking -->
+      <div class="cat-block cat-think">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <span class="cat-icon">🧠</span>
+          <span class="cat-name" style="color:#5C6EFF">Thinking Frameworks</span>
+          <span class="cat-count">10</span>
+          <span class="cat-arrow">▼</span>
+        </div>
+        <div class="cat-commands">
+          <span class="chip" onclick="toggleCmd(this,'/swot')">/swot</span>
+          <span class="chip" onclick="toggleCmd(this,'/pros-cons')">/pros-cons</span>
+          <span class="chip" onclick="toggleCmd(this,'/5whys')">/5whys</span>
+          <span class="chip" onclick="toggleCmd(this,'/pestle')">/pestle</span>
+          <span class="chip" onclick="toggleCmd(this,'/porter')">/porter</span>
+          <span class="chip" onclick="toggleCmd(this,'/lean')">/lean</span>
+          <span class="chip" onclick="toggleCmd(this,'/agile')">/agile</span>
+          <span class="chip" onclick="toggleCmd(this,'/hypothesis')">/hypothesis</span>
+          <span class="chip" onclick="toggleCmd(this,'/compare')">/compare</span>
+          <span class="chip" onclick="toggleCmd(this,'/rank')">/rank</span>
+        </div>
+      </div>
+
+      <!-- 6. Business -->
+      <div class="cat-block cat-biz">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <span class="cat-icon">💼</span>
+          <span class="cat-name" style="color:#F59E0B">Business & Strategy</span>
+          <span class="cat-count">10</span>
+          <span class="cat-arrow">▼</span>
+        </div>
+        <div class="cat-commands">
+          <span class="chip" onclick="toggleCmd(this,'/pitch')">/pitch</span>
+          <span class="chip" onclick="toggleCmd(this,'/bizplan')">/bizplan</span>
+          <span class="chip" onclick="toggleCmd(this,'/funnel')">/funnel</span>
+          <span class="chip" onclick="toggleCmd(this,'/mvp')">/mvp</span>
+          <span class="chip" onclick="toggleCmd(this,'/roadmap')">/roadmap</span>
+          <span class="chip" onclick="toggleCmd(this,'/okr')">/okr</span>
+          <span class="chip" onclick="toggleCmd(this,'/kpi')">/kpi</span>
+          <span class="chip" onclick="toggleCmd(this,'/pricing')">/pricing</span>
+          <span class="chip" onclick="toggleCmd(this,'/gtm')">/gtm</span>
+          <span class="chip" onclick="toggleCmd(this,'/persona')">/persona</span>
+        </div>
+      </div>
+
+      <!-- 7. Dev -->
+      <div class="cat-block cat-dev">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <span class="cat-icon">💻</span>
+          <span class="cat-name" style="color:#00C897">Developer</span>
+          <span class="cat-count">10</span>
+          <span class="cat-arrow">▼</span>
+        </div>
+        <div class="cat-commands">
+          <span class="chip" onclick="toggleCmd(this,'/refactor')">/refactor</span>
+          <span class="chip" onclick="toggleCmd(this,'/debug')">/debug</span>
+          <span class="chip" onclick="toggleCmd(this,'/comment')">/comment</span>
+          <span class="chip" onclick="toggleCmd(this,'/api')">/api</span>
+          <span class="chip" onclick="toggleCmd(this,'/regex')">/regex</span>
+          <span class="chip" onclick="toggleCmd(this,'/pseudocode')">/pseudocode</span>
+          <span class="chip" onclick="toggleCmd(this,'/docs')">/docs</span>
+          <span class="chip" onclick="toggleCmd(this,'/test')">/test</span>
+          <span class="chip" onclick="toggleCmd(this,'/optimize')">/optimize</span>
+          <span class="chip" onclick="toggleCmd(this,'/security')">/security</span>
+        </div>
+      </div>
+
+      <!-- 8. Language -->
+      <div class="cat-block cat-lang">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <span class="cat-icon">🌍</span>
+          <span class="cat-name" style="color:#10B981">Language</span>
+          <span class="cat-count">10</span>
+          <span class="cat-arrow">▼</span>
+        </div>
+        <div class="cat-commands">
+          <span class="chip" onclick="toggleCmd(this,'/igbo')">/igbo</span>
+          <span class="chip" onclick="toggleCmd(this,'/pidgin')">/pidgin</span>
+          <span class="chip" onclick="toggleCmd(this,'/translate')">/translate</span>
+          <span class="chip" onclick="toggleCmd(this,'/bilingual')">/bilingual</span>
+          <span class="chip" onclick="toggleCmd(this,'/simplify')">/simplify</span>
+          <span class="chip" onclick="toggleCmd(this,'/rewrite')">/rewrite</span>
+          <span class="chip" onclick="toggleCmd(this,'/expand')">/expand</span>
+          <span class="chip" onclick="toggleCmd(this,'/shrink')">/shrink</span>
+          <span class="chip" onclick="toggleCmd(this,'/tone-check')">/tone-check</span>
+          <span class="chip" onclick="toggleCmd(this,'/proofread')">/proofread</span>
+        </div>
+      </div>
+
+      <!-- 9. Special -->
+      <div class="cat-block cat-special">
+        <div class="cat-header" onclick="toggleCat(this)">
+          <span class="cat-icon">⚡</span>
+          <span class="cat-name" style="color:#8B5CF6">Special & Fun</span>
+          <span class="cat-count">10</span>
+          <span class="cat-arrow">▼</span>
+        </div>
+        <div class="cat-commands">
+          <span class="chip" onclick="toggleCmd(this,'/roast')">/roast</span>
+          <span class="chip" onclick="toggleCmd(this,'/hype')">/hype</span>
+          <span class="chip" onclick="toggleCmd(this,'/calm')">/calm</span>
+          <span class="chip" onclick="toggleCmd(this,'/motivate')">/motivate</span>
+          <span class="chip" onclick="toggleCmd(this,'/mentor')">/mentor</span>
+          <span class="chip" onclick="toggleCmd(this,'/coach')">/coach</span>
+          <span class="chip" onclick="toggleCmd(this,'/interview')">/interview</span>
+          <span class="chip" onclick="toggleCmd(this,'/feedback')">/feedback</span>
+          <span class="chip" onclick="toggleCmd(this,'/rate')">/rate</span>
+          <span class="chip" onclick="toggleCmd(this,'/futurist')">/futurist</span>
+        </div>
+      </div>
+
+    </div><!-- /left-panel -->
+
+    <!-- ── RIGHT PANEL ── -->
+    <div class="right-panel">
+
+      <!-- Selected Commands -->
+      <div class="selected-bar" id="selectedBar">
+        <span class="selected-placeholder" id="selPlaceholder">Select commands from the left to start building your prompt…</span>
+      </div>
+
+      <!-- Prompt Preview -->
+      <div class="card prompt-preview-card">
+        <div class="card-header">
+          <span class="card-title"><span class="card-title-dot"></span> Built Prompt Preview</span>
+          <button class="btn btn-teal" onclick="copyPrompt()">⎘ Copy Prompt</button>
+        </div>
+        <div style="padding:14px 18px 16px">
+          <div class="prompt-inner" id="promptInner">
+            <span class="empty-hl">Your assembled prompt will appear here in real-time…</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- API Key -->
+      <div class="card apikey-card">
+        <div class="card-header">
+          <span class="card-title"><span class="card-title-dot" id="provDot"></span> <span id="providerLabel">Claude API Key</span></span>
+          <span class="provider-note claude" id="providerBadge">🤖 Claude</span>
+        </div>
+        <div style="padding:14px 18px 16px">
+          <div class="apikey-row">
+            <div class="apikey-input-wrap">
+              <input type="password" class="apikey-input" id="apiKeyInput" placeholder="Paste your API key here…"/>
+              <button class="eye-btn" onclick="toggleKey()">👁</button>
+            </div>
+          </div>
+          <div class="apikey-note" id="apiKeyNote">
+            🔒 Key is used only in this browser session and never stored.
+            <span class="provider-note claude" id="keyProviderHint">Get key: console.anthropic.com</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input + Send -->
+      <div class="card input-card">
+        <div class="card-header">
+          <span class="card-title"><span class="card-title-dot"></span> Your Request</span>
+        </div>
+        <div style="padding:14px 18px 16px">
+          <textarea id="userInput" placeholder="Type your request here… e.g. 'write an intro for my prayer app' or 'explain how saving ₦100k works'"></textarea>
+          <div class="btn-row">
+            <div class="btn-row-left">
+              <button class="btn btn-outline" onclick="clearAll()">✕ Clear</button>
+              <button class="btn btn-outline" onclick="copyPromptOnly()">📋 Copy Only</button>
+            </div>
+            <button class="btn btn-primary" id="sendBtn" onclick="sendToAI()">
+              <span id="sendLabel">✦ Send to AI</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="card output-card">
+        <div class="output-header">
+          <span class="card-title"><span class="card-title-dot" id="outDot"></span> AI Response</span>
+          <button class="btn btn-teal" onclick="copyOutput()" id="copyOutBtn" style="display:none">⎘ Copy Response</button>
+        </div>
+        <div class="output-body" id="outputBody">
+          <span class="output-empty">The AI's response will appear here after you send your prompt…</span>
+        </div>
+      </div>
+
+    </div><!-- /right-panel -->
+  </div><!-- /main -->
+
+  <footer>
+    AI Command Launcher · Built for <strong>Henry</strong> · Works with Claude · ChatGPT · Gemini · Mistral
+  </footer>
+
+</div><!-- /app -->
+
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════ -->
+<script>
+/* ── PROVIDER CONFIG ── */
+const PROVIDERS = {
+  claude: {
+    label:       'Claude API Key',
+    badge:       '🤖 Claude',
+    hint:        'Get key: console.anthropic.com',
+    badgeClass:  'claude',
+    dotColor:    '#CF6679',
+    btnClass:    'prov-claude',
+    endpoint:    'https://api.anthropic.com/v1/messages',
+    placeholder: 'sk-ant-...',
+  },
+  openai: {
+    label:       'OpenAI API Key',
+    badge:       '💬 ChatGPT',
+    hint:        'Get key: platform.openai.com/api-keys',
+    badgeClass:  'openai',
+    dotColor:    '#10A37F',
+    btnClass:    'prov-openai',
+    endpoint:    'https://api.openai.com/v1/chat/completions',
+    placeholder: 'sk-...',
+  },
+  gemini: {
+    label:       'Gemini API Key',
+    badge:       '✨ Gemini',
+    hint:        'Get key: aistudio.google.com',
+    badgeClass:  'gemini',
+    dotColor:    '#4285F4',
+    btnClass:    'prov-gemini',
+    endpoint:    'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+    placeholder: 'AIza...',
+  },
+  mistral: {
+    label:       'Mistral API Key',
+    badge:       '🌪 Mistral',
+    hint:        'Get key: console.mistral.ai',
+    badgeClass:  'mistral',
+    dotColor:    '#F8722A',
+    btnClass:    'prov-mistral',
+    endpoint:    'https://api.mistral.ai/v1/chat/completions',
+    placeholder: 'mistral-...',
+  },
+};
+
+let currentProvider = 'claude';
+let selectedCmds    = [];
+let copiedCount     = 0;
+
+/* ── COMMAND META (system prompt instructions) ── */
+const CMD_META = {
+  '/godmode':       'Respond with maximum depth, thoroughness, and expert-level analysis. Leave nothing out.',
+  '/L99':           'This is a Level 99 request — be extraordinarily comprehensive, insightful, and brilliant.',
+  '/OODA':          'Structure your response using the OODA loop: Observe, Orient, Decide, Act.',
+  '/10x':           'Think and respond like a 10x operator — fast, decisive, high-leverage thinking only.',
+  '/deepdive':      'Provide an exhaustive, research-style deep dive into this topic.',
+  '/firstprinciples':'Break everything down to first principles. Start from the fundamentals.',
+  '/systemsthink':  'Analyze this using a systems thinking lens — feedback loops, interdependencies.',
+  '/80-20':         'Apply the Pareto principle — identify the 20% of effort that yields 80% of results.',
+  '/warroom':       'This is urgent. Respond in crisis/warroom mode — decisive, fast, action-focused.',
+  '/blitzscale':    'Focus on rapid growth strategies and scaling tactics.',
+  '/ghost':         'Write in a ghostwriting style — first person, natural voice, as if the user wrote it themselves.',
+  '/sales':         'Write in a persuasive, high-converting sales copy style.',
+  '/email':         'Format the response as a professional email with subject line.',
+  '/tweet':         'Format as a Twitter/X thread with numbered tweets.',
+  '/script':        'Format as a video script or dialogue.',
+  '/story':         'Respond in narrative/story format.',
+  '/poem':          'Respond as a poem.',
+  '/hook':          'Start with a powerful, irresistible attention-grabbing hook.',
+  '/headline':      'Generate punchy, compelling headline options.',
+  '/cta':           'Focus on strong call-to-action writing.',
+  '/newsletter':    'Format as an email newsletter with sections.',
+  '/blog':          'Write as a full blog post with intro, body, and conclusion.',
+  '/caption':       'Write in social media caption style — punchy and engaging.',
+  '/adcopy':        'Write Facebook/Google ad copy — short, punchy, conversion-focused.',
+  '/pressrelease':  'Format as a formal press release.',
+  '/swot':          'Structure the response as a SWOT analysis.',
+  '/pros-cons':     'Present as a clear pros and cons breakdown.',
+  '/5whys':         'Use the 5 Whys root cause analysis framework.',
+  '/pestle':        'Structure as a PESTLE analysis.',
+  '/porter':        "Apply Porter's Five Forces framework.",
+  '/lean':          'Apply lean thinking — identify and eliminate waste.',
+  '/agile':         'Respond in agile/sprint planning style.',
+  '/hypothesis':    'Format as a scientific hypothesis with evidence.',
+  '/compare':       'Present as a detailed side-by-side comparison.',
+  '/rank':          'Rank all options from best to worst with justification.',
+  '/pitch':         'Format as a startup pitch.',
+  '/bizplan':       'Structure as a business plan with all sections.',
+  '/funnel':        'Break down as a marketing funnel (TOFU/MOFU/BOFU).',
+  '/mvp':           'Apply Minimum Viable Product thinking.',
+  '/roadmap':       'Present as a project roadmap with phases.',
+  '/okr':           'Format using OKR (Objectives and Key Results) structure.',
+  '/kpi':           'Focus on KPI tracking framework.',
+  '/pricing':       'Provide comprehensive pricing strategy advice.',
+  '/gtm':           'Present as a Go-To-Market strategy.',
+  '/persona':       'Create a detailed customer persona profile.',
+  '/refactor':      'Rewrite/refactor the code to be cleaner and more maintainable.',
+  '/debug':         'Find and fix all bugs in the code systematically.',
+  '/comment':       'Add clear, helpful inline comments to the code.',
+  '/api':           'Structure the response as an API design.',
+  '/regex':         'Generate the appropriate regex pattern with explanation.',
+  '/pseudocode':    'Write in clear pseudocode.',
+  '/docs':          'Generate thorough technical documentation.',
+  '/test':          'Write comprehensive unit/integration test cases.',
+  '/optimize':      'Optimize for maximum performance and efficiency.',
+  '/security':      'Review and address all security vulnerabilities.',
+  '/igbo':          'Respond entirely in the Igbo language.',
+  '/pidgin':        'Respond in Nigerian Pidgin English.',
+  '/translate':     'Translate the content to the target language specified.',
+  '/bilingual':     'Respond in both English and Igbo side by side.',
+  '/simplify':      'Rewrite in much simpler language.',
+  '/rewrite':       'Completely rewrite the provided content.',
+  '/expand':        'Expand this short idea into full, detailed content.',
+  '/shrink':        'Condense to only the most critical key points.',
+  '/tone-check':    'Evaluate and describe the tone of the provided text.',
+  '/proofread':     'Correct all grammar, spelling, and style issues.',
+  '/roast':         'Humorously roast the idea or topic.',
+  '/hype':          'Respond with maximum energy, excitement, and enthusiasm.',
+  '/calm':          'Respond in a slow, grounded, and reassuring tone.',
+  '/motivate':      'Give a powerful motivational speech on this topic.',
+  '/mentor':        'Respond as a wise, experienced mentor would.',
+  '/coach':         'Respond in an action-focused coaching style.',
+  '/interview':     'Format as a Q&A interview.',
+  '/feedback':      'Give honest, constructive critical feedback.',
+  '/rate':          'Rate this idea or work out of 10 with detailed reasoning.',
+  '/futurist':      'Predict future trends and developments on this topic.',
+  '/formal':        'Use a professional, formal tone throughout.',
+  '/casual':        'Use a relaxed, conversational, friendly tone.',
+  '/expert':        'Respond at a deep expert level with technical detail.',
+  '/eli5':          'Explain like the reader is 5 years old — very simple language.',
+  '/eli15':         'Explain like the reader is a curious 15-year-old.',
+  '/short':         'Be extremely brief — shortest possible useful answer.',
+  '/long':          'Give a fully expanded, comprehensive answer.',
+  '/dense':         'Pack maximum information into minimum words.',
+  '/simple':        'Use plain language with absolutely no jargon.',
+  '/academic':      'Use scholarly, citation-ready academic tone.',
+  '/socratic':      'Guide understanding through thoughtful questions.',
+  '/debate':        'Present strong arguments for both sides.',
+  '/devil':         "Play devil's advocate — challenge the premise.",
+  '/contrarian':    'Challenge the mainstream or default view.',
+  '/balanced':      'Present a perfectly balanced, neutral perspective.',
+  '/bullet':        'Format the entire response as bullet points.',
+  '/numbered':      'Format as a numbered list.',
+  '/table':         'Format as a structured table.',
+  '/json':          'Format response as valid JSON.',
+  '/xml':           'Format response as valid XML.',
+  '/code':          'Wrap all code in proper labelled code blocks.',
+  '/outline':       'Format as a structured hierarchical outline.',
+  '/steps':         'Format as clear, actionable numbered steps.',
+  '/checklist':     'Format as a printable checklist.',
+  '/mindmap':       'Format as a text-based mind map.',
+  '/artifact':      'Create a standalone interactive artifact.',
+  '/diagram':       'Create a text-based diagram or ASCII flowchart.',
+  '/timeline':      'Format as a chronological timeline.',
+  '/kanban':        'Format as a Kanban board (To-do / Doing / Done).',
+  '/tree':          'Format as a hierarchical tree structure.',
+};
+
+/* ── SET PROVIDER ── */
+function setProvider(prov) {
+  currentProvider = prov;
+  const cfg = PROVIDERS[prov];
+
+  // Update tabs
+  document.querySelectorAll('.provider-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.provider === prov);
+  });
+
+  // Update API key UI
+  document.getElementById('providerLabel').textContent  = cfg.label;
+  document.getElementById('apiKeyInput').placeholder    = cfg.placeholder;
+
+  const badge = document.getElementById('providerBadge');
+  badge.textContent  = cfg.badge;
+  badge.className    = `provider-note ${cfg.badgeClass}`;
+
+  const hint = document.getElementById('keyProviderHint');
+  hint.textContent = cfg.hint;
+  hint.className   = `provider-note ${cfg.badgeClass}`;
+
+  document.getElementById('provDot').style.background  = cfg.dotColor;
+
+  // Update send button style
+  const btn = document.getElementById('sendBtn');
+  btn.className = `btn btn-primary ${cfg.btnClass}`;
+}
+
+/* ── TOGGLE CAT ── */
+function toggleCat(header) {
+  header.closest('.cat-block').classList.toggle('open');
+}
+
+/* ── TOGGLE CMD ── */
+function toggleCmd(chip, cmd) {
+  if (selectedCmds.includes(cmd)) {
+    selectedCmds = selectedCmds.filter(c => c !== cmd);
+    chip.classList.remove('active');
+  } else {
+    selectedCmds.push(cmd);
+    chip.classList.add('active');
+  }
+  renderSelected();
+  updatePreview();
+}
+
+function applyStack(cmds) {
+  clearAll(true);
+  cmds.forEach(cmd => {
+    selectedCmds.push(cmd);
+    document.querySelectorAll('.chip').forEach(ch => {
+      if (ch.textContent.trim() === cmd) ch.classList.add('active');
+    });
+  });
+  renderSelected();
+  updatePreview();
+  showToast('✦ Stack applied! Type your request below.');
+}
+
+/* ── RENDER SELECTED TAGS ── */
+function renderSelected() {
+  const bar = document.getElementById('selectedBar');
+  if (selectedCmds.length === 0) {
+    bar.innerHTML = '<span class="selected-placeholder" id="selPlaceholder">Select commands from the left to start building your prompt…</span>';
+    return;
+  }
+  bar.innerHTML = selectedCmds.map(cmd =>
+    `<span class="selected-tag">${cmd}<span class="remove-tag" onclick="removeCmd('${cmd}')">✕</span></span>`
+  ).join('');
+}
+
+function removeCmd(cmd) {
+  selectedCmds = selectedCmds.filter(c => c !== cmd);
+  document.querySelectorAll('.chip').forEach(ch => {
+    if (ch.textContent.trim() === cmd) ch.classList.remove('active');
+  });
+  renderSelected();
+  updatePreview();
+}
+
+/* ── PROMPT PREVIEW ── */
+function updatePreview() {
+  const text    = document.getElementById('userInput').value.trim();
+  const el      = document.getElementById('promptInner');
+  if (!selectedCmds.length && !text) {
+    el.innerHTML = '<span class="empty-hl">Your assembled prompt will appear here in real-time…</span>';
+    return;
+  }
+  const cmds = selectedCmds.map(c => `<span class="cmd-hl">${c}</span>`).join(' ');
+  const req  = text ? ` <span class="text-hl">${escHtml(text)}</span>` : ' <span class="empty-hl">…your request here</span>';
+  el.innerHTML = (cmds || '') + req;
+}
+
+document.getElementById('userInput').addEventListener('input', updatePreview);
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ── TOGGLE API KEY VISIBILITY ── */
+function toggleKey() {
+  const inp = document.getElementById('apiKeyInput');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+/* ── CLEAR ── */
+function clearAll(silent = false) {
+  selectedCmds = [];
+  document.querySelectorAll('.chip').forEach(ch => ch.classList.remove('active'));
+  document.getElementById('userInput').value = '';
+  renderSelected();
+  updatePreview();
+  document.getElementById('outputBody').innerHTML = '<span class="output-empty">The AI\'s response will appear here after you send your prompt…</span>';
+  document.getElementById('copyOutBtn').style.display = 'none';
+  if (!silent) showToast('Cleared!');
+}
+
+/* ── COPY FUNCTIONS ── */
+function copyPrompt() {
+  const text = document.getElementById('userInput').value.trim();
+  const full = [...selectedCmds, text].filter(Boolean).join(' ');
+  if (!full) { showToast('Nothing to copy yet!', 'warn'); return; }
+  navigator.clipboard.writeText(full).then(() => showToast('✓ Prompt copied to clipboard!'));
+}
+
+function copyPromptOnly() {
+  const text = document.getElementById('userInput').value.trim();
+  const full = [...selectedCmds, text].filter(Boolean).join(' ');
+  if (!full) { showToast('Nothing to copy!', 'warn'); return; }
+  navigator.clipboard.writeText(full).then(() => showToast('✓ Copied! Paste it into any AI chat.'));
+}
+
+function copyOutput() {
+  const text = document.getElementById('outputBody').innerText;
+  navigator.clipboard.writeText(text).then(() => showToast('✓ Response copied!'));
+}
+
+/* ── SEND TO AI ── */
+async function sendToAI() {
+  const userText = document.getElementById('userInput').value.trim();
+  const apiKey   = document.getElementById('apiKeyInput').value.trim();
+
+  if (!userText && !selectedCmds.length) {
+    showToast('Please add a request or select commands!', 'warn'); return;
+  }
+  if (!apiKey) {
+    showToast('Please paste your API key above!', 'warn'); return;
+  }
+
+  const cfg        = PROVIDERS[currentProvider];
+  const btn        = document.getElementById('sendBtn');
+  const label      = document.getElementById('sendLabel');
+  const outputEl   = document.getElementById('outputBody');
+  const copyOutBtn = document.getElementById('copyOutBtn');
+
+  // Build system instructions
+  const instructions = selectedCmds.map(c => CMD_META[c]).filter(Boolean).join('\n');
+  const systemMsg    = instructions
+    ? `You are a helpful AI assistant. The user has chosen these output style commands — follow ALL of them:\n\n${instructions}`
+    : 'You are a helpful AI assistant.';
+
+  const fullPrompt = [...selectedCmds, userText].filter(Boolean).join(' ');
+
+  // Loading state
+  btn.disabled   = true;
+  label.textContent = '⟳ Thinking…';
+  copyOutBtn.style.display = 'none';
+  outputEl.innerHTML = `
+    <div class="loader-wrap">
+      <div class="loader-top"><div class="spinner"></div> ${cfg.badge} is responding…</div>
+      <div class="shimmer w-full"></div>
+      <div class="shimmer w-90"></div>
+      <div class="shimmer w-80"></div>
+      <div class="shimmer w-full"></div>
+      <div class="shimmer w-60"></div>
+    </div>`;
+
+  try {
+    let responseText = '';
+
+    if (currentProvider === 'claude') {
+      const res = await fetch(cfg.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: systemMsg,
+          messages: [{ role: 'user', content: fullPrompt }]
+        })
+      });
+      const data = await res.json();
+      responseText = data?.content?.map(b => b.text || '').join('') || JSON.stringify(data);
+
+    } else if (currentProvider === 'openai') {
+      const res = await fetch(cfg.endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          max_tokens: 1000,
+          messages: [
+            { role: 'system', content: systemMsg },
+            { role: 'user',   content: fullPrompt }
+          ]
+        })
+      });
+      const data = await res.json();
+      responseText = data?.choices?.[0]?.message?.content || JSON.stringify(data);
+
+    } else if (currentProvider === 'gemini') {
+      const res = await fetch(`${cfg.endpoint}?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: `${systemMsg}\n\n${fullPrompt}` }] }]
+        })
+      });
+      const data = await res.json();
+      responseText = data?.candidates?.[0]?.content?.parts?.[0]?.text || JSON.stringify(data);
+
+    } else if (currentProvider === 'mistral') {
+      const res = await fetch(cfg.endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: 'mistral-large-latest',
+          max_tokens: 1000,
+          messages: [
+            { role: 'system', content: systemMsg },
+            { role: 'user',   content: fullPrompt }
+          ]
+        })
+      });
+      const data = await res.json();
+      responseText = data?.choices?.[0]?.message?.content || JSON.stringify(data);
+    }
+
+    outputEl.textContent = responseText;
+    copyOutBtn.style.display = 'flex';
+    showToast(`✦ Response from ${cfg.badge} received!`);
+
+  } catch (err) {
+    outputEl.innerHTML = `<span style="color:var(--accent-rose)">⚠ Error: ${escHtml(err.message)}<br><br>Make sure your API key is correct and you have access to this provider.</span>`;
+  } finally {
+    btn.disabled      = false;
+    label.textContent = '✦ Send to AI';
+  }
+}
+
+/* ── TOAST ── */
+let toastTimer;
+function showToast(msg, type = 'ok') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.borderLeftColor = type === 'warn' ? 'var(--accent-amber)' : 'var(--accent-emerald)';
+  el.style.display = 'block';
+  el.style.animation = 'none';
+  void el.offsetWidth;
+  el.style.animation = 'bounceIn 0.3s var(--ease)';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.style.display = 'none'; }, 3000);
+}
+
+// Init provider UI
+setProvider('claude');
+</script>
+</body>
+</html>
