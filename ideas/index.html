@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Product Ideas Generator</title>
+    <style>
+        /* [ALL YOUR EXISTING CSS STYLES - KEEP THEM AS IS] */
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --bg-color: #f9f9f9;
+            --text-color: #2d3436;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --tab-active: #6c5ce7;
+            --tab-inactive: #dfe6e9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .product-ideas-widget {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .category-tab {
+            padding: 10px 15px;
+            background-color: var(--tab-inactive);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .category-tab.active {
+            background-color: var(--tab-active);
+            color: white;
+        }
+
+        .category-content {
+            display: none;
+        }
+
+        .category-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .select-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        select {
+            padding: 12px 15px;
+            border: 2px solid var(--secondary-color);
+            border-radius: var(--border-radius);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        select:focus {
+            border-color: var(--primary-color);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background-color: #5649d1;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background-color: #b2b2b2;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .results-container {
+            display: none;
+            margin-top: 25px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .result-title {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .pain-point {
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        .product-idea {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            color: var(--text-color);
+        }
+
+        .product-idea:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .action-buttons button {
+            flex: 1;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background-color: #00b894;
+        }
+
+        .copy-btn:hover {
+            background-color: #00a884;
+        }
+
+        .share-btn {
+            background-color: #0984e3;
+        }
+
+        .share-btn:hover {
+            background-color: #0773c5;
+        }
+
+        .error-message {
+            color: #d63031;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .share-options {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .share-modal {
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .share-platforms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .share-platform {
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .close-share {
+            background-color: #d63031;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .product-ideas-widget {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .category-tabs {
+                gap: 5px;
+            }
+
+            .category-tab {
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="product-ideas-widget">
+        <h1>Get Unique Digital Product Ideas</h1>
+        
+        <div class="category-tabs">
+            <div class="category-tab active" data-category="womens">Women's Needs</div>
+            <div class="category-tab" data-category="business">Business</div>
+            <div class="category-tab" data-category="money">Money</div>
+            <div class="category-tab" data-category="health">Health</div>
+            <div class="category-tab" data-category="relationship">Relationship</div>
+            <div class="category-tab" data-category="skincare">Skin Care</div>
+            <div class="category-tab" data-category="education">Education</div>
+            <div class="category-tab" data-category="traveling">Traveling</div>
+        </div>
+
+        <!-- Include all your category HTML sections exactly as you have them -->
+        <!-- Women's Needs Category -->
+        <div class="category-content active" id="womens">
+            <div class="select-container">
+                <select id="womensSelect">
+                    <option value="" disabled selected>Select a women's need</option>
+                    <option value="Pregnant women">Pregnant women</option>
+                    <option value="Women who are about to get married">Women about to get married</option>
+                    <option value="Single ladies">Single ladies</option>
+                    <option value="Women looking to get pregnant">Women looking to get pregnant</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Business Problems Category -->
+  <div class="category-content" id="business">
+    <div class="select-container">
+      <select id="businessSelect">
+        <option value="" disabled selected>Select a business problem</option>
+        <option value="A man or woman who wants to Start A Business">Start A Business</option>
+        <option value="A man or woman who wants to Become Self-Employed">Become Self-Employed</option>
+        <option value="A man or woman who needs to Raise Capital">Raise Capital</option>
+        <option value="A man or woman who wants to Invest">Invest</option>
+        <option value="A man or woman who wants to Determine High-Paying Business">Determine High-Paying Business</option>
+        <option value="A man or woman who needs Best Business Strategy and Plan">Best Business Strategy and Plan</option>
+        <option value="A man or woman who wants to Grow A business">Grow A business</option>
+        <option value="A man or woman who needs to Handle Employees">Handle Employees</option>
+        <option value="A man or woman who wants to Brand Their Business">Brand Your Business</option>
+        <option value="A man or woman who wants to Promote Products on Social Media">Promote Products on Social Media</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Money Problems Category -->
+  <div class="category-content" id="money">
+    <div class="select-container">
+      <select id="moneySelect">
+        <option value="" disabled selected>Select a money problem</option>
+        <option value="A man or woman who wants a High paying Job">Get High paying Job</option>
+        <option value="A man or woman who wants to Learn High Paying Skill">Learn High Paying Skill</option>
+        <option value="A man or woman who wants to Pass Job Interviews">Pass Job Interviews</option>
+        <option value="A man or woman who wants to Work Abroad">Work Abroad</option>
+        <option value="A man or woman who wants to Work From Home">Work From Home</option>
+        <option value="A man or woman who wants to Make Money Online">Make Money Online</option>
+        <option value="A man or woman who wants to Make money on YouTube, Facebook, Instagram">Make money on Social Media</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Health Problems Category -->
+  <div class="category-content" id="health">
+    <div class="select-container">
+      <select id="healthSelect">
+        <option value="" disabled selected>Select a health problem</option>
+        <option value="A man or woman with Bad Metabolism And Poor Digestion">Stop Bad Metabolism And Poor Digestion</option>
+        <option value="A man or woman looking for Solution To Aging">Solution To Aging</option>
+        <option value="A man or woman who wants to Cure Diabetes">Cure Diabetes</option>
+        <option value="A woman looking for Natural Remedy For Fibroids">Natural Remedy For Fibroids</option>
+        <option value="A man or woman with Poor Vision">Cure Poor Vision</option>
+        <option value="A man or woman who is Fatty And Over Weight">Lose Weight</option>
+        <option value="A man or woman who wants to Get Six Pack">Get Six Pack</option>
+        <option value="A man or woman who wants to Build Muscles">Build Muscles</option>
+        <option value="A man or woman looking for Natural remedy for Kidney, Liver And Heartburn diseases">Natural remedy for Organ Diseases</option>
+        <option value="A man or woman who wants to Cure High Blood Pressure">Cure High Blood Pressure</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Relationship Problems Category -->
+  <div class="category-content" id="relationship">
+    <div class="select-container">
+      <select id="relationshipSelect">
+        <option value="" disabled selected>Select a relationship problem</option>
+        <option value="A man or woman who wants to Get Ex Back">Get Ex Back</option>
+        <option value="A man who wants to Get Women">Getting Women</option>
+        <option value="A woman who wants to Attract A Man">Attracting A Man</option>
+        <option value="A man or woman with Abusive Spouse">Abusive Spouse</option>
+        <option value="A man with Small Penis">Small Penis</option>
+        <option value="A man or woman with Cheating Spouse">Cheating Spouse</option>
+        <option value="A man or woman in Friendship Zone">Friendship Zone</option>
+        <option value="A man or woman who wants to Attract Partners Online">Attracting Partners Online</option>
+        <option value="A man or woman who wants to Satisfy Women Organism">Satisfying Women Organism</option>
+        <option value="A man with Premature Emasculation">Premature Emasculation</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Skin Care Problems Category -->
+  <div class="category-content" id="skincare">
+    <div class="select-container">
+      <select id="skincareSelect">
+        <option value="" disabled selected>Select a skin care problem</option>
+        <option value="A man or woman with Eye Bags and Dark Circle">Eye Bags and Dark Circle</option>
+        <option value="A woman with Small Or Sagging Breast">Small Or Sagging Breast</option>
+        <option value="A man or woman with Wrinkles">Wrinkles</option>
+        <option value="A man or woman with Falling Hair Problems">Falling Hair Problems</option>
+        <option value="A man or woman who wants Whitening">Whitening</option>
+        <option value="A man or woman with Pimples & Acne">Pimples & Acne</option>
+        <option value="A man or woman with Dark Knuckles">Dark Knuckles</option>
+        <option value="A man or woman with Dandruff">Dandruff</option>
+        <option value="A man or woman with Cellulite">Cellulite</option>
+        <option value="A man or woman with Stretch Marks">Stretch Marks</option>
+        <option value="A man or woman with Sun Burn & Discolouration">Sun Burn & Discolouration</option>
+        <option value="A woman with Small Butt & Hips">Small Butt & Hips</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Educational Problems Category -->
+  <div class="category-content" id="education">
+    <div class="select-container">
+      <select id="educationSelect">
+        <option value="" disabled selected>Select an education problem</option>
+        <option value="A student who wants to Study Abroad">Study Abroad</option>
+        <option value="A student who needs to Pay School Fees">Pay School Fees</option>
+        <option value="A student who wants to Pass MBE Exams">Pass MBE Exams</option>
+        <option value="A student who wants to Pass International Exams (TOEFL)">Pass International Exams</option>
+        <option value="A student who wants to Pass JAMB & WAEC, NECO">Pass Local Exams</option>
+        <option value="A student who wants to Get Scholarship">Get Scholarship</option>
+        <option value="A student who wants to Improve Brain Retention">Brain Retention</option>
+        <option value="A student who wants to Become An Expert In Math">Become Math Expert</option>
+        <option value="A student who wants to Pass Finals Exam">Pass Finals Exam</option>
+        <option value="A student who wants to Pass Bar Exam">Pass Bar Exam</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Traveling Problems Category -->
+  <div class="category-content" id="traveling">
+    <div class="select-container">
+      <select id="travelingSelect">
+        <option value="" disabled selected>Select a traveling problem</option>
+        <option value="A student who wants to Travel Abroad">Travel Abroad as Student</option>
+        <option value="A man or woman who wants to Get Working Permit">Get Working Permit</option>
+        <option value="A man or woman who wants to Get Permanent Stay">Get Permanent Stay</option>
+      </select>
+    </div>
+  </div>
+
+        <button id="generateBtn">Generate Digital Product Ideas</button>
+        
+        <div class="results-container" id="resultsContainer">
+            <div class="result-card">
+                <h2 class="result-title" id="resultTitle"></h2>
+                <p class="pain-point" id="painPoint"></p>
+                <div id="productIdeas"></div>
+                
+                <div class="action-buttons">
+                    <button class="copy-btn" id="copyBtn">Copy Results</button>
+                </div>
+            </div>
+        </div>
+        
+        <p class="error-message" id="errorMessage"></p>
+
+     
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+  // Your Google Apps Script Web App URL
+  const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzgyvOypumA9an5vyi5jsBA2N74RJ22Mghj9bcZMu-iH8DLOibto2yFbaHyaWw_PSxs/exec';
+  
+  // Tab switching functionality
+  const tabs = document.querySelectorAll('.category-tab');
+  const categoryContents = document.querySelectorAll('.category-content');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Remove active class from all tabs and contents
+      tabs.forEach(t => t.classList.remove('active'));
+      categoryContents.forEach(c => c.classList.remove('active'));
+      
+      // Add active class to clicked tab and corresponding content
+      tab.classList.add('active');
+      const categoryId = tab.getAttribute('data-category');
+      document.getElementById(categoryId).classList.add('active');
+    });
+  });
+
+  const generateBtn = document.getElementById('generateBtn');
+  const resultsContainer = document.getElementById('resultsContainer');
+  const resultTitle = document.getElementById('resultTitle');
+  const painPoint = document.getElementById('painPoint');
+  const productIdeas = document.getElementById('productIdeas');
+  const copyBtn = document.getElementById('copyBtn');
+  const shareBtn = document.getElementById('shareBtn');
+  const errorMessage = document.getElementById('errorMessage');
+  const shareOptions = document.getElementById('shareOptions');
+  const closeShare = document.getElementById('closeShare');
+  const sharePlatforms = document.querySelectorAll('.share-platform');
+  
+  generateBtn.addEventListener('click', generateProductIdeas);
+  copyBtn.addEventListener('click', copyResults);
+  shareBtn.addEventListener('click', showShareOptions);
+  closeShare.addEventListener('click', hideShareOptions);
+  
+  sharePlatforms.forEach(platform => {
+    platform.addEventListener('click', () => {
+      shareToPlatform(platform.getAttribute('data-platform'));
+    });
+  });
+  
+  async function generateProductIdeas() {
+    // Get the active category
+    const activeTab = document.querySelector('.category-tab.active');
+    const activeCategory = activeTab ? activeTab.getAttribute('data-category') : null;
+    
+    if (!activeCategory) {
+      showError('Please select a category');
+      return;
+    }
+    
+    // Get the selected value from the active category's select
+    const selectId = `${activeCategory}Select`;
+    const selectElement = document.getElementById(selectId);
+    const selectedGroup = selectElement ? selectElement.value : null;
+    
+    if (!selectedGroup) {
+      showError(`Please select an option from the ${activeTab.textContent} category`);
+      return;
+    }
+    
+    generateBtn.disabled = true;
+    generateBtn.innerHTML = '<div class="spinner"></div> Generating...';
+    errorMessage.textContent = '';
+    resultsContainer.style.display = 'none';
+    
+    try {
+      // Call your Google Apps Script backend
+      const response = await fetch(GAS_WEB_APP_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          targetGroup: selectedGroup
+        })
+      });
+      
+      const data = await response.json();
+      console.log('Backend Response:', data);
+      
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to generate product ideas');
+      }
+      
+      // Display the results
+      resultTitle.textContent = data.targetGroup;
+      painPoint.textContent = `Pain point: ${data.painPoint}`;
+      
+      // Clear previous ideas
+      productIdeas.innerHTML = '';
+      
+      // Add new product ideas
+      if (data.productIdeas && data.productIdeas.length > 0) {
+        data.productIdeas.forEach((idea, index) => {
+          const ideaElement = document.createElement('p');
+          ideaElement.className = 'product-idea';
+          ideaElement.textContent = idea;
+          productIdeas.appendChild(ideaElement);
+        });
+      } else {
+        // Fallback: parse from fullResponse if productIdeas array is empty
+        const ideasArray = data.fullResponse.split('\n').filter(line => 
+          line.trim() !== '' && /^\d+\./.test(line.trim())
+        );
+        
+        ideasArray.forEach(idea => {
+          const cleanedIdea = idea.replace(/^\d+\.\s*/, '').trim();
+          if (cleanedIdea) {
+            const ideaElement = document.createElement('p');
+            ideaElement.className = 'product-idea';
+            ideaElement.textContent = cleanedIdea;
+            productIdeas.appendChild(ideaElement);
+          }
+        });
+      }
+      
+      resultsContainer.style.display = 'block';
+      resultsContainer.scrollIntoView({ behavior: 'smooth' });
+      
+    } catch (error) {
+      console.error('Error:', error);
+      showError(error.message || 'An error occurred. Please try again.');
+    } finally {
+      generateBtn.disabled = false;
+      generateBtn.textContent = 'Generate Digital Product Ideas';
+    }
+  }
+  
+  function copyResults() {
+    const title = resultTitle.textContent;
+    const painPointText = painPoint.textContent;
+    const ideas = Array.from(productIdeas.children).map(el => el.textContent).join('\n');
+    
+    const textToCopy = `${title}\n${painPointText}\n\nProduct Ideas:\n${ideas}`;
+    
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      const originalText = copyBtn.textContent;
+      copyBtn.textContent = 'Copied!';
+      copyBtn.style.backgroundColor = '#00b894';
+      
+      setTimeout(() => {
+        copyBtn.textContent = originalText;
+        copyBtn.style.backgroundColor = '';
+      }, 2000);
+    }).catch(err => {
+      console.error('Failed to copy:', err);
+      showError('Failed to copy text to clipboard.');
+    });
+  }
+  
+  function showShareOptions() {
+    shareOptions.style.display = 'flex';
+  }
+  
+  function hideShareOptions() {
+    shareOptions.style.display = 'none';
+  }
+  
+  function shareToPlatform(platform) {
+    const title = resultTitle.textContent;
+    const painPointText = painPoint.textContent;
+    const ideas = Array.from(productIdeas.children).map(el => el.textContent).join('\n');
+    
+    const shareText = `Check out these digital product ideas for ${title}:\n\n${painPointText}\n\nProduct Ideas:\n${ideas}`;
+    const shareUrl = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(shareText);
+    
+    let url = '';
+    switch(platform) {
+      case 'twitter':
+        url = `https://twitter.com/intent/tweet?text=${text}&url=${shareUrl}`;
+        break;
+      case 'facebook':
+        url = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${text}`;
+        break;
+      case 'linkedin':
+        url = `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`;
+        break;
+      case 'whatsapp':
+        url = `https://wa.me/?text=${text}%20${shareUrl}`;
+        break;
+    }
+    
+    if (url) {
+      window.open(url, '_blank', 'width=600,height=400');
+    }
+    hideShareOptions();
+  }
+  
+  function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.style.display = 'block';
+    
+    setTimeout(() => {
+      errorMessage.textContent = '';
+      errorMessage.style.display = 'none';
+    }, 5000);
+  }
+
+  // Keyboard shortcut support
+  document.addEventListener('keydown', function(e) {
+    // Ctrl + Enter or Cmd + Enter to generate ideas
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      generateProductIdeas();
+    }
+  });
+
+  // Auto-focus first select when category changes
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      const categoryId = this.getAttribute('data-category');
+      const selectElement = document.getElementById(`${categoryId}Select`);
+      if (selectElement) {
+        setTimeout(() => {
+          selectElement.focus();
+        }, 100);
+      }
+    });
+  });
+
+  // Enter key support in select elements
+  document.querySelectorAll('select').forEach(select => {
+    select.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        generateProductIdeas();
+      }
+    });
+  });
+
+  // Load saved state from localStorage
+  function loadSavedState() {
+    const savedCategory = localStorage.getItem('lastCategory');
+    const savedSelection = localStorage.getItem('lastSelection');
+    
+    if (savedCategory) {
+      const savedTab = document.querySelector(`[data-category="${savedCategory}"]`);
+      if (savedTab) {
+        savedTab.click();
+        
+        if (savedSelection) {
+          const selectElement = document.getElementById(`${savedCategory}Select`);
+          if (selectElement) {
+            selectElement.value = savedSelection;
+          }
+        }
+      }
+    }
+  }
+
+  // Save state to localStorage
+  function saveState() {
+    const activeTab = document.querySelector('.category-tab.active');
+    if (activeTab) {
+      const category = activeTab.getAttribute('data-category');
+      const selectElement = document.getElementById(`${category}Select`);
+      const selection = selectElement ? selectElement.value : '';
+      
+      localStorage.setItem('lastCategory', category);
+      localStorage.setItem('lastSelection', selection);
+    }
+  }
+
+  // Add event listeners for state saving
+  tabs.forEach(tab => {
+    tab.addEventListener('click', saveState);
+  });
+  
+  document.querySelectorAll('select').forEach(select => {
+    select.addEventListener('change', saveState);
+  });
+
+  // Initialize saved state
+  loadSavedState();
+
+  // Add animation to results when they appear
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+        if (resultsContainer.style.display === 'block') {
+          resultsContainer.style.animation = 'fadeIn 0.5s ease-out';
+        }
+      }
+    });
+  });
+
+  observer.observe(resultsContainer, { attributes: true });
+
+  // Add loading state to share buttons
+  shareBtn.addEventListener('mousedown', function() {
+    this.style.transform = 'scale(0.95)';
+  });
+
+  shareBtn.addEventListener('mouseup', function() {
+    this.style.transform = '';
+  });
+
+  shareBtn.addEventListener('mouseleave', function() {
+    this.style.transform = '';
+  });
+
+  // Enhanced error handling for fetch
+  originalFetch = window.fetch;
+  window.fetch = function(...args) {
+    return originalFetch.apply(this, args)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response;
+      })
+      .catch(error => {
+        console.error('Fetch error:', error);
+        if (error.message.includes('Failed to fetch')) {
+          showError('Network error. Please check your connection and try again.');
+        }
+        throw error;
+      });
+  };
+});
+    </script>
+</body>
+</html>
