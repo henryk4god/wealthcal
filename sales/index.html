@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Product Sales System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary-color: #3f37c9;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-light: #6c757d;
+            --border-color: #e0e0e0;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stages-container {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            height: fit-content;
+        }
+
+        .stages-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stages-list {
+            list-style: none;
+        }
+
+        .stage-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .stage-item:hover {
+            background-color: rgba(67, 97, 238, 0.05);
+            border-color: var(--primary-color);
+        }
+
+        .stage-item.active {
+            background-color: rgba(67, 97, 238, 0.1);
+            border-color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .stage-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        .prompts-container {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+        }
+
+        .prompts-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .prompts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .prompt-card {
+            background-color: var(--bg-color);
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .prompt-card.active {
+            border-color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .prompt-number {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .prompt-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .prompt-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .input-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background-color: var(--text-light);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            display: none;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+        }
+
+        .copy-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-btn:hover {
+            background-color: #3529a8;
+        }
+
+        .result-content {
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success-message {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Complete Product Sales System</h1>
+            <p class="subtitle">Transform your product into a sales powerhouse with AI-generated marketing content across all stages of the sales process.</p>
+        </header>
+
+        <div class="main-content">
+            <div class="stages-container">
+                <h2 class="stages-title">📋 Sales System Stages</h2>
+                <ul class="stages-list">
+                    <li class="stage-item active" data-stage="1">
+                        <span class="stage-number">1</span> Product Understanding
+                    </li>
+                    <li class="stage-item" data-stage="2">
+                        <span class="stage-number">2</span> Offer Creation
+                    </li>
+                    <li class="stage-item" data-stage="3a">
+                        <span class="stage-number">3A</span> Long-Form Sales Copy
+                    </li>
+                    <li class="stage-item" data-stage="3b">
+                        <span class="stage-number">3B</span> Short-Form Sales Copy
+                    </li>
+                    <li class="stage-item" data-stage="4a">
+                        <span class="stage-number">4A</span> Video Sales Letter
+                    </li>
+                    <li class="stage-item" data-stage="4b">
+                        <span class="stage-number">4B</span> YouTube Ad Script
+                    </li>
+                    <li class="stage-item" data-stage="5a">
+                        <span class="stage-number">5A</span> Landing Page Copy
+                    </li>
+                    <li class="stage-item" data-stage="5b">
+                        <span class="stage-number">5B</span> Funnel Sequence
+                    </li>
+                    <li class="stage-item" data-stage="6a">
+                        <span class="stage-number">6A</span> Email Launch Sequence
+                    </li>
+                    <li class="stage-item" data-stage="6b">
+                        <span class="stage-number">6B</span> Follow-Up Sequence
+                    </li>
+                    <li class="stage-item" data-stage="7a">
+                        <span class="stage-number">7A</span> Social Media Posts
+                    </li>
+                    <li class="stage-item" data-stage="7b">
+                        <span class="stage-number">7B</span> Ad Variations
+                    </li>
+                    <li class="stage-item" data-stage="8">
+                        <span class="stage-number">8</span> Testimonials & Proof
+                    </li>
+                    <li class="stage-item" data-stage="9">
+                        <span class="stage-number">9</span> Upsell & Cross-sell
+                    </li>
+                </ul>
+            </div>
+
+            <div class="prompts-container">
+                <h2 class="prompts-title">Select a Prompt</h2>
+                
+                <div class="prompts-grid" id="promptsGrid">
+                    <!-- Prompts will be dynamically inserted here -->
+                </div>
+
+                <div class="input-section" id="inputSection">
+                    <div class="input-group">
+                        <label for="productType">Product Type</label>
+                        <select id="productType">
+                            <option value="">Select Product Type</option>
+                            <option value="eBook">eBook</option>
+                            <option value="Course">Course</option>
+                            <option value="SaaS">SaaS</option>
+                            <option value="App">App</option>
+                            <option value="Physical Product">Physical Product</option>
+                            <option value="Service">Service</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="productName">Product Name</label>
+                        <input type="text" id="productName" placeholder="Enter your product name">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="productDescription">Product Description (3-5 sentences)</label>
+                        <textarea id="productDescription" placeholder="Describe your product in 3-5 sentences"></textarea>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="targetAudience">Target Audience</label>
+                        <input type="text" id="targetAudience" placeholder="Who is your product for?">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="desiredResult">Desired Result for Customer</label>
+                        <textarea id="desiredResult" placeholder="What transformation or result will customers get?"></textarea>
+                    </div>
+                    
+                    <button class="btn" id="generateBtn">
+                        <span>Generate Prompt</span>
+                    </button>
+                </div>
+
+                <div class="loading" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <p>Generating your prompt...</p>
+                </div>
+
+                <div class="result-section" id="resultSection">
+                    <div class="result-header">
+                        <h3 class="result-title">Generated Prompt</h3>
+                        <button class="copy-btn" id="copyBtn">
+                            <span>Copy</span>
+                        </button>
+                    </div>
+                    <div class="result-content" id="resultContent"></div>
+                    <div class="success-message" id="successMessage">Prompt copied to clipboard!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database of prompts organized by stage
+        const promptsDatabase = {
+            "1": [
+                {
+                    id: 1,
+                    title: "Product Analysis",
+                    description: "Analyze your product for maximum sales clarity",
+                    template: `You are a professional product strategist. I want you to analyze my product for maximum sales clarity.
+Product Type: [productType]
+Product Name: [productName]
+Describe Product in 3–5 sentences: [productDescription]
+Target Audience: [targetAudience]
+Desired Result for Customer: [desiredResult]
+
+Now, create a summary with:
+
+Main Pain Points solved
+
+Core Benefits
+
+Unique Selling Proposition (USP)
+
+Emotional Hooks (why they care)
+
+Objections and Rebuttals
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ],
+            "2": [
+                {
+                    id: 2,
+                    title: "Offer Creation",
+                    description: "Create a high-conversion offer stack for your product",
+                    template: `You are a professional offer architect.
+Based on the product summary [productDescription], create a High-Conversion Offer Stack that includes:
+
+Main Product description
+
+3–5 Bonuses
+
+Fast-Action Bonus
+
+Scarcity Trigger (e.g. limited time or spots)
+
+Money-back Guarantee
+
+Total Value vs Actual Price
+
+Why it’s a no-brainer deal
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ],
+            "3a": [
+                {
+                    id: 3,
+                    title: "Long-Form Sales Page",
+                    description: "Write a complete long-form sales page for your product",
+                    template: `You are a world-class direct response copywriter (like Dan Kennedy or Russell Brunson).
+Write a long-form sales page for the following product: [productName] - [productDescription].
+Use this structure:
+
+1. Hook/Headline
+
+2. Empathy Story (Pain → Problem → Discovery)
+
+3. Solution Introduction (Your Product)
+
+4. Benefits and Proof
+
+5. Offer Stack
+
+6. Testimonials (real or suggested)
+
+7. FAQs
+
+8. Call-To-Action (with urgency)
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ],
+            "3b": [
+                {
+                    id: 4,
+                    title: "Short-Form Sales Copy",
+                    description: "Create compelling short-form sales copy",
+                    template: `Write a short sales copy (under 200 words) for [productName] - [productDescription].
+Focus on emotion, curiosity, and urgency.
+End with a strong CTA like "Get Instant Access Now" or "Start Today."
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ],
+            "4a": [
+                {
+                    id: 5,
+                    title: "Video Sales Letter (VSL)",
+                    description: "Create a persuasive video sales letter script",
+                    template: `You are a persuasive video copywriter. Write a VSL script for [productName].
+Include:
+
+Attention-grabbing intro (first 5 seconds)
+
+Problem + relatable story
+
+Solution reveal
+
+Proof and benefits
+
+Strong CTA ("Click the link below")
+
+Optional: background music/emotion tone guide
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ],
+            "4b": [
+                {
+                    id: 6,
+                    title: "YouTube/Short Ad Script",
+                    description: "Create a 60-second YouTube ad script",
+                    template: `Write a 60-second YouTube Ad script to promote [productName].
+Hook viewers in first 3 seconds, then show transformation and CTA.
+Format:
+
+Hook
+
+Pain
+
+Solution
+
+Result
+
+CTA
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ],
+            "5a": [
+                {
+                    id: 7,
+                    title: "Landing Page Copy",
+                    description: "Create optimized landing page content",
+                    template: `You are a professional funnel copywriter.
+Write landing page content for [productName] optimized for conversions.
+Sections:
+
+1. Headline (Pain + Promise)
+
+2. Subheadline
+
+3. Hero CTA Button Text
+
+4. Benefits Section
+
+5. Social Proof
+
+6. FAQ
+
+7. CTA Footer
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ],
+            "5b": [
+                {
+                    id: 8,
+                    title: "Funnel Sequence",
+                    description: "Create a 3-step sales funnel plan",
+                    template: `Create a 3-step sales funnel plan for [productName], including:
+
+Step 1: Opt-in / Lead Magnet
+
+Step 2: Sales Page
+
+Step 3: Upsell/Downsell
+
+Include what to say at each step and what automation or email triggers to add.
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ],
+            "6a": [
+                {
+                    id: 9,
+                    title: "Email Launch Sequence",
+                    description: "Create a 5-day email launch sequence",
+                    template: `Write a 5-day email sequence to launch [productName].
+Include:
+
+Day 1: Teaser/Curiosity
+
+Day 2: Pain Story
+
+Day 3: Product Reveal
+
+Day 4: Case Study/Proof
+
+Day 5: Scarcity/Last Chance
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ],
+            "6b": [
+                {
+                    id: 10,
+                    title: "Follow-Up Sequence",
+                    description: "Create a 7-day abandoned cart email series",
+                    template: `Write a 7-day abandoned cart email series that:
+
+Reignites interest
+
+Handles objections
+
+Adds bonuses or testimonials
+
+Ends with urgency
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ],
+            "7a": [
+                {
+                    id: 11,
+                    title: "Social Media Posts",
+                    description: "Create 10 high-conversion social media posts",
+                    template: `Create 10 high-conversion social media posts for [productName].
+Each post should include:
+
+Hook headline
+
+Benefit-driven caption
+
+3 hashtags
+
+Call to action
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ],
+            "7b": [
+                {
+                    id: 12,
+                    title: "Ad Variations",
+                    description: "Generate 5 ad copy variations",
+                    template: `Generate 5 ad copy variations for Facebook or Instagram promoting [productName].
+Each ad should have:
+
+Hook (attention-grabber)
+
+Value statement
+
+CTA
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ],
+            "8": [
+                {
+                    id: 13,
+                    title: "Testimonials & Proof",
+                    description: "Create believable customer testimonials",
+                    template: `Pretend you are real customers who have used [productName].
+Write 5 believable, emotional testimonials focusing on:
+
+The transformation/result
+
+What they loved most
+
+Why they recommend it
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ],
+            "9": [
+                {
+                    id: 14,
+                    title: "Upsell & Cross-sell",
+                    description: "Suggest upsell and downsell ideas",
+                    template: `You are an expert in profit maximization.
+Suggest 3 upsell ideas and 2 downsell ideas related to [productName].
+For each, include:
+
+Product/Offer description
+
+Price point
+
+Value proposition
+
+Transition script (what to say after purchase)
+
+- No explanations, no introductions, no additional text.
+- Always give your top 3 recommendations where necessary`
+                }
+            ]
+        };
+
+        // DOM Elements
+        const stageItems = document.querySelectorAll('.stage-item');
+        const promptsGrid = document.getElementById('promptsGrid');
+        const inputSection = document.getElementById('inputSection');
+        const productType = document.getElementById('productType');
+        const productName = document.getElementById('productName');
+        const productDescription = document.getElementById('productDescription');
+        const targetAudience = document.getElementById('targetAudience');
+        const desiredResult = document.getElementById('desiredResult');
+        const generateBtn = document.getElementById('generateBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const resultSection = document.getElementById('resultSection');
+        const resultContent = document.getElementById('resultContent');
+        const copyBtn = document.getElementById('copyBtn');
+        const successMessage = document.getElementById('successMessage');
+
+        // Current state
+        let currentStage = "1";
+        let currentPrompt = null;
+
+        // Initialize the app
+        function init() {
+            // Load prompts for the first stage
+            loadPrompts(currentStage);
+            
+            // Add event listeners for stage selection
+            stageItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Remove active class from all items
+                    stageItems.forEach(i => i.classList.remove('active'));
+                    // Add active class to clicked item
+                    item.classList.add('active');
+                    // Update current stage
+                    currentStage = item.dataset.stage;
+                    // Load prompts for the selected stage
+                    loadPrompts(currentStage);
+                    // Reset UI
+                    resetUI();
+                });
+            });
+
+            // Add event listener for generate button
+            generateBtn.addEventListener('click', generatePrompt);
+
+            // Add event listener for copy button
+            copyBtn.addEventListener('click', copyToClipboard);
+        }
+
+        // Load prompts for a specific stage
+        function loadPrompts(stage) {
+            // Clear the prompts grid
+            promptsGrid.innerHTML = '';
+            
+            // Get prompts for the selected stage
+            const prompts = promptsDatabase[stage];
+            
+            // Create prompt cards
+            prompts.forEach(prompt => {
+                const promptCard = document.createElement('div');
+                promptCard.className = 'prompt-card';
+                promptCard.dataset.id = prompt.id;
+                
+                promptCard.innerHTML = `
+                    <div class="prompt-number">Prompt ${prompt.id}</div>
+                    <h3 class="prompt-title">${prompt.title}</h3>
+                    <p class="prompt-description">${prompt.description}</p>
+                `;
+                
+                // Add click event listener
+                promptCard.addEventListener('click', () => {
+                    // Remove active class from all prompt cards
+                    document.querySelectorAll('.prompt-card').forEach(card => {
+                        card.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked card
+                    promptCard.classList.add('active');
+                    
+                    // Set current prompt
+                    currentPrompt = prompt;
+                    
+                    // Show input section
+                    inputSection.style.display = 'block';
+                    
+                    // Hide result section
+                    resultSection.style.display = 'none';
+                });
+                
+                // Add to grid
+                promptsGrid.appendChild(promptCard);
+            });
+        }
+
+        // Generate the prompt
+        function generatePrompt() {
+            if (!currentPrompt) {
+                alert('Please select a prompt first!');
+                return;
+            }
+            
+            // Validate required fields
+            if (!productType.value || !productName.value || !productDescription.value || 
+                !targetAudience.value || !desiredResult.value) {
+                alert('Please fill in all required fields!');
+                return;
+            }
+            
+            // Show loading indicator
+            loadingIndicator.style.display = 'block';
+            generateBtn.disabled = true;
+            
+            // Simulate API call with timeout
+            setTimeout(() => {
+                // Generate the final prompt by replacing the placeholders
+                let finalPrompt = currentPrompt.template;
+                
+                // Replace all placeholders with actual values
+                finalPrompt = finalPrompt.replace(/\[productType\]/g, productType.value);
+                finalPrompt = finalPrompt.replace(/\[productName\]/g, productName.value);
+                finalPrompt = finalPrompt.replace(/\[productDescription\]/g, productDescription.value);
+                finalPrompt = finalPrompt.replace(/\[targetAudience\]/g, targetAudience.value);
+                finalPrompt = finalPrompt.replace(/\[desiredResult\]/g, desiredResult.value);
+                
+                // Display the result
+                resultContent.textContent = finalPrompt;
+                resultSection.style.display = 'block';
+                resultSection.classList.add('fade-in');
+                
+                // Hide loading indicator
+                loadingIndicator.style.display = 'none';
+                generateBtn.disabled = false;
+                
+                // Scroll to result
+                resultSection.scrollIntoView({ behavior: 'smooth' });
+            }, 1500);
+        }
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            const textToCopy = resultContent.textContent;
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Show success message
+                successMessage.style.display = 'block';
+                
+                // Hide success message after 2 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy text to clipboard');
+            });
+        }
+
+        // Reset UI elements
+        function resetUI() {
+            inputSection.style.display = 'none';
+            resultSection.style.display = 'none';
+            currentPrompt = null;
+            
+            // Remove active class from all prompt cards
+            document.querySelectorAll('.prompt-card').forEach(card => {
+                card.classList.remove('active');
+            });
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
