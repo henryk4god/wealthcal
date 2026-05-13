@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOG CREATION PROMPT SYSTEM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">BLOG CREATION PROMPT SYSTEM</h1>
+            <p class="subtitle">Professional Prompt Framework for Writing Powerful & Engaging Blog Content</p>
+        </header>
+
+        <main class="main-content">
+            <div class="stages-container">
+                <!-- Stage 1: Blog Topic Discovery -->
+                <section class="stage-section" id="stage-1">
+                    <h2 class="stage-title">⚙️ STAGE 1: BLOG TOPIC DISCOVERY</h2>
+                    <p class="stage-description">Identify viral, profitable, or trending blog topics.</p>
+                    
+                    <div class="prompt-cards">
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 1 – Niche Exploration</h3>
+                            <p class="prompt-description">Generate a list of 10 trending blog post ideas in your niche.</p>
+                            <div class="input-group">
+                                <label for="niche">YOUR NICHE</label>
+                                <input type="text" id="niche" placeholder="Enter your niche">
+                            </div>
+                            <button class="generate-btn" data-prompt="1">Generate</button>
+                        </div>
+                        
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 2 – SEO Keyword Validation</h3>
+                            <p class="prompt-description">Get SEO insights for your blog title.</p>
+                            <div class="input-group">
+                                <label for="blog-title-1">YOUR BLOG TITLE</label>
+                                <input type="text" id="blog-title-1" placeholder="Enter your blog title">
+                            </div>
+                            <button class="generate-btn" data-prompt="2">Generate</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stage 2: Outline & Structure -->
+                <section class="stage-section" id="stage-2">
+                    <h2 class="stage-title">✍️ STAGE 2: OUTLINE & STRUCTURE GENERATION</h2>
+                    <p class="stage-description">Build a professional, readable outline.</p>
+                    
+                    <div class="prompt-cards">
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 3 – Blog Outline Creation</h3>
+                            <p class="prompt-description">Create a detailed outline for your blog.</p>
+                            <div class="input-group">
+                                <label for="blog-title-2">YOUR BLOG TITLE</label>
+                                <input type="text" id="blog-title-2" placeholder="Enter your blog title">
+                            </div>
+                            <button class="generate-btn" data-prompt="3">Generate</button>
+                        </div>
+                        
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 4 – Hook & Intro Brainstorm</h3>
+                            <p class="prompt-description">Create attention-grabbing intro hooks.</p>
+                            <div class="input-group">
+                                <label for="blog-title-3">YOUR BLOG TITLE</label>
+                                <input type="text" id="blog-title-3" placeholder="Enter your blog title">
+                            </div>
+                            <button class="generate-btn" data-prompt="4">Generate</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stage 3: Content Writing -->
+                <section class="stage-section" id="stage-3">
+                    <h2 class="stage-title">💬 STAGE 3: BLOG CONTENT WRITING</h2>
+                    <p class="stage-description">Write full blog sections that engage and convert.</p>
+                    
+                    <div class="prompt-cards">
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 5 – Section-by-Section Writing</h3>
+                            <p class="prompt-description">Write content for a specific section.</p>
+                            <div class="input-group">
+                                <label for="section-title-1">SECTION TITLE</label>
+                                <input type="text" id="section-title-1" placeholder="Enter section title">
+                            </div>
+                            <div class="input-group">
+                                <label for="outline">PASTE OUTLINE HERE</label>
+                                <textarea id="outline" placeholder="Paste your outline here"></textarea>
+                            </div>
+                            <button class="generate-btn" data-prompt="5">Generate</button>
+                        </div>
+                        
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 6 – Storytelling Integration</h3>
+                            <p class="prompt-description">Add storytelling to your section.</p>
+                            <div class="input-group">
+                                <label for="section-title-2">SECTION TITLE</label>
+                                <input type="text" id="section-title-2" placeholder="Enter section title">
+                            </div>
+                            <button class="generate-btn" data-prompt="6">Generate</button>
+                        </div>
+                        
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 7 – Expert Insights & Authority</h3>
+                            <p class="prompt-description">Add expert insights to your paragraph.</p>
+                            <div class="input-group">
+                                <label for="paragraph">PASTE PARAGRAPH HERE</label>
+                                <textarea id="paragraph" placeholder="Paste your paragraph here"></textarea>
+                            </div>
+                            <button class="generate-btn" data-prompt="7">Generate</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stage 4: SEO Optimization -->
+                <section class="stage-section" id="stage-4">
+                    <h2 class="stage-title">🔍 STAGE 4: SEO OPTIMIZATION</h2>
+                    <p class="stage-description">Ensure the content ranks well.</p>
+                    
+                    <div class="prompt-cards">
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 8 – SEO Optimization</h3>
+                            <p class="prompt-description">Optimize your blog for a keyword.</p>
+                            <div class="input-group">
+                                <label for="primary-keyword">PRIMARY KEYWORD</label>
+                                <input type="text" id="primary-keyword" placeholder="Enter primary keyword">
+                            </div>
+                            <button class="generate-btn" data-prompt="8">Generate</button>
+                        </div>
+                        
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 9 – Internal & External Links</h3>
+                            <p class="prompt-description">Suggest linking strategies.</p>
+                            <div class="input-group">
+                                <label for="related-topics">RELATED BLOG TOPICS</label>
+                                <input type="text" id="related-topics" placeholder="Enter related blog topics">
+                            </div>
+                            <button class="generate-btn" data-prompt="9">Generate</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stage 5: Engagement & Conversion -->
+                <section class="stage-section" id="stage-5">
+                    <h2 class="stage-title">💥 STAGE 5: ENGAGEMENT & CONVERSION</h2>
+                    <p class="stage-description">Make readers act — comment, share, or buy.</p>
+                    
+                    <div class="prompt-cards">
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 10 – CTA Creation</h3>
+                            <p class="prompt-description">Create effective calls-to-action.</p>
+                            <button class="generate-btn" data-prompt="10">Generate</button>
+                        </div>
+                        
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 11 – Conclusion & Takeaway</h3>
+                            <p class="prompt-description">Write a powerful conclusion.</p>
+                            <div class="input-group">
+                                <label for="blog-title-4">YOUR BLOG TITLE</label>
+                                <input type="text" id="blog-title-4" placeholder="Enter your blog title">
+                            </div>
+                            <button class="generate-btn" data-prompt="11">Generate</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stage 6: Polishing & Formatting -->
+                <section class="stage-section" id="stage-6">
+                    <h2 class="stage-title">🧹 STAGE 6: POLISHING & FORMATTING</h2>
+                    <p class="stage-description">Make it clean, readable, and professional.</p>
+                    
+                    <div class="prompt-cards">
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 12 – Readability Improvement</h3>
+                            <p class="prompt-description">Improve readability and flow.</p>
+                            <div class="input-group">
+                                <label for="blog-content">PASTE FULL BLOG CONTENT</label>
+                                <textarea id="blog-content" placeholder="Paste your full blog content here"></textarea>
+                            </div>
+                            <button class="generate-btn" data-prompt="12">Generate</button>
+                        </div>
+                        
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 13 – Formatting for Web</h3>
+                            <p class="prompt-description">Format content for web readability.</p>
+                            <div class="input-group">
+                                <label for="blog-content-2">BLOG CONTENT</label>
+                                <textarea id="blog-content-2" placeholder="Paste your blog content here"></textarea>
+                            </div>
+                            <button class="generate-btn" data-prompt="13">Generate</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stage 7: Social & Promotional -->
+                <section class="stage-section" id="stage-7">
+                    <h2 class="stage-title">🧩 STAGE 7: SOCIAL & PROMOTIONAL CONTENT</h2>
+                    <p class="stage-description">Promote your blog effectively across platforms.</p>
+                    
+                    <div class="prompt-cards">
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 14 – Social Media Captions</h3>
+                            <p class="prompt-description">Create platform-specific captions.</p>
+                            <div class="input-group">
+                                <label for="blog-title-5">YOUR BLOG TITLE</label>
+                                <input type="text" id="blog-title-5" placeholder="Enter your blog title">
+                            </div>
+                            <button class="generate-btn" data-prompt="14">Generate</button>
+                        </div>
+                        
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 15 – Email Newsletter Snippet</h3>
+                            <p class="prompt-description">Create an email teaser.</p>
+                            <button class="generate-btn" data-prompt="15">Generate</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Bonus: Full Automation -->
+                <section class="stage-section" id="stage-bonus">
+                    <h2 class="stage-title">✨ BONUS: FULL AUTOMATION</h2>
+                    
+                    <div class="prompt-cards">
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 16 – Full Blog Generator</h3>
+                            <p class="prompt-description">Generate a complete, SEO-optimized blog post.</p>
+                            <div class="input-group">
+                                <label for="your-keyword">YOUR KEYWORD</label>
+                                <input type="text" id="your-keyword" placeholder="Enter your keyword">
+                            </div>
+                            <button class="generate-btn" data-prompt="16">Generate</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Optional Add-ons -->
+                <section class="stage-section" id="stage-addons">
+                    <h2 class="stage-title">🧩 OPTIONAL ADD-ONS</h2>
+                    
+                    <div class="prompt-cards">
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 17 – Turn Blog into Video Script</h3>
+                            <p class="prompt-description">Convert blog to YouTube script.</p>
+                            <button class="generate-btn" data-prompt="17">Generate</button>
+                        </div>
+                        
+                        <div class="prompt-card">
+                            <h3 class="prompt-title">Prompt 18 – Turn Blog into Carousel Post</h3>
+                            <p class="prompt-description">Create Instagram carousel content.</p>
+                            <button class="generate-btn" data-prompt="18">Generate</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Results Section -->
+            <section class="results-section" id="results">
+                <h2 class="results-title">Generated Prompt</h2>
+                <div class="results-container">
+                    <div class="result-card">
+                        <div class="result-content" id="result-content">
+                            <p class="placeholder-text">Your generated prompt will appear here...</p>
+                        </div>
+                        <div class="result-actions">
+                            <button class="copy-btn" id="copy-btn">
+                                <span class="btn-text">Copy Prompt</span>
+                                <span class="btn-icon">📋</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>BLOG CREATION PROMPT SYSTEM &copy; 2023</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
