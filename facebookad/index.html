@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Product Sales System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --light-text: #6c757d;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            animation: fadeIn 1s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--light-text);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            animation: slideInLeft 0.8s ease;
+        }
+
+        .module-selector {
+            margin-bottom: 25px;
+        }
+
+        .module-selector h3 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .module-btn {
+            background: var(--card-bg);
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .module-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .module-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .input-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .generate-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .generate-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        .results-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            animation: slideInRight 0.8s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .results-header h2 {
+            color: var(--secondary-color);
+        }
+
+        .copy-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-btn:hover {
+            background: #3aa8d8;
+        }
+
+        .results-content {
+            flex-grow: 1;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 8px;
+            overflow-y: auto;
+            max-height: 500px;
+            white-space: pre-wrap;
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .placeholder-text {
+            color: var(--light-text);
+            text-align: center;
+            padding: 40px 20px;
+            font-style: italic;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(67, 97, 238, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Complete Product Sales System</h1>
+            <p class="subtitle">Generate high-converting Facebook ad prompts for your products. Input your details, select a module, and get ready-to-use prompts instantly.</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <div class="module-selector">
+                    <h3>Select Module</h3>
+                    <div class="module-grid">
+                        <div class="module-btn active" data-module="1">Product Clarity</div>
+                        <div class="module-btn" data-module="2">Target Audience</div>
+                        <div class="module-btn" data-module="3">Competitor Research</div>
+                        <div class="module-btn" data-module="4">Ad Angle Creation</div>
+                        <div class="module-btn" data-module="5">Ad Copy</div>
+                        <div class="module-btn" data-module="6">Ad Creative</div>
+                        <div class="module-btn" data-module="7">Offer & Landing Page</div>
+                        <div class="module-btn" data-module="8">Campaign Setup</div>
+                        <div class="module-btn" data-module="9">Ad Testing</div>
+                        <div class="module-btn" data-module="10">Retargeting</div>
+                        <div class="module-btn" data-module="11">Full System</div>
+                    </div>
+                </div>
+
+                <div class="input-form">
+                    <div class="form-group">
+                        <label for="product-name">Product Name</label>
+                        <input type="text" id="product-name" placeholder="Enter your product name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product-description">Product Description</label>
+                        <textarea id="product-description" placeholder="Describe your product briefly"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="campaign-goal">Campaign Goal</label>
+                        <select id="campaign-goal">
+                            <option value="leads">Generate Leads</option>
+                            <option value="conversions">Drive Conversions</option>
+                            <option value="traffic">Increase Traffic</option>
+                            <option value="awareness">Brand Awareness</option>
+                            <option value="engagement">Boost Engagement</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="tone-selector-container">
+                        <label for="tone">Tone (for Ad Copy)</label>
+                        <select id="tone">
+                            <option value="emotional">Emotional</option>
+                            <option value="professional">Professional</option>
+                            <option value="friendly">Friendly</option>
+                            <option value="bold">Bold</option>
+                            <option value="aspirational">Aspirational</option>
+                        </select>
+                    </div>
+
+                    <button class="generate-btn" id="generate-btn">
+                        <span>Generate Prompt</span>
+                        <div class="spinner" id="spinner"></div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="results-section">
+                <div class="results-header">
+                    <h2>Generated Prompt</h2>
+                    <button class="copy-btn" id="copy-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                        </svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="results-content" id="results-content">
+                    <div class="placeholder-text">Your generated prompt will appear here. Fill in the details and click "Generate Prompt".</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Complete Product Sales System &copy; 2023 | Generate high-converting Facebook ad prompts</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const moduleButtons = document.querySelectorAll('.module-btn');
+            const generateBtn = document.getElementById('generate-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const resultsContent = document.getElementById('results-content');
+            const spinner = document.getElementById('spinner');
+            const toneSelectorContainer = document.getElementById('tone-selector-container');
+            
+            // Module data
+            const modules = {
+                1: {
+                    name: "Product Clarity",
+                    prompt: "Act as a digital product strategist. Help me define my product clearly using this structure:\n\nProduct name\n\nWhat it does\n\nWho it helps\n\nCore pain point it solves\n\nUnique benefit or transformation\n\n3 words that best describe its vibe\n\nMy product is: [PRODUCT_DESCRIPTION]\n\nNo explanations, no introductions, no additional text.\nAlways give your top 3 recommendations where necessary"
+                },
+                2: {
+                    name: "Target Audience Discovery",
+                    prompt: "Act as a Facebook Ads targeting expert. Based on this product: [PRODUCT_SUMMARY], define my ideal audience with:\n\nDemographics (age, gender, income, job type)\n\nInterests and behaviors (pages, hobbies, apps, groups)\n\nLocation\n\nTheir biggest desire\n\nTheir biggest fear or frustration\n\n3 emotional triggers that motivate them to buy\n\nNo explanations, no introductions, no additional text.\nAlways give your top 3 recommendations where necessary"
+                },
+                3: {
+                    name: "Competitor Research",
+                    prompt: "Act as a Facebook Ad research expert. Find and analyze top 5 Facebook ads currently running for products similar to: [PRODUCT]. Summarize for each:\n\nTheir hook or headline\n\nVisual style used (video, carousel, static image)\n\nOffer type (free training, ebook, SaaS trial, etc.)\n\nKey emotional appeal\n\nWhy it likely converts well\n\nNo explanations, no introductions, no additional text.\nAlways give your top 3 recommendations where necessary"
+                },
+                4: {
+                    name: "Ad Angle Creation",
+                    prompt: "Act as a Facebook ad creative strategist. Using this product: [PRODUCT_DESCRIPTION], generate 5 different ad angles based on emotions and outcomes. Use these themes:\n\n1. Pain-to-solution\n\n2. Transformation story\n\n3. Social proof\n\n4. Curiosity hook\n\n5. Scarcity or urgency\n\nEach angle should have:\n\nA headline\n\nSupporting copy (1–2 sentences)\n\nEmotional trigger\n\nNo explanations, no introductions, no additional text.\nAlways give your top 3 recommendations where necessary"
+                },
+                5: {
+                    name: "Ad Copy",
+                    prompt: "Act as a professional Facebook ad copywriter. Write 3 variations of ad copy for [PRODUCT] targeting [AUDIENCE]. Each should include:\n\nHook (first line that grabs attention)\n\nProblem + solution story\n\nClear benefit\n\nCall-to-action (CTA)\n\nMatching headline (under 40 characters)\n\nKeep tone: [TONE]\n\nNo explanations, no introductions, no additional text.\nAlways give your top 3 recommendations where necessary"
+                },
+                6: {
+                    name: "Ad Creative",
+                    prompt: "Act as a visual ad designer. Describe 3 creative image ideas for my Facebook ad promoting [PRODUCT]. Include:\n\nLayout concept\n\nColors\n\nText overlay suggestion\n\nEmotion to evoke\n\nNo explanations, no introductions, no additional text.\nAlways give your top 3 recommendations where necessary"
+                },
+                7: {
+                    name: "Offer & Landing Page",
+                    prompt: "Act as a conversion strategist. Help me create an irresistible offer for my Facebook ad funnel for [PRODUCT]. Include:\n\nOffer name\n\nWhat's included\n\nBonus ideas\n\nUrgency or scarcity tactic\n\nShort CTA to use in ads and landing page\n\nNo explanations, no introductions, no additional text.\nAlways give your top 3 recommendations where necessary"
+                },
+                8: {
+                    name: "Campaign Setup",
+                    prompt: "Act as a Facebook Ads setup expert. Create a campaign plan for [PRODUCT] with:\n\nCampaign objective (choose between leads, conversions, traffic, etc.)\n\nAd set targeting strategy\n\nBudget recommendation (daily and lifetime)\n\nPlacement recommendation (Feed, Reels, Stories, etc.)\n\nOptimization event suggestion (e.g., add to cart, purchase)\n\nNo explanations, no introductions, no additional text.\nAlways give your top 3 recommendations where necessary"
+                },
+                9: {
+                    name: "Ad Testing & Optimization",
+                    prompt: "Act as a Facebook Ads analyst. Create an A/B testing plan for [CAMPAIGN_GOAL]. Include:\n\n3 variables to test (e.g., headline, image, audience)\n\nSuccess metrics (CTR, CPC, conversion rate)\n\nHow long to run each test\n\nScaling strategy when winners are found\n\nNo explanations, no introductions, no additional text.\nAlways give your top 3 recommendations where necessary"
+                },
+                10: {
+                    name: "Retargeting & Follow-up",
+                    prompt: "Act as a remarketing expert. Create a retargeting ad strategy for [PRODUCT] to reach:\n\nPeople who visited the landing page but didn't buy\n\nPeople who added to cart but didn't checkout\n\nExisting customers for upsell\n\nFor each, include:\n\nAd copy\n\nOffer or incentive\n\nRecommended audience duration (e.g., last 7 days, 30 days)\n\nNo explanations, no introductions, no additional text.\nAlways give your top 3 recommendations where necessary"
+                },
+                11: {
+                    name: "Full System Generator",
+                    prompt: "Act as a Facebook ads marketing system builder. Build a complete Facebook Ad Strategy for my product: [PRODUCT_DETAILS]. Include:\n\n1. Target audience definition\n\n2. 3 winning ad angles\n\n3. Ad copy variations\n\n4. Creative suggestions (image & video)\n\n5. Funnel structure (ad → landing page → CTA)\n\n6. Budget & schedule recommendation\n\n7. Retargeting plan\n\nMake it simple, actionable, and ready to launch.\n\nNo explanations, no introductions, no additional text.\nAlways give your top 3 recommendations where necessary"
+                }
+            };
+
+            let currentModule = 1;
+
+            // Module selection
+            moduleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    moduleButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Update current module
+                    currentModule = parseInt(this.getAttribute('data-module'));
+                    
+                    // Show/hide tone selector based on module
+                    if (currentModule === 5) {
+                        toneSelectorContainer.style.display = 'block';
+                    } else {
+                        toneSelectorContainer.style.display = 'none';
+                    }
+                });
+            });
+
+            // Generate prompt
+            generateBtn.addEventListener('click', function() {
+                const productName = document.getElementById('product-name').value;
+                const productDescription = document.getElementById('product-description').value;
+                const campaignGoal = document.getElementById('campaign-goal').value;
+                const tone = document.getElementById('tone').value;
+
+                // Validate inputs
+                if (!productName.trim() || !productDescription.trim()) {
+                    alert('Please enter both product name and description');
+                    return;
+                }
+
+                // Show loading spinner
+                spinner.style.display = 'block';
+                generateBtn.disabled = true;
+
+                // Simulate API call delay
+                setTimeout(() => {
+                    // Get the selected module's prompt
+                    let prompt = modules[currentModule].prompt;
+                    
+                    // Replace placeholders with actual values
+                    prompt = prompt.replace(/\[PRODUCT_DESCRIPTION\]/g, productDescription);
+                    prompt = prompt.replace(/\[PRODUCT\]/g, productName);
+                    prompt = prompt.replace(/\[PRODUCT_SUMMARY\]/g, `${productName}: ${productDescription}`);
+                    prompt = prompt.replace(/\[PRODUCT_DETAILS\]/g, `${productName}: ${productDescription}`);
+                    prompt = prompt.replace(/\[CAMPAIGN_GOAL\]/g, campaignGoal);
+                    prompt = prompt.replace(/\[TONE\]/g, tone);
+                    
+                    // For module 2, we need to generate a hypothetical audience
+                    if (currentModule === 2 || currentModule === 5) {
+                        // Create a simple audience description based on product
+                        const audience = `people interested in ${productName}, aged 25-45, with middle to high income`;
+                        prompt = prompt.replace(/\[AUDIENCE\]/g, audience);
+                    }
+
+                    // Display the generated prompt
+                    resultsContent.textContent = prompt;
+                    
+                    // Hide loading spinner
+                    spinner.style.display = 'none';
+                    generateBtn.disabled = false;
+                    
+                    // Add fade-in animation
+                    resultsContent.style.animation = 'none';
+                    setTimeout(() => {
+                        resultsContent.style.animation = 'fadeIn 0.5s ease';
+                    }, 10);
+                }, 800);
+            });
+
+            // Copy to clipboard
+            copyBtn.addEventListener('click', function() {
+                const textToCopy = resultsContent.textContent;
+                
+                // Check if there's content to copy
+                if (!textToCopy || textToCopy.includes('Your generated prompt will appear here')) {
+                    alert('No content to copy! Generate a prompt first.');
+                    return;
+                }
+                
+                // Use the Clipboard API
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    // Visual feedback
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+                        </svg>
+                        Copied!
+                    `;
+                    
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    alert('Failed to copy text to clipboard');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
