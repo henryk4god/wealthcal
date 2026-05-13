@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEALTH STRATEGY CALCULATOR</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+
+<style>
+:root {
+    --primary-color: #0f172a;
+    --accent-color: #3b82f6;
+    --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-gradient);
+    color: var(--primary-color);
+}
+.glass-card {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: var(--card-shadow);
+    border-radius: 1.5rem;
+}
+.input-field {
+    border: 2px solid #e2e8f0;
+    transition: 0.3s;
+}
+.input-field:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+.btn-generate {
+    background: var(--accent-color);
+}
+.recommendation-banner {
+    background: linear-gradient(90deg,#eff6ff,#dbeafe);
+    border:1px dashed #3b82f6;
+}
+.loading-spinner {
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top: 3px solid #fff;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+}
+.no-print{display:block;}
+@media print {.no-print{display:none !important;}}
+</style>
+</head>
+
+<body class="p-4 md:p-8">
+
+<div class="max-w-6xl mx-auto">
+
+<header class="text-center mb-10 no-print">
+<h1 class="text-3xl md:text-5xl font-extrabold uppercase">
+WEALTH STRATEGY <span class="text-blue-600">CALCULATOR</span>
+</h1>
+<p class="text-slate-500 font-medium">Precision Financial Engineering for Global Wealth</p>
+</header>
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+<!-- INPUT -->
+<div class="lg:col-span-4 no-print">
+<div class="glass-card p-6 sticky top-8">
+
+<form id="wealthForm" class="space-y-4">
+
+<input type="number" id="income" required placeholder="Monthly Income" class="input-field w-full p-3 rounded-xl">
+
+<div>
+<input list="country-list" id="country" required placeholder="Select Country" class="input-field w-full p-3 rounded-xl">
+<datalist id="country-list"></datalist>
+</div>
+
+<div>
+<input list="currency-list" id="currency" required placeholder="Currency" class="input-field w-full p-3 rounded-xl">
+<datalist id="currency-list"></datalist>
+</div>
+
+<select id="goal" class="input-field w-full p-3 rounded-xl">
+<option>Build Wealth</option>
+<option>Escape Low Income</option>
+<option>Start Investing</option>
+<option>Grow Business</option>
+</select>
+
+<select id="risk" class="input-field w-full p-3 rounded-xl">
+<option>Low</option>
+<option selected>Medium</option>
+<option>High</option>
+</select>
+
+<button type="submit" id="submitBtn" class="btn-generate w-full text-white py-4 rounded-xl flex justify-center items-center gap-2">
+<span id="btnText">GENERATE PLAN</span>
+<div id="loader" class="loading-spinner hidden"></div>
+</button>
+
+</form>
+</div>
+</div>
+
+<!-- RESULT -->
+<div class="lg:col-span-8">
+
+<div id="welcome-state" class="glass-card p-12 text-center">
+<h2 class="text-xl font-bold mb-2">Ready for Global Strategy</h2>
+<p class="text-slate-500">Your custom wealth-building plan will appear here.</p>
+</div>
+
+<!-- PRE-GATE -->
+<div id="preGate" class="hidden glass-card p-10 text-center no-print">
+<h3 class="text-xl font-bold mb-4">Your Wealth Plan is Ready</h3>
+
+<p class="mb-4">
+We’ve analyzed your income and generated your personalized strategy.
+</p>
+
+<p class="mb-6 text-red-500 font-semibold">
+Most people fail here because they don’t execute properly.
+</p>
+
+<a href="https://wa.me/2340833867642?text=I%20just%20generated%20my%20wealth%20plan%20and%20want%20guidance"
+class="bg-green-600 text-white px-6 py-3 rounded-xl font-bold block mb-4">
+Get Full Breakdown on WhatsApp →
+</a>
+
+<button onclick="showResult()" class="underline text-blue-600">
+Continue to View Plan
+</button>
+</div>
+
+<!-- RESULT -->
+<div id="result-container" class="hidden glass-card p-6 md:p-10">
+
+<div class="flex justify-between mb-6 no-print">
+<button id="downloadBtn" class="bg-black text-white px-4 py-2 rounded-lg text-sm">📥 PDF</button>
+</div>
+
+<div id="result-content"></div>
+
+<!-- CTA -->
+<div class="recommendation-banner p-6 mt-8 rounded-2xl">
+<h4 class="font-bold mb-2">🚀 Next Step (Important)</h4>
+
+<p class="mb-4">
+You now have your plan, but most people fail because execution is wrong.
+</p>
+
+<a href="https://wa.me/2340833867642?text=I%20want%20my%20full%20wealth%20strategy"
+class="bg-green-600 text-white px-6 py-3 rounded-xl font-bold">
+Get Full Strategy on WhatsApp →
+</a>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw1enICZFH4DFdhaglEiJN9df0mjgJ1zn4q1XfYJ1K4ZOXe_gsBbnfrO2wSFTTCjeOO/exec";
+let storedResult = "";
+
+// COUNTRY DATA
+const data = [
+{n:"Nigeria",c:"NGN"},
+{n:"United States",c:"USD"},
+{n:"United Kingdom",c:"GBP"},
+{n:"Ghana",c:"GHS"},
+{n:"Kenya",c:"KES"},
+{n:"South Africa",c:"ZAR"},
+{n:"Canada",c:"CAD"},
+{n:"Australia",c:"AUD"},
+{n:"India",c:"INR"},
+{n:"Germany",c:"EUR"}
+];
+
+// Populate lists
+const countryList = document.getElementById("country-list");
+const currencyList = document.getElementById("currency-list");
+
+data.forEach(x=>{
+let opt = document.createElement("option");
+opt.value = x.n;
+countryList.appendChild(opt);
+});
+
+const currencies = [...new Set(data.map(x=>x.c))];
+currencies.forEach(c=>{
+let opt = document.createElement("option");
+opt.value = c;
+currencyList.appendChild(opt);
+});
+
+// Auto match
+country.addEventListener("input", function(){
+let match = data.find(x=>x.n.toLowerCase() === this.value.toLowerCase());
+if(match) currency.value = match.c;
+});
+
+// SMALL POWERFUL UPGRADE
+country.value = "Nigeria";
+currency.value = "NGN";
+
+// FORM SUBMIT
+document.getElementById("wealthForm").addEventListener("submit", async (e)=>{
+e.preventDefault();
+
+const btn = document.getElementById("submitBtn");
+const loader = document.getElementById("loader");
+const text = document.getElementById("btnText");
+
+btn.disabled = true;
+loader.classList.remove("hidden");
+text.innerText = "Generating...";
+
+try {
+
+const params = new URLSearchParams({
+income: income.value,
+country: country.value,
+currency: currency.value,
+goal: goal.value,
+risk: risk.value
+});
+
+const res = await fetch(`${SCRIPT_URL}?${params.toString()}`);
+const json = await res.json();
+
+if(json.status !== "success") throw new Error();
+
+storedResult = json.content;
+
+welcome-state.classList.add("hidden");
+preGate.classList.remove("hidden");
+
+} catch(err){
+alert("Error generating plan. Check backend.");
+console.error(err);
+}
+
+btn.disabled = false;
+loader.classList.add("hidden");
+text.innerText = "GENERATE PLAN";
+
+});
+
+// SHOW RESULT
+function showResult(){
+preGate.classList.add("hidden");
+result-container.classList.remove("hidden");
+document.getElementById("result-content").innerHTML = marked.parse(storedResult);
+}
+
+// PDF + WHATSAPP PUSH
+downloadBtn.onclick = ()=>{
+window.print();
+setTimeout(()=>{
+window.open("https://wa.me/2340833867642?text=I%20downloaded%20my%20plan%20and%20need%20help");
+},2000);
+};
+</script>
+
+</body>
+</html>
