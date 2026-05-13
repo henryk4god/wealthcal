@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PODCAST CREATION & GROWTH — FULL PROFESSIONAL PROMPT SYSTEM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">PODCAST CREATION & GROWTH</h1>
+            <p class="subtitle">Full Professional Prompt System</p>
+        </header>
+
+        <main class="main-content">
+            <div class="section-selector">
+                <label for="section-select">Select Prompt Section:</label>
+                <select id="section-select">
+                    <option value="">-- Choose a section --</option>
+                    <option value="section1">Section 1: Niche Discovery & Concept Development</option>
+                    <option value="section2">Section 2: Name, Branding & Identity</option>
+                    <option value="section3">Section 3: Episode Planning & Structure</option>
+                    <option value="section4">Section 4: Scriptwriting & Voice Guide</option>
+                    <option value="section5">Section 5: Production & Editing Workflow</option>
+                    <option value="section6">Section 6: Podcast Launch Plan</option>
+                    <option value="section7">Section 7: Distribution & Promotion</option>
+                    <option value="section8">Section 8: Growth & Monetization</option>
+                    <option value="section9">Section 9: AI Automation & Repurposing</option>
+                    <option value="section10">Section 10: Continuous Improvement</option>
+                    <option value="bonus">Bonus Section: Brand Ecosystem</option>
+                </select>
+            </div>
+
+            <div class="prompt-selector">
+                <label for="prompt-select">Select Prompt:</label>
+                <select id="prompt-select">
+                    <option value="">-- First choose a section --</option>
+                </select>
+            </div>
+
+            <div class="input-section">
+                <div id="input-fields">
+                    <!-- Dynamic input fields will appear here -->
+                </div>
+                <button id="generate-btn" class="btn-primary">Generate Prompt</button>
+            </div>
+
+            <div class="result-section hidden">
+                <div class="result-card">
+                    <h3>Generated Prompt</h3>
+                    <div id="generated-prompt" class="prompt-output"></div>
+                    <div class="action-buttons">
+                        <button id="copy-btn" class="btn-secondary">Copy Prompt</button>
+                        <button id="new-prompt-btn" class="btn-secondary">Generate New Prompt</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Podcast Creation & Growth Prompt System</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
