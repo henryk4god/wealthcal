@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Most Asked Questions Widget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Optional: Minimal body styling for better look on a blank page */
+        body {
+            margin: 0;
+            padding: 10px; 
+            background-color: var(--bg-color, #f8f9fa);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<div class="maq-widget">
+  <style>
+    /* Root variables for easy theming */
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3a0ca3;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-color: #2b2d42;
+      --light-text: #8d99ae;
+      --border-radius: 12px;
+      --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    /* Main widget container */
+    .maq-widget {
+      font-family: 'Poppins', sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      border-radius: var(--border-radius);
+      box-sizing: border-box;
+    }
+
+    /* Header section */
+    .maq-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    /* Title styling */
+    .maq-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--secondary-color);
+    }
+
+    /* Subtitle styling */
+    .maq-subtitle {
+      font-size: 1rem;
+      color: var(--light-text);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Input group container */
+    .maq-input-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    /* Input label */
+    .maq-input-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+
+    /* Text input field */
+    .maq-input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      box-sizing: border-box;
+    }
+
+    /* Input focus state */
+    .maq-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    /* Placeholder text */
+    .maq-input::placeholder {
+      color: #aaa;
+      font-style: italic;
+    }
+
+    /* Main button styles */
+    .maq-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    /* Button hover state */
+    .maq-btn:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+    }
+
+    /* Disabled button state */
+    .maq-btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Loading button state */
+    .maq-btn.loading {
+      position: relative;
+      padding-right: 3.5rem;
+    }
+
+    /* Loading spinner animation */
+    .maq-btn.loading:after {
+      content: "";
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      width: 1.2rem;
+      height: 1.2rem;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      transform: translateY(-50%);
+    }
+
+    /* Spinner rotation animation */
+    @keyframes spin {
+      to { transform: translateY(-50%) rotate(360deg); }
+    }
+
+    /* Results container - initially hidden */
+    .maq-results {
+      display: none;
+      margin-top: 2rem;
+      animation: fadeIn 0.5s ease;
+    }
+
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card styling for each result */
+    .maq-card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    /* Card hover effect */
+    .maq-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Question text styling */
+    .maq-question {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Niche tag styling */
+    .maq-niche {
+      display: inline-block;
+      background-color: rgba(67, 97, 238, 0.1);
+      color: var(--primary-color);
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Product idea text */
+    .maq-product {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Monetization text */
+    .maq-monetization {
+      font-size: 0.9rem;
+      color: var(--light-text);
+    }
+
+    /* Highlighted monetization text */
+    .maq-monetization span {
+      font-weight: 500;
+      color: var(--secondary-color);
+    }
+
+    /* Loading dots container */
+    .maq-loader {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    /* Loading dots */
+    .maq-loader .dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      margin: 0 4px;
+      animation: pulse 1.4s infinite ease-in-out;
+    }
+
+    /* Second dot animation delay */
+    .maq-loader .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    /* Third dot animation delay */
+    .maq-loader .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    /* Pulsing animation */
+    @keyframes pulse {
+      0%, 60%, 100% { transform: scale(0.8); opacity: 0.5; }
+      30% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Error message styling */
+    .maq-error {
+      display: none;
+      color: #d90429;
+      background-color: rgba(217, 4, 41, 0.1);
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+      margin-top: 1rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* Copy button styling */
+    .maq-copy-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background-color: rgba(67, 97, 238, 0.1);
+      color: var(--primary-color);
+      border: none;
+      border-radius: 4px;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .maq-copy-btn:hover {
+      background-color: rgba(67, 97, 238, 0.2);
+    }
+
+    .maq-copy-btn svg {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+    }
+
+    /* Copy all button styling */
+    .maq-copy-all-container {
+      text-align: right;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .maq-copy-all-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .maq-copy-all-btn:hover {
+      background-color: var(--secondary-color);
+    }
+
+    /* Tablet responsive styles */
+    @media (max-width: 768px) {
+      .maq-widget {
+        padding: 1.5rem;
+      }
+      
+      .maq-title {
+        font-size: 1.5rem;
+      }
+      
+      .maq-card {
+        padding: 1.2rem;
+      }
+    }
+
+    /* Mobile responsive styles */
+    @media (max-width: 480px) {
+      .maq-widget {
+        padding: 1rem;
+      }
+      
+      .maq-title {
+        font-size: 1.3rem;
+      }
+      
+      .maq-btn {
+        width: 100%;
+        padding: 0.8rem;
+      }
+    }
+  </style>
+
+  <div class="maq-header">
+    <h1 class="maq-title">Most Asked Questions</h1>
+    <p class="maq-subtitle">Discover trending questions with proven market demand</p>
+    
+    <div class="maq-input-group">
+      <label for="maqNicheInput" class="maq-input-label">Specific Niche (optional)</label>
+      <input type="text" id="maqNicheInput" class="maq-input" placeholder="e.g., 'fitness', 'digital marketing', 'parenting' (leave blank for all niches)">
+    </div>
+    
+    <button id="maqFetchBtn" class="maq-btn">Get The Most Asked Questions</button>
+  </div>
+
+  <div id="maqLoader" class="maq-loader">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <div id="maqError" class="maq-error"></div>
+
+  <div id="maqResults" class="maq-results">
+    <div class="maq-copy-all-container">
+      <button id="maqCopyAllBtn" class="maq-copy-all-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        Copy All Results
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Wait for DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get DOM elements
+        const fetchBtn = document.getElementById('maqFetchBtn');
+        const nicheInput = document.getElementById('maqNicheInput');
+        const resultsContainer = document.getElementById('maqResults');
+        const loader = document.getElementById('maqLoader');
+        const errorContainer = document.getElementById('maqError');
+        const copyAllContainer = document.querySelector('.maq-copy-all-container');
+        const copyAllBtn = document.getElementById('maqCopyAllBtn');
+
+        // 🎯 IMPORTANT: Replace this with your deployed Google Apps Script Web App URL
+        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxgOeSRa3QtOnmkt1Hrp-Ex4NxJ_aG503stoUeQRz-tVH-MOGPGj37_hT7gyogtTZx4vg/exec'; 
+        
+        // Add click handler to fetch button
+        fetchBtn.addEventListener('click', async function() {
+            // Reset UI state
+            resultsContainer.style.display = 'none';
+            // Re-initialize the results container content
+            resultsContainer.innerHTML = '<div class="maq-copy-all-container" style="display: none;"><button id="maqCopyAllBtn" class="maq-copy-all-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy All Results</button></div>';
+            errorContainer.style.display = 'none';
+
+            // Get niche value
+            const niche = nicheInput.value.trim();
+
+            // 1. 🎯 CORS FIX: Create FormData object
+            const formData = new FormData();
+            formData.append('niche', niche); // This will be read by e.parameter.niche in GAS
+
+            // Show loading state
+            fetchBtn.disabled = true;
+            fetchBtn.classList.add('loading');
+            loader.style.display = 'block';
+
+            try {
+                // 2. 🎯 Fetch to Apps Script URL
+                const response = await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    // IMPORTANT: Do NOT set Content-Type header. 
+                    // The browser handles it for FormData, which enables the CORS fix.
+                    body: formData 
+                });
+
+                // Check for errors (from network or GAS)
+                if (!response.ok) {
+                    throw new Error(`Backend request failed with status ${response.status}`);
+                }
+                
+                // Process response from GAS
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.error || 'The backend returned an unknown error.');
+                }
+                
+                const content = data.content; // The raw AI response text
+
+                // Display results
+                displayResults(content);
+            } catch (error) {
+                // Handle errors
+                console.error('Error fetching data:', error);
+                showError(error.message || 'Failed to fetch questions. Please check the Web App URL and try again.');
+            } finally {
+                // Reset loading state
+                fetchBtn.disabled = false;
+                fetchBtn.classList.remove('loading');
+                loader.style.display = 'none';
+            }
+        });
+
+        // Display results in the container - KEEPING YOUR ORIGINAL PARSING LOGIC
+        function displayResults(content) {
+            console.log('Raw API response:', content);
+
+            // Re-select copy-all button after re-initialization
+            const currentCopyAllBtn = document.getElementById('maqCopyAllBtn');
+            const currentCopyAllContainer = resultsContainer.querySelector('.maq-copy-all-container');
+            
+            // Clear existing cards, but keep the copy-all container
+            Array.from(resultsContainer.children).forEach(child => {
+                if (child !== currentCopyAllContainer) {
+                    child.remove();
+                }
+            });
+
+            const questionRegex = /Question:\s*(.+?)(?=\nQuestion:|$)/gs;
+            const matches = [...content.matchAll(questionRegex)];
+
+            let foundQuestions = false;
+            
+            matches.forEach((match, index) => {
+                const question = match[1].trim();
+
+                if (question && !question.includes('Question:')) {
+                    foundQuestions = true;
+                    const card = document.createElement('div');
+                    card.className = 'maq-card';
+
+                    card.innerHTML = `
+                        <button class="maq-copy-btn" title="Copy to clipboard">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy
+                        </button>
+                        <div class="maq-question">${question}</div>
+                    `;
+
+                    // Insert card after the copy-all container
+                    currentCopyAllContainer.insertAdjacentElement('afterend', card);
+
+                    // Add click handler to copy button
+                    const copyBtn = card.querySelector('.maq-copy-btn');
+                    copyBtn.addEventListener('click', () => {
+                        const cardText = question;
+                        copyToClipboard(cardText, copyBtn);
+                    });
+                }
+            });
+
+            if (foundQuestions) {
+                resultsContainer.style.display = 'block';
+                currentCopyAllContainer.style.display = 'block';
+
+                // Re-add click handler to copy all button
+                currentCopyAllBtn.onclick = () => {
+                    const allCards = Array.from(document.querySelectorAll('.maq-card'));
+                    let allText = '';
+                    
+                    allCards.forEach((card, index) => {
+                        const question = card.querySelector('.maq-question').textContent;
+                        allText += `${index + 1}. ${question}\n\n`;
+                    });
+                    
+                    copyToClipboard(allText, currentCopyAllBtn);
+                };
+            } else {
+                showError('No valid questions found in the response. Please try again.');
+                currentCopyAllContainer.style.display = 'none';
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            errorContainer.textContent = message;
+            errorContainer.style.display = 'block';
+        }
+
+        // Copy text to clipboard
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Change button text temporarily
+                const originalHTML = button.innerHTML;
+                button.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 6L9 17l-5-5"></path>
+                    </svg>
+                    Copied!
+                `;
+
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                alert('Failed to copy text to clipboard');
+            });
+        }
+    });
+</script>
+</div>
+</body>
+</html>
