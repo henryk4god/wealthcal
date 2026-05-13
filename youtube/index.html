@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASTER PROMPT SYSTEM For BUILDING YOUTUBE CHANNEL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff0000;
+            --primary-dark: #cc0000;
+            --secondary-color: #065fd4;
+            --bg-color: #f9f9f9;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-light: #606060;
+            --border-color: #e0e0e0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stages-container {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            height: fit-content;
+        }
+
+        .stages-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stages-list {
+            list-style: none;
+        }
+
+        .stage-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .stage-item:hover {
+            background-color: rgba(255, 0, 0, 0.05);
+            border-color: var(--primary-color);
+        }
+
+        .stage-item.active {
+            background-color: rgba(255, 0, 0, 0.1);
+            border-color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .stage-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        .prompts-container {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+        }
+
+        .prompts-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .prompts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .prompt-card {
+            background-color: var(--bg-color);
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .prompt-card.active {
+            border-color: var(--primary-color);
+            background-color: rgba(255, 0, 0, 0.05);
+        }
+
+        .prompt-number {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .prompt-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .prompt-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .input-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background-color: var(--text-light);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            display: none;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+        }
+
+        .copy-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-btn:hover {
+            background-color: #0548a8;
+        }
+
+        .result-content {
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success-message {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MASTER PROMPT SYSTEM</h1>
+            <p class="subtitle">Build Your YouTube Channel From Scratch With AI-Powered Prompts</p>
+        </header>
+
+        <div class="main-content">
+            <div class="stages-container">
+                <h2 class="stages-title">📋 YouTube Channel Building Stages</h2>
+                <ul class="stages-list">
+                    <li class="stage-item active" data-stage="1">
+                        <span class="stage-number">1</span> Channel Discovery & Niche Definition
+                    </li>
+                    <li class="stage-item" data-stage="2">
+                        <span class="stage-number">2</span> Channel Branding & Setup
+                    </li>
+                    <li class="stage-item" data-stage="3">
+                        <span class="stage-number">3</span> Content Strategy Blueprint
+                    </li>
+                    <li class="stage-item" data-stage="4">
+                        <span class="stage-number">4</span> Scripting & Hook Crafting
+                    </li>
+                    <li class="stage-item" data-stage="5">
+                        <span class="stage-number">5</span> Thumbnail & Title Optimization
+                    </li>
+                    <li class="stage-item" data-stage="6">
+                        <span class="stage-number">6</span> Video Production Plan
+                    </li>
+                    <li class="stage-item" data-stage="7">
+                        <span class="stage-number">7</span> Uploading & SEO Optimization
+                    </li>
+                    <li class="stage-item" data-stage="8">
+                        <span class="stage-number">8</span> Promotion & Growth Strategy
+                    </li>
+                    <li class="stage-item" data-stage="9">
+                        <span class="stage-number">9</span> Analytics & Optimization
+                    </li>
+                    <li class="stage-item" data-stage="10">
+                        <span class="stage-number">10</span> Monetization & Expansion
+                    </li>
+                    <li class="stage-item" data-stage="bonus">
+                        <span class="stage-number">+</span> AI Tool Prompts
+                    </li>
+                </ul>
+            </div>
+
+            <div class="prompts-container">
+                <h2 class="prompts-title">Select a Prompt</h2>
+                
+                <div class="prompts-grid" id="promptsGrid">
+                    <!-- Prompts will be dynamically inserted here -->
+                </div>
+
+                <div class="input-section" id="inputSection">
+                    <div class="input-group">
+                        <label for="userInput">Enter your information:</label>
+                        <textarea id="userInput" placeholder="e.g., faith, motivation, and tech"></textarea>
+                    </div>
+                    <button class="btn" id="generateBtn">
+                        <span>Generate Prompt</span>
+                    </button>
+                </div>
+
+                <div class="loading" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <p>Generating your prompt...</p>
+                </div>
+
+                <div class="result-section" id="resultSection">
+                    <div class="result-header">
+                        <h3 class="result-title">Generated Prompt</h3>
+                        <button class="copy-btn" id="copyBtn">
+                            <span>Copy</span>
+                        </button>
+                    </div>
+                    <div class="result-content" id="resultContent"></div>
+                    <div class="success-message" id="successMessage">Prompt copied to clipboard!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database of prompts organized by stage
+        const promptsDatabase = {
+            "1": [
+                {
+                    id: 1,
+                    title: "Find Your Perfect YouTube Niche",
+                    description: "Discover 5 profitable YouTube niches that match your interests",
+                    template: "You are a professional YouTube strategist. Help me discover 5 profitable YouTube niches that match my interests in [insert interests, e.g., 'faith, motivation, and tech']. Include:\n\nNiche name\nTarget audience\nAverage CPM\nContent type (faceless, talking head, animated, etc.)\nViral topic examples.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                },
+                {
+                    id: 2,
+                    title: "Validate the Niche",
+                    description: "Analyze your niche for competition, demand, and growth potential",
+                    template: "Act as a YouTube growth analyst. Analyze the [insert niche] niche for competition, demand, and growth potential. Include:\n\n3 top-performing channels\nWhat makes them successful\nGaps I can fill\nSuggested channel positioning.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                }
+            ],
+            "2": [
+                {
+                    id: 3,
+                    title: "Channel Name & Tagline",
+                    description: "Generate creative, brandable YouTube channel names and taglines",
+                    template: "Generate 10 creative, brandable YouTube channel names and taglines based on this niche: [insert niche]. The names should be easy to remember, SEO-friendly, and relevant to [insert audience type].\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                },
+                {
+                    id: 4,
+                    title: "Channel Design",
+                    description: "Describe a complete visual identity for your channel",
+                    template: "You are a YouTube branding expert. Describe a complete visual identity for my channel named [insert name]. Include:\n\nColor palette (psychology behind it)\nFont style suggestion\nLogo concept idea\nBanner design idea and layout text.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                },
+                {
+                    id: 5,
+                    title: "About Section & Description",
+                    description: "Write an optimized YouTube 'About' section for your channel",
+                    template: "Write an optimized YouTube 'About' section for my channel named [insert name] focused on [insert niche]. Make it keyword-rich, engaging, and include a call to action to subscribe.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                }
+            ],
+            "3": [
+                {
+                    id: 6,
+                    title: "Viral Content Mapping",
+                    description: "Generate 20 video ideas for your channel",
+                    template: "Act as a viral YouTube strategist. Generate 20 video ideas for a channel in the [insert niche]. Each idea should include:\n\nTitle idea (with emotion or curiosity)\nShort description\nHook idea (first 5 seconds)\nTarget keyword.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                },
+                {
+                    id: 7,
+                    title: "Video Series Plan",
+                    description: "Create a 4-week content schedule for your channel",
+                    template: "Create a 4-week content schedule for a new YouTube channel in the [insert niche]. Include video titles, publishing days, style (tutorial, story, review, short), and goals for each.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                }
+            ],
+            "4": [
+                {
+                    id: 8,
+                    title: "Viral Script Writing",
+                    description: "Write a complete script for your video",
+                    template: "You are a viral YouTube scriptwriter. Write a complete script for a video titled: [insert title]. Include:\n\nHook (0–15 sec)\nIntroduction (15–45 sec)\nMain content (45 sec–4 min)\nCall to action\nClosing summary.\nThe tone should be [funny, emotional, motivational, etc.].\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                },
+                {
+                    id: 9,
+                    title: "Hook Variations",
+                    description: "Generate 10 viral hook options for your video",
+                    template: "Generate 10 viral hook options for a YouTube video titled: [insert title]. Each should grab attention within 5 seconds and make viewers curious to watch more.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                },
+                {
+                    id: 10,
+                    title: "Shorts Script",
+                    description: "Write a high-retention YouTube Shorts script",
+                    template: "Write a short, high-retention YouTube Shorts script (under 60 seconds) for the topic: [insert topic]. It should have a powerful hook, quick delivery, and strong CTA.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                }
+            ],
+            "5": [
+                {
+                    id: 11,
+                    title: "Viral Titles",
+                    description: "Generate clickable, curiosity-driven video titles",
+                    template: "Act as a YouTube SEO expert. Generate 10 clickable, curiosity-driven video titles around the keyword [insert keyword]. Include emotional triggers, numbers, or contradictions.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                },
+                {
+                    id: 12,
+                    title: "Thumbnail Ideas",
+                    description: "Suggest thumbnail ideas for your video",
+                    template: "You are a YouTube thumbnail designer. Suggest 5 thumbnail ideas for a video titled [insert title]. Describe:\n\nVisual elements\nBackground concept\nText overlay (if any)\nFacial expression (if applicable).\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                }
+            ],
+            "6": [
+                {
+                    id: 13,
+                    title: "Production Checklist",
+                    description: "Create a detailed YouTube video production checklist",
+                    template: "Create a detailed YouTube video production checklist for faceless content in [insert niche]. Include steps for scripting, voice-over, editing, background video sourcing, and uploading.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                },
+                {
+                    id: 14,
+                    title: "Voiceover Prompt",
+                    description: "Write a natural-sounding AI voiceover script",
+                    template: "Write a natural-sounding AI voiceover script for my YouTube video about [insert topic]. Keep it conversational and easy to follow.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                },
+                {
+                    id: 15,
+                    title: "B-roll & Visuals",
+                    description: "List suggested B-roll or stock video clips",
+                    template: "List 10 suggested B-roll or stock video clips I can use for a YouTube video about [insert topic]. Include keywords to search for on sites like Pexels or Pixabay.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                }
+            ],
+            "7": [
+                {
+                    id: 16,
+                    title: "SEO Optimization",
+                    description: "Generate SEO elements for your video",
+                    template: "Act as a YouTube SEO manager. Generate SEO elements for my video titled [insert title]. Include:\n\nSEO title\nDescription (optimized)\n15 hashtags\n15 relevant tags.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                },
+                {
+                    id: 17,
+                    title: "Playlist Structure",
+                    description: "Create an optimized playlist plan for your channel",
+                    template: "Create an optimized playlist plan for my YouTube channel in [insert niche]. Group videos into themes that improve watch time and retention.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                }
+            ],
+            "8": [
+                {
+                    id: 18,
+                    title: "Viral Promotion Plan",
+                    description: "Create a step-by-step promotion plan",
+                    template: "You are a YouTube growth hacker. Create a step-by-step promotion plan for a new YouTube channel in [insert niche] to reach 10K subscribers fast. Include social media tactics, Shorts strategy, and community engagement.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                },
+                {
+                    id: 19,
+                    title: "Collaborations",
+                    description: "Suggest potential collaboration ideas or creators",
+                    template: "Suggest 10 potential collaboration ideas or creators I can work with in the [insert niche] to expand my reach.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                }
+            ],
+            "9": [
+                {
+                    id: 20,
+                    title: "Analytics Interpretation",
+                    description: "Help interpret channel analytics",
+                    template: "Act as a YouTube data analyst. Help me interpret my channel analytics. Here are my stats: [insert key metrics]. Tell me what's working, what to improve, and how to grow faster.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                }
+            ],
+            "10": [
+                {
+                    id: 21,
+                    title: "Monetization Roadmap",
+                    description: "Create a monetization plan for your channel",
+                    template: "You are a YouTube business strategist. Create a monetization plan for my channel in [insert niche]. Include strategies for:\n\nAdSense\nSponsorships\nDigital products\nAffiliate marketing\nPaid communities.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                },
+                {
+                    id: 22,
+                    title: "Course or Product Creation",
+                    description: "Suggest digital products you can create",
+                    template: "Based on my YouTube content in [insert niche], suggest 3 digital products I can create and sell. Include title ideas, format (ebook, course, app, etc.), and price point.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                }
+            ],
+            "bonus": [
+                {
+                    id: 23,
+                    title: "AI Video Creation",
+                    description: "Generate a full prompt for AI video tools",
+                    template: "Generate a full prompt I can use in [insert tool, e.g., Pika Labs / Runway / Synthesia] to create a 60-sec YouTube Shorts video about [insert topic]. Include voice style, camera movement, and visual theme.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                },
+                {
+                    id: 24,
+                    title: "AI Idea Generator",
+                    description: "Suggest trending YouTube Shorts ideas",
+                    template: "Act as a viral content generator. Suggest 10 trending YouTube Shorts ideas related to [insert niche] that can get 1M+ views in the next 30 days.\n\nInstructions:\n-No explanations, no introductions, no additional text.\n- Always give your top 3 recommendations where necessary."
+                }
+            ]
+        };
+
+        // DOM Elements
+        const stageItems = document.querySelectorAll('.stage-item');
+        const promptsGrid = document.getElementById('promptsGrid');
+        const inputSection = document.getElementById('inputSection');
+        const userInput = document.getElementById('userInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const resultSection = document.getElementById('resultSection');
+        const resultContent = document.getElementById('resultContent');
+        const copyBtn = document.getElementById('copyBtn');
+        const successMessage = document.getElementById('successMessage');
+
+        // Current state
+        let currentStage = "1";
+        let currentPrompt = null;
+
+        // Initialize the app
+        function init() {
+            // Load prompts for the first stage
+            loadPrompts(currentStage);
+            
+            // Add event listeners for stage selection
+            stageItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Remove active class from all items
+                    stageItems.forEach(i => i.classList.remove('active'));
+                    // Add active class to clicked item
+                    item.classList.add('active');
+                    // Update current stage
+                    currentStage = item.dataset.stage;
+                    // Load prompts for the selected stage
+                    loadPrompts(currentStage);
+                    // Reset UI
+                    resetUI();
+                });
+            });
+
+            // Add event listener for generate button
+            generateBtn.addEventListener('click', generatePrompt);
+
+            // Add event listener for copy button
+            copyBtn.addEventListener('click', copyToClipboard);
+        }
+
+        // Load prompts for a specific stage
+        function loadPrompts(stage) {
+            // Clear the prompts grid
+            promptsGrid.innerHTML = '';
+            
+            // Get prompts for the selected stage
+            const prompts = promptsDatabase[stage];
+            
+            // Create prompt cards
+            prompts.forEach(prompt => {
+                const promptCard = document.createElement('div');
+                promptCard.className = 'prompt-card';
+                promptCard.dataset.id = prompt.id;
+                
+                promptCard.innerHTML = `
+                    <div class="prompt-number">Prompt ${prompt.id}</div>
+                    <h3 class="prompt-title">${prompt.title}</h3>
+                    <p class="prompt-description">${prompt.description}</p>
+                `;
+                
+                // Add click event listener
+                promptCard.addEventListener('click', () => {
+                    // Remove active class from all prompt cards
+                    document.querySelectorAll('.prompt-card').forEach(card => {
+                        card.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked card
+                    promptCard.classList.add('active');
+                    
+                    // Set current prompt
+                    currentPrompt = prompt;
+                    
+                    // Update placeholder text based on prompt
+                    updateInputPlaceholder(prompt);
+                    
+                    // Show input section
+                    inputSection.style.display = 'block';
+                    
+                    // Hide result section
+                    resultSection.style.display = 'none';
+                });
+                
+                // Add to grid
+                promptsGrid.appendChild(promptCard);
+            });
+        }
+
+        // Update input placeholder based on selected prompt
+        function updateInputPlaceholder(prompt) {
+            const placeholderMap = {
+                1: "e.g., faith, motivation, and tech",
+                2: "e.g., personal finance for beginners",
+                3: "e.g., tech reviews for millennials",
+                4: "e.g., TechExplained",
+                5: "e.g., TechExplained - simplifying complex tech",
+                6: "e.g., personal finance",
+                7: "e.g., personal finance",
+                8: "e.g., How I Made $10,000 in 30 Days",
+                9: "e.g., How I Made $10,000 in 30 Days",
+                10: "e.g., budgeting for beginners",
+                11: "e.g., passive income",
+                12: "e.g., 5 Apps That Will Make You Money While You Sleep",
+                13: "e.g., personal finance",
+                14: "e.g., how to create a budget",
+                15: "e.g., how to create a budget",
+                16: "e.g., 5 Apps That Will Make You Money While You Sleep",
+                17: "e.g., personal finance",
+                18: "e.g., personal finance",
+                19: "e.g., personal finance",
+                20: "e.g., 45% retention rate, 5% CTR, 1000 subscribers",
+                21: "e.g., personal finance",
+                22: "e.g., personal finance",
+                23: "e.g., budgeting for beginners",
+                24: "e.g., personal finance"
+            };
+            
+            userInput.placeholder = placeholderMap[prompt.id] || "Enter required information";
+        }
+
+        // Generate the prompt
+        function generatePrompt() {
+            if (!currentPrompt) {
+                alert('Please select a prompt first!');
+                return;
+            }
+            
+            const inputText = userInput.value.trim();
+            if (!inputText) {
+                alert('Please enter the required information!');
+                return;
+            }
+            
+            // Show loading indicator
+            loadingIndicator.style.display = 'block';
+            generateBtn.disabled = true;
+            
+            // Simulate API call with timeout
+            setTimeout(() => {
+                // Generate the final prompt by replacing the placeholder
+                let finalPrompt = currentPrompt.template;
+                
+                // Replace placeholders based on prompt ID
+                if (currentPrompt.id === 1) {
+                    finalPrompt = finalPrompt.replace('[insert interests, e.g., \'faith, motivation, and tech\']', inputText);
+                } else if (currentPrompt.id === 2) {
+                    finalPrompt = finalPrompt.replace('[insert niche]', inputText);
+                } else if (currentPrompt.id === 3) {
+                    finalPrompt = finalPrompt.replace('[insert niche]', inputText.split(',')[0] || inputText);
+                    finalPrompt = finalPrompt.replace('[insert audience type]', inputText.split(',')[1] || 'your target audience');
+                } else if (currentPrompt.id === 4) {
+                    finalPrompt = finalPrompt.replace('[insert name]', inputText);
+                } else if (currentPrompt.id === 5) {
+                    finalPrompt = finalPrompt.replace('[insert name]', inputText.split(',')[0] || inputText);
+                    finalPrompt = finalPrompt.replace('[insert niche]', inputText.split(',')[1] || 'your niche');
+                } else if (currentPrompt.id === 6 || currentPrompt.id === 7 || currentPrompt.id === 17 || 
+                           currentPrompt.id === 18 || currentPrompt.id === 19 || currentPrompt.id === 21 || 
+                           currentPrompt.id === 22 || currentPrompt.id === 24) {
+                    finalPrompt = finalPrompt.replace('[insert niche]', inputText);
+                } else if (currentPrompt.id === 8 || currentPrompt.id === 9 || currentPrompt.id === 12 || 
+                           currentPrompt.id === 16) {
+                    finalPrompt = finalPrompt.replace('[insert title]', inputText);
+                } else if (currentPrompt.id === 10 || currentPrompt.id === 14 || currentPrompt.id === 15 || 
+                           currentPrompt.id === 23) {
+                    finalPrompt = finalPrompt.replace('[insert topic]', inputText);
+                } else if (currentPrompt.id === 11) {
+                    finalPrompt = finalPrompt.replace('[insert keyword]', inputText);
+                } else if (currentPrompt.id === 13) {
+                    finalPrompt = finalPrompt.replace('[insert niche]', inputText);
+                } else if (currentPrompt.id === 20) {
+                    finalPrompt = finalPrompt.replace('[insert key metrics]', inputText);
+                }
+                
+                // Display the result
+                resultContent.textContent = finalPrompt;
+                resultSection.style.display = 'block';
+                resultSection.classList.add('fade-in');
+                
+                // Hide loading indicator
+                loadingIndicator.style.display = 'none';
+                generateBtn.disabled = false;
+                
+                // Scroll to result
+                resultSection.scrollIntoView({ behavior: 'smooth' });
+            }, 1500);
+        }
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            const textToCopy = resultContent.textContent;
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Show success message
+                successMessage.style.display = 'block';
+                
+                // Hide success message after 2 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy text to clipboard');
+            });
+        }
+
+        // Reset UI elements
+        function resetUI() {
+            inputSection.style.display = 'none';
+            resultSection.style.display = 'none';
+            userInput.value = '';
+            currentPrompt = null;
+            
+            // Remove active class from all prompt cards
+            document.querySelectorAll('.prompt-card').forEach(card => {
+                card.classList.remove('active');
+            });
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
