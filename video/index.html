@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Funnel Video Prompt System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Sales Funnel Video Prompt System</h1>
+            <p class="subtitle">Generate professional video scripts for your entire sales funnel</p>
+        </header>
+
+        <main class="main-content">
+            <section class="input-section">
+                <div class="form-container">
+                    <h2>Enter Your Product Details</h2>
+                    <form id="prompt-form">
+                        <div class="form-group">
+                            <label for="product-name">Product/Service Name</label>
+                            <input type="text" id="product-name" placeholder="Enter your product or service name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="industry">Industry/Niche</label>
+                            <input type="text" id="industry" placeholder="Enter your industry or niche" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="audience">Target Audience</label>
+                            <input type="text" id="audience" placeholder="Describe your target audience" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="video-stage">Select Video Stage</label>
+                            <select id="video-stage" required>
+                                <option value="">Choose a video stage</option>
+                                <option value="awareness">Awareness Video</option>
+                                <option value="interest">Interest/Engagement Video</option>
+                                <option value="desire">Desire (Offer Story) Video</option>
+                                <option value="action">Action (Sales/Conversion) Video</option>
+                                <option value="follow-up">Follow-Up/Nurture Video</option>
+                                <option value="testimonial">Testimonial/Proof Video</option>
+                                <option value="storyboard">Funnel Storyboard</option>
+                                <option value="voice-tone">Voice & Tone Recommendations</option>
+                                <option value="visual-style">Visual Style Recommendations</option>
+                                <option value="optimization">Optimization Tips</option>
+                                <option value="full-funnel">Full Funnel Campaign</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="generate-btn">
+                            <span class="btn-text">Generate Prompt</span>
+                            <div class="spinner hidden"></div>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="result-section hidden">
+                <div class="result-container">
+                    <div class="result-header">
+                        <h2>Your Generated Prompt</h2>
+                        <button id="copy-btn" class="copy-btn">
+                            <span class="copy-text">Copy Prompt</span>
+                            <span class="copied-text hidden">Copied!</span>
+                        </button>
+                    </div>
+                    <div class="prompt-card">
+                        <div id="prompt-output" class="prompt-output"></div>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="regenerate-btn" class="secondary-btn">Regenerate</button>
+                        <button id="next-stage-btn" class="primary-btn">Next Stage</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>Sales Funnel Video Prompt System &copy; 2023</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
