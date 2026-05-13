@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMPLETE WHITEBOARD VIDEO CREATION PROMPT SYSTEM</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">COMPLETE WHITEBOARD VIDEO CREATION PROMPT SYSTEM</h1>
+            <p class="subtitle">Generate professional prompts for your whiteboard videos</p>
+        </header>
+
+        <main class="main-content">
+            <section class="phase-selection">
+                <h2>Select Creation Phase</h2>
+                <div class="phase-grid" id="phaseGrid">
+                    <!-- Phases will be dynamically generated -->
+                </div>
+            </section>
+
+            <section class="prompt-generator">
+                <div class="input-section" id="inputSection">
+                    <h2 id="promptTitle">Select a Phase to Begin</h2>
+                    <div class="input-fields" id="inputFields">
+                        <!-- Input fields will be dynamically generated -->
+                    </div>
+                    <button class="generate-btn" id="generateBtn" disabled>Generate Prompt</button>
+                </div>
+
+                <div class="result-section" id="resultSection" style="display: none;">
+                    <div class="result-header">
+                        <h2>Generated Prompt</h2>
+                        <button class="copy-btn" id="copyBtn">
+                            <span class="copy-icon">📋</span>
+                            Copy Prompt
+                        </button>
+                    </div>
+                    <div class="result-card">
+                        <pre id="generatedPrompt"></pre>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="back-btn" id="backBtn">Generate Another Prompt</button>
+                        <button class="next-btn" id="nextBtn">Next Phase</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>COMPLETE WHITEBOARD VIDEO CREATION PROMPT SYSTEM &copy; 2023</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
