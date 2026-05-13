@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SALES FUNNEL PROMPT SYSTEM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <button class="theme-toggle" id="themeToggle">
+            <span class="theme-icon">🌙</span>
+        </button>
+        <div class="container">
+            <h1>SALES FUNNEL PROMPT SYSTEM</h1>
+            <p class="subtitle">Generate high-converting sales funnel prompts for any product or service</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="prompt-selector">
+                <h3 class="phase-title">🧭 PHASE 1: Funnel Foundation</h3>
+                <ul class="prompt-list">
+                    <li class="prompt-item active" data-prompt="1">🔹 Niche & Audience Discovery</li>
+                    <li class="prompt-item" data-prompt="2">🔹 Offer Creation & Value Ladder</li>
+                    <li class="prompt-item" data-prompt="3">🔹 Funnel Blueprint Mapping</li>
+                </ul>
+
+                <h3 class="phase-title">💡 PHASE 2: Funnel Copywriting</h3>
+                <ul class="prompt-list">
+                    <li class="prompt-item" data-prompt="4">🔹 Landing Page Copy (Lead Magnet)</li>
+                    <li class="prompt-item" data-prompt="5">🔹 Sales Page Copy (Main Offer)</li>
+                    <li class="prompt-item" data-prompt="6">🔹 Upsell/Downsell Page Copy</li>
+                </ul>
+
+                <h3 class="phase-title">📩 PHASE 3: Email Marketing</h3>
+                <ul class="prompt-list">
+                    <li class="prompt-item" data-prompt="7">🔹 Lead Nurture Email Sequence</li>
+                    <li class="prompt-item" data-prompt="8">🔹 Sales Conversion Email Sequence</li>
+                    <li class="prompt-item" data-prompt="9">🔹 Post-Purchase Email Sequence</li>
+                </ul>
+
+                <h3 class="phase-title">📱 PHASE 4: Traffic Generation</h3>
+                <ul class="prompt-list">
+                    <li class="prompt-item" data-prompt="10">🔹 Social Media Ad Copy</li>
+                    <li class="prompt-item" data-prompt="11">🔹 Video Sales Script</li>
+                    <li class="prompt-item" data-prompt="12">🔹 Retargeting Ad Script</li>
+                </ul>
+
+                <h3 class="phase-title">⚙️ PHASE 5: Optimization</h3>
+                <ul class="prompt-list">
+                    <li class="prompt-item" data-prompt="13">🔹 Funnel Optimization Audit</li>
+                    <li class="prompt-item" data-prompt="14">🔹 Customer Feedback Analysis</li>
+                </ul>
+
+                <h3 class="phase-title">🔁 PHASE 6: Scaling</h3>
+                <ul class="prompt-list">
+                    <li class="prompt-item" data-prompt="15">🔹 Funnel Scaling Plan</li>
+                    <li class="prompt-item" data-prompt="16">🔹 Evergreen Funnel Conversion</li>
+                </ul>
+
+                <h3 class="phase-title">🧠 BONUS</h3>
+                <ul class="prompt-list">
+                    <li class="prompt-item" data-prompt="17">🔹 Build the Entire Funnel System</li>
+                </ul>
+            </div>
+
+            <div class="prompt-generator">
+                <div class="prompt-header">
+                    <h2 class="prompt-title">Niche & Audience Discovery</h2>
+                    <div class="prompt-number">1</div>
+                </div>
+                
+                <p class="prompt-description">
+                    You are a professional market researcher and sales strategist. Analyze and identify the most profitable niche and target audience for your product or service.
+                </p>
+
+                <form id="promptForm">
+                    <div class="input-group">
+                        <label for="productType">Type of Product or Service</label>
+                        <input type="text" id="productType" placeholder="e.g., Online course, SaaS tool, Coaching program" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-full pulse">
+                        <span class="btn-icon">🚀</span> Generate Prompt
+                    </button>
+                </form>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Generating your prompt...</p>
+                </div>
+
+                <div class="result-container" id="resultContainer">
+                    <div class="result-header">
+                        <h3 class="result-title">Generated Prompt</h3>
+                        <button class="copy-btn" id="copyBtn">
+                            <span class="copy-icon">📋</span> Copy Prompt
+                        </button>
+                    </div>
+                    <div class="result-content" id="resultContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>SALES FUNNEL PROMPT SYSTEM &copy; 2023 | Generate high-converting sales funnel prompts</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
