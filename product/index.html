@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE ULTIMATE DIGITAL PRODUCT PROMPT SYSTEM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #7209b7;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --light-text: #6c757d;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--light-text);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .phase-selector {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            height: fit-content;
+        }
+
+        .phase-list {
+            list-style: none;
+        }
+
+        .phase-item {
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .phase-btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background-color: transparent;
+            border: none;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .phase-btn:hover {
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .phase-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .prompt-section {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .prompt-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .prompt-card {
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .prompt-card:hover {
+            box-shadow: var(--box-shadow);
+        }
+
+        .prompt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .prompt-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+
+        .prompt-number {
+            background-color: var(--accent-color);
+            color: white;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+        }
+
+        .prompt-description {
+            color: var(--light-text);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .result-container {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .result-content {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            white-space: pre-wrap;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .copy-btn {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .copy-btn:hover {
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .copy-btn.copied {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(67, 97, 238, 0.2);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>THE ULTIMATE DIGITAL PRODUCT PROMPT SYSTEM</h1>
+            <p class="subtitle">From Idea to Profit — All in One Framework. Select a phase, choose a prompt, and generate AI-ready prompts for your digital product creation journey.</p>
+        </header>
+
+        <div class="app-container">
+            <div class="phase-selector">
+                <h2 class="section-title">Phases</h2>
+                <ul class="phase-list">
+                    <li class="phase-item">
+                        <button class="phase-btn active" data-phase="1">
+                            <span>Phase 1: Idea Discovery & Validation</span>
+                            <span>🎯</span>
+                        </button>
+                    </li>
+                    <li class="phase-item">
+                        <button class="phase-btn" data-phase="2">
+                            <span>Phase 2: Product Planning & Structure</span>
+                            <span>🧱</span>
+                        </button>
+                    </li>
+                    <li class="phase-item">
+                        <button class="phase-btn" data-phase="3">
+                            <span>Phase 3: Content Creation</span>
+                            <span>✍️</span>
+                        </button>
+                    </li>
+                    <li class="phase-item">
+                        <button class="phase-btn" data-phase="4">
+                            <span>Phase 4: Branding & Design</span>
+                            <span>🎨</span>
+                        </button>
+                    </li>
+                    <li class="phase-item">
+                        <button class="phase-btn" data-phase="5">
+                            <span>Phase 5: Marketing Assets Creation</span>
+                            <span>💰</span>
+                        </button>
+                    </li>
+                    <li class="phase-item">
+                        <button class="phase-btn" data-phase="6">
+                            <span>Phase 6: Technical Setup & Delivery</span>
+                            <span>⚙️</span>
+                        </button>
+                    </li>
+                    <li class="phase-item">
+                        <button class="phase-btn" data-phase="7">
+                            <span>Phase 7: Launch & Sales Scaling</span>
+                            <span>📈</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="prompt-section">
+                <!-- Phase 1 Content -->
+                <div class="phase-content active" id="phase-1">
+                    <h2 class="section-title">🎯 Phase 1: Idea Discovery & Validation</h2>
+                    <div class="prompt-list">
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Niche & Problem Discovery</h3>
+                                <span class="prompt-number">Prompt 1</span>
+                            </div>
+                            <p class="prompt-description">Find profitable ideas that solve real problems in your niche.</p>
+                            <div class="input-group">
+                                <label for="topic-industry">Industry/Topic:</label>
+                                <select id="topic-industry">
+                                    <option value="">Select an industry</option>
+                                    <option value="Health & wellness">Health & wellness</option>
+                                    <option value="Technology & software">Technology & software</option>
+                                    <option value="Finance & investing">Finance & investing</option>
+                                    <option value="Education & learning">Education & learning</option>
+                                    <option value="E-commerce & retail">E-commerce & retail</option>
+                                    <option value="Creative arts & design">Creative arts & design</option>
+                                    <option value="Business & productivity">Business & productivity</option>
+                                    <option value="Sustainability & green living">Sustainability & green living</option>
+                                    <option value="Personal development">Personal development</option>
+                                    <option value="Food & cooking">Food & cooking</option>
+                                </select>
+                            </div>
+                            <button class="btn generate-btn" data-prompt="1">Generate Prompt</button>
+                        </div>
+
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Validation & Market Fit</h3>
+                                <span class="prompt-number">Prompt 2</span>
+                            </div>
+                            <p class="prompt-description">Validate your product idea and analyze market fit.</p>
+                            <div class="input-group">
+                                <label for="product-idea">Product Idea:</label>
+                                <input type="text" id="product-idea" placeholder="Enter your product idea">
+                            </div>
+                            <button class="btn generate-btn" data-prompt="2">Generate Prompt</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2 Content -->
+                <div class="phase-content" id="phase-2">
+                    <h2 class="section-title">🧱 Phase 2: Product Planning & Structure</h2>
+                    <div class="prompt-list">
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Product Outline Blueprint</h3>
+                                <span class="prompt-number">Prompt 3</span>
+                            </div>
+                            <p class="prompt-description">Create a complete outline for your digital product.</p>
+                            <div class="input-group">
+                                <label for="product-type">Product Type:</label>
+                                <select id="product-type">
+                                    <option value="">Select product type</option>
+                                    <option value="ebook">Ebook</option>
+                                    <option value="video course">Video Course</option>
+                                    <option value="SaaS app">SaaS App</option>
+                                    <option value="mobile app">Mobile App</option>
+                                    <option value="membership site">Membership Site</option>
+                                    <option value="digital template">Digital Template</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="product-topic">Product Topic:</label>
+                                <input type="text" id="product-topic" placeholder="Enter your product topic">
+                            </div>
+                            <button class="btn generate-btn" data-prompt="3">Generate Prompt</button>
+                        </div>
+
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Unique Selling Proposition (USP)</h3>
+                                <span class="prompt-number">Prompt 4</span>
+                            </div>
+                            <p class="prompt-description">Craft a compelling unique selling proposition for your product.</p>
+                            <div class="input-group">
+                                <label for="product-idea-2">Product Idea:</label>
+                                <input type="text" id="product-idea-2" placeholder="Enter your product idea">
+                            </div>
+                            <button class="btn generate-btn" data-prompt="4">Generate Prompt</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3 Content -->
+                <div class="phase-content" id="phase-3">
+                    <h2 class="section-title">✍️ Phase 3: Content Creation</h2>
+                    <div class="prompt-list">
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Ebook Chapter Writer</h3>
+                                <span class="prompt-number">Prompt 5</span>
+                            </div>
+                            <p class="prompt-description">Write a detailed chapter for your ebook.</p>
+                            <div class="input-group">
+                                <label for="ebook-title">Ebook Title:</label>
+                                <input type="text" id="ebook-title" placeholder="Enter your ebook title">
+                            </div>
+                            <div class="input-group">
+                                <label for="chapter-name">Chapter Name:</label>
+                                <input type="text" id="chapter-name" placeholder="Enter chapter name">
+                            </div>
+                            <div class="input-group">
+                                <label for="tone">Tone:</label>
+                                <select id="tone">
+                                    <option value="friendly">Friendly</option>
+                                    <option value="professional">Professional</option>
+                                    <option value="inspirational">Inspirational</option>
+                                </select>
+                            </div>
+                            <button class="btn generate-btn" data-prompt="5">Generate Prompt</button>
+                        </div>
+
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Video Script Creator</h3>
+                                <span class="prompt-number">Prompt 6</span>
+                            </div>
+                            <p class="prompt-description">Write the script for a lesson in your video course.</p>
+                            <div class="input-group">
+                                <label for="course-name">Course Name:</label>
+                                <input type="text" id="course-name" placeholder="Enter your course name">
+                            </div>
+                            <div class="input-group">
+                                <label for="lesson-topic">Lesson Topic:</label>
+                                <input type="text" id="lesson-topic" placeholder="Enter lesson topic">
+                            </div>
+                            <button class="btn generate-btn" data-prompt="6">Generate Prompt</button>
+                        </div>
+
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">App or SaaS Feature Map</h3>
+                                <span class="prompt-number">Prompt 7</span>
+                            </div>
+                            <p class="prompt-description">Design the feature structure for your app.</p>
+                            <div class="input-group">
+                                <label for="app-purpose">App Purpose:</label>
+                                <textarea id="app-purpose" placeholder="Describe what your app does"></textarea>
+                            </div>
+                            <button class="btn generate-btn" data-prompt="7">Generate Prompt</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 4 Content -->
+                <div class="phase-content" id="phase-4">
+                    <h2 class="section-title">🎨 Phase 4: Branding & Design</h2>
+                    <div class="prompt-list">
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Branding Identity</h3>
+                                <span class="prompt-number">Prompt 8</span>
+                            </div>
+                            <p class="prompt-description">Create a brand identity for your product.</p>
+                            <div class="input-group">
+                                <label for="product-name-1">Product Name:</label>
+                                <input type="text" id="product-name-1" placeholder="Enter your product name">
+                            </div>
+                            <button class="btn generate-btn" data-prompt="8">Generate Prompt</button>
+                        </div>
+
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">UI/UX & Mockups</h3>
+                                <span class="prompt-number">Prompt 9</span>
+                            </div>
+                            <p class="prompt-description">Design the layout for your product interface.</p>
+                            <div class="input-group">
+                                <label for="product-type-2">Product Type:</label>
+                                <select id="product-type-2">
+                                    <option value="">Select product type</option>
+                                    <option value="app dashboard">App Dashboard</option>
+                                    <option value="ebook cover">Ebook Cover</option>
+                                    <option value="course landing page">Course Landing Page</option>
+                                    <option value="website">Website</option>
+                                    <option value="mobile app">Mobile App</option>
+                                </select>
+                            </div>
+                            <button class="btn generate-btn" data-prompt="9">Generate Prompt</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 5 Content -->
+                <div class="phase-content" id="phase-5">
+                    <h2 class="section-title">💰 Phase 5: Marketing Assets Creation</h2>
+                    <div class="prompt-list">
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Sales Page Copy</h3>
+                                <span class="prompt-number">Prompt 10</span>
+                            </div>
+                            <p class="prompt-description">Write a high-converting sales page for your product.</p>
+                            <div class="input-group">
+                                <label for="product-name-2">Product Name:</label>
+                                <input type="text" id="product-name-2" placeholder="Enter your product name">
+                            </div>
+                            <button class="btn generate-btn" data-prompt="10">Generate Prompt</button>
+                        </div>
+
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Email Funnel</h3>
+                                <span class="prompt-number">Prompt 11</span>
+                            </div>
+                            <p class="prompt-description">Create a 5-day email sequence to sell your product.</p>
+                            <div class="input-group">
+                                <label for="product-name-3">Product Name:</label>
+                                <input type="text" id="product-name-3" placeholder="Enter your product name">
+                            </div>
+                            <div class="input-group">
+                                <label for="email-tone">Email Tone:</label>
+                                <select id="email-tone">
+                                    <option value="friendly">Friendly</option>
+                                    <option value="inspirational">Inspirational</option>
+                                    <option value="persuasive">Persuasive</option>
+                                </select>
+                            </div>
+                            <button class="btn generate-btn" data-prompt="11">Generate Prompt</button>
+                        </div>
+
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Social Media Campaign</h3>
+                                <span class="prompt-number">Prompt 12</span>
+                            </div>
+                            <p class="prompt-description">Generate a 7-day social media campaign plan.</p>
+                            <div class="input-group">
+                                <label for="product-name-4">Product Name:</label>
+                                <input type="text" id="product-name-4" placeholder="Enter your product name">
+                            </div>
+                            <button class="btn generate-btn" data-prompt="12">Generate Prompt</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 6 Content -->
+                <div class="phase-content" id="phase-6">
+                    <h2 class="section-title">⚙️ Phase 6: Technical Setup & Delivery</h2>
+                    <div class="prompt-list">
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Platform Setup Guide</h3>
+                                <span class="prompt-number">Prompt 13</span>
+                            </div>
+                            <p class="prompt-description">Create a step-by-step setup guide for selling your product.</p>
+                            <div class="input-group">
+                                <label for="product-type-3">Product Type:</label>
+                                <select id="product-type-3">
+                                    <option value="">Select product type</option>
+                                    <option value="ebook">Ebook</option>
+                                    <option value="video course">Video Course</option>
+                                    <option value="SaaS app">SaaS App</option>
+                                    <option value="digital template">Digital Template</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="platform">Platform:</label>
+                                <select id="platform">
+                                    <option value="">Select platform</option>
+                                    <option value="Systeme.io">Systeme.io</option>
+                                    <option value="Gumroad">Gumroad</option>
+                                    <option value="Podia">Podia</option>
+                                    <option value="Shopify">Shopify</option>
+                                    <option value="WordPress">WordPress</option>
+                                    <option value="Kajabi">Kajabi</option>
+                                </select>
+                            </div>
+                            <button class="btn generate-btn" data-prompt="13">Generate Prompt</button>
+                        </div>
+
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Automation Workflow</h3>
+                                <span class="prompt-number">Prompt 14</span>
+                            </div>
+                            <p class="prompt-description">Design an automation workflow for your product.</p>
+                            <div class="input-group">
+                                <label for="product-name-5">Product Name:</label>
+                                <input type="text" id="product-name-5" placeholder="Enter your product name">
+                            </div>
+                            <button class="btn generate-btn" data-prompt="14">Generate Prompt</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 7 Content -->
+                <div class="phase-content" id="phase-7">
+                    <h2 class="section-title">📈 Phase 7: Launch & Sales Scaling</h2>
+                    <div class="prompt-list">
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Launch Strategy Plan</h3>
+                                <span class="prompt-number">Prompt 15</span>
+                            </div>
+                            <p class="prompt-description">Create a 7-day launch plan for your product.</p>
+                            <div class="input-group">
+                                <label for="product-name-6">Product Name:</label>
+                                <input type="text" id="product-name-6" placeholder="Enter your product name">
+                            </div>
+                            <button class="btn generate-btn" data-prompt="15">Generate Prompt</button>
+                        </div>
+
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Upsell & Bundle Strategy</h3>
+                                <span class="prompt-number">Prompt 16</span>
+                            </div>
+                            <p class="prompt-description">Suggest upsell, cross-sell, and bundle ideas.</p>
+                            <div class="input-group">
+                                <label for="product-name-7">Product Name:</label>
+                                <input type="text" id="product-name-7" placeholder="Enter your product name">
+                            </div>
+                            <button class="btn generate-btn" data-prompt="16">Generate Prompt</button>
+                        </div>
+
+                        <div class="prompt-card">
+                            <div class="prompt-header">
+                                <h3 class="prompt-title">Testimonial & Social Proof Builder</h3>
+                                <span class="prompt-number">Prompt 17</span>
+                            </div>
+                            <p class="prompt-description">Write example testimonials and social proof messages.</p>
+                            <div class="input-group">
+                                <label for="product-name-8">Product Name:</label>
+                                <input type="text" id="product-name-8" placeholder="Enter your product name">
+                            </div>
+                            <button class="btn generate-btn" data-prompt="17">Generate Prompt</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading Indicator -->
+                <div class="loading" id="loading-indicator">
+                    <div class="spinner"></div>
+                    <p>Generating your prompt...</p>
+                </div>
+
+                <!-- Result Container -->
+                <div class="result-container" id="result-container">
+                    <div class="result-header">
+                        <h3 class="result-title">Your Generated Prompt</h3>
+                        <button class="copy-btn" id="copy-btn">
+                            <span>Copy</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 4V16C8 16.5304 8.21071 17.0391 8.58579 17.4142C8.96086 17.7893 9.46957 18 10 18H18C18.5304 18 19.0391 17.7893 19.4142 17.4142C19.7893 17.0391 20 16.5304 20 16V7.242C20 6.97556 19.9467 6.71181 19.8433 6.46624C19.7399 6.22068 19.5885 5.99824 19.398 5.812L16.083 2.57C15.7094 2.20466 15.2076 2.00007 14.685 2H10C9.46957 2 8.96086 2.21071 8.58579 2.58579C8.21071 2.96086 8 3.46957 8 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M16 18V20C16 20.5304 15.7893 21.0391 15.4142 21.4142C15.0391 21.7893 14.5304 22 14 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V9C4 8.46957 4.21071 7.96086 4.58579 7.58579C4.96086 7.21071 5.46957 7 6 7H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="result-content" id="result-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Phase navigation
+            const phaseButtons = document.querySelectorAll('.phase-btn');
+            const phaseContents = document.querySelectorAll('.phase-content');
+            
+            phaseButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const phaseId = this.getAttribute('data-phase');
+                    
+                    // Update active button
+                    phaseButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    phaseContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `phase-${phaseId}`) {
+                            content.classList.add('active');
+                        }
+                    });
+                    
+                    // Hide result container when switching phases
+                    document.getElementById('result-container').style.display = 'none';
+                });
+            });
+            
+            // Generate prompt functionality
+            const generateButtons = document.querySelectorAll('.generate-btn');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const resultContainer = document.getElementById('result-container');
+            const resultContent = document.getElementById('result-content');
+            const copyButton = document.getElementById('copy-btn');
+            
+            generateButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const promptId = this.getAttribute('data-prompt');
+                    generatePrompt(promptId);
+                });
+            });
+            
+            function generatePrompt(promptId) {
+                // Show loading indicator
+                loadingIndicator.style.display = 'block';
+                resultContainer.style.display = 'none';
+                
+                // Simulate API call delay
+                setTimeout(() => {
+                    const prompt = getPromptContent(promptId);
+                    resultContent.textContent = prompt;
+                    
+                    // Hide loading and show result
+                    loadingIndicator.style.display = 'none';
+                    resultContainer.style.display = 'block';
+                    
+                    // Scroll to result
+                    resultContainer.scrollIntoView({ behavior: 'smooth' });
+                }, 1000);
+            }
+            
+            function getPromptContent(promptId) {
+                // This is where you would connect to your backend/database
+                // For now, we'll use a simple switch statement with template literals
+                
+                switch(promptId) {
+                    case '1':
+                        const industry = document.getElementById('topic-industry').value;
+                        if (!industry) {
+                            return "Please select an industry to generate the prompt.";
+                        }
+                        return `You are a professional digital strategist. Analyze current online market trends and list 10 profitable niche ideas in ${industry}. For each niche, include:
+
+- The target audience
+- The core pain point
+- Why it's trending
+- The best digital product type (ebook, course, SaaS, app, etc.) to solve it.`;
+                    
+                    case '2':
+                        const idea = document.getElementById('product-idea').value;
+                        if (!idea) {
+                            return "Please enter a product idea to generate the prompt.";
+                        }
+                        return `Act as a product validation expert. Validate the idea: ${idea}.
+Analyze it based on:
+
+- Market demand (search trends, forums, social media buzz)
+- Competition level
+- Potential price range
+- Ideal customer persona
+- Product differentiation strategy
+
+End with a score from 1–10 on viability.`;
+                    
+                    case '3':
+                        const productType = document.getElementById('product-type').value;
+                        const topic = document.getElementById('product-topic').value;
+                        if (!productType || !topic) {
+                            return "Please select a product type and enter a topic to generate the prompt.";
+                        }
+                        return `Act as a product architect. Create a complete outline for a ${productType} on the topic: ${topic}.
+Include:
+
+- Main modules or chapters
+- Subtopics under each
+- Learning objectives or value outcomes
+- Suggested visuals or bonus materials.`;
+                    
+                    case '4':
+                        const idea2 = document.getElementById('product-idea-2').value;
+                        if (!idea2) {
+                            return "Please enter a product idea to generate the prompt.";
+                        }
+                        return `As a branding strategist, craft a compelling USP for this product: ${idea2}.
+It should include:
+
+- Clear transformation promise
+- Key differentiator
+- One-sentence summary for marketing.`;
+                    
+                    case '5':
+                        const ebookTitle = document.getElementById('ebook-title').value;
+                        const chapterName = document.getElementById('chapter-name').value;
+                        const tone = document.getElementById('tone').value;
+                        if (!ebookTitle || !chapterName) {
+                            return "Please enter an ebook title and chapter name to generate the prompt.";
+                        }
+                        return `You are a bestselling author. Write a detailed chapter for an ebook titled '${ebookTitle}'.
+Chapter: ${chapterName}
+Include:
+
+- Engaging introduction
+- Main content in sections
+- Actionable steps
+- Summary & key takeaways
+
+Maintain tone: ${tone}.`;
+                    
+                    case '6':
+                        const courseName = document.getElementById('course-name').value;
+                        const lessonTopic = document.getElementById('lesson-topic').value;
+                        if (!courseName || !lessonTopic) {
+                            return "Please enter a course name and lesson topic to generate the prompt.";
+                        }
+                        return `You are an expert video course scriptwriter. Write the script for a lesson in a course titled '${courseName}'.
+Lesson topic: ${lessonTopic}
+Include:
+
+- Instructor narration
+- Visual suggestions
+- Key learning points
+- Engagement question at the end.`;
+                    
+                    case '7':
+                        const appPurpose = document.getElementById('app-purpose').value;
+                        if (!appPurpose) {
+                            return "Please describe your app's purpose to generate the prompt.";
+                        }
+                        return `You are a SaaS product manager. Design the feature structure for an app that ${appPurpose}.
+Include:
+
+- Core features
+- Optional add-ons
+- User flow (from sign-up to result)
+- Tech stack suggestion (frontend, backend, API)
+- Monetization model.`;
+                    
+                    case '8':
+                        const productName1 = document.getElementById('product-name-1').value;
+                        if (!productName1) {
+                            return "Please enter a product name to generate the prompt.";
+                        }
+                        return `Act as a brand designer. Create a brand identity for ${productName1}.
+Include:
+
+- Brand colors
+- Font pairing
+- Logo style suggestion
+- Voice & tone
+- Sample tagline and slogan.`;
+                    
+                    case '9':
+                        const productType2 = document.getElementById('product-type-2').value;
+                        if (!productType2) {
+                            return "Please select a product type to generate the prompt.";
+                        }
+                        return `You are a UX/UI designer. Design the layout for ${productType2}.
+Include:
+
+- Section structure
+- Visual hierarchy
+- Color palette usage
+- CTA placement and reasoning.`;
+                    
+                    case '10':
+                        const productName2 = document.getElementById('product-name-2').value;
+                        if (!productName2) {
+                            return "Please enter a product name to generate the prompt.";
+                        }
+                        return `You are a 7-figure copywriter. Write a high-converting sales page for ${productName2}.
+Include:
+
+- Headline
+- Subheadline
+- Hero section
+- Pain-agitate-solution copy
+- Testimonials (you can invent realistic ones)
+- CTA with urgency.`;
+                    
+                    case '11':
+                        const productName3 = document.getElementById('product-name-3').value;
+                        const emailTone = document.getElementById('email-tone').value;
+                        if (!productName3) {
+                            return "Please enter a product name to generate the prompt.";
+                        }
+                        return `You are an email marketing strategist. Create a 5-day email sequence to sell ${productName3}.
+Each email should include:
+
+- Subject line
+- Hook
+- Story or value message
+- CTA.
+
+The tone should be ${emailTone}.`;
+                    
+                    case '12':
+                        const productName4 = document.getElementById('product-name-4').value;
+                        if (!productName4) {
+                            return "Please enter a product name to generate the prompt.";
+                        }
+                        return `You are a social media marketing expert. Generate a 7-day campaign plan for ${productName4}.
+Include:
+
+- Daily post topic
+- Caption example
+- Recommended image/video idea
+- Hashtags and call-to-action.`;
+                    
+                    case '13':
+                        const productType3 = document.getElementById('product-type-3').value;
+                        const platform = document.getElementById('platform').value;
+                        if (!productType3 || !platform) {
+                            return "Please select a product type and platform to generate the prompt.";
+                        }
+                        return `You are a tech integration specialist. Create a step-by-step setup guide for selling and delivering ${productType3} using ${platform}.
+Include:
+
+- Account setup
+- Product upload
+- Payment setup
+- Automation for delivery
+- Email collection & follow-up.`;
+                    
+                    case '14':
+                        const productName5 = document.getElementById('product-name-5').value;
+                        if (!productName5) {
+                            return "Please enter a product name to generate the prompt.";
+                        }
+                        return `As a workflow automation expert, design an automation for ${productName5}.
+Include:
+
+- Trigger (e.g., purchase, signup)
+- Actions (e.g., send email, grant access, upsell)
+- Tools to use (Zapier, Make, Systeme.io, etc.).`;
+                    
+                    case '15':
+                        const productName6 = document.getElementById('product-name-6').value;
+                        if (!productName6) {
+                            return "Please enter a product name to generate the prompt.";
+                        }
+                        return `You are a digital launch strategist. Create a 7-day launch plan for ${productName6}.
+Include:
+
+- Pre-launch engagement
+- Live webinar or challenge idea
+- Launch-day checklist
+- Post-launch retargeting steps.`;
+                    
+                    case '16':
+                        const productName7 = document.getElementById('product-name-7').value;
+                        if (!productName7) {
+                            return "Please enter a product name to generate the prompt.";
+                        }
+                        return `You are a digital monetization expert. Suggest upsell, cross-sell, and bundle ideas for ${productName7}.
+Include:
+
+- 3 upsell options
+- Bundle pricing strategy
+- One recurring revenue model idea.`;
+                    
+                    case '17':
+                        const productName8 = document.getElementById('product-name-8').value;
+                        if (!productName8) {
+                            return "Please enter a product name to generate the prompt.";
+                        }
+                        return `You are a customer success strategist. Write 5 example testimonials and 3 social proof messages that can be used on sales pages and emails for ${productName8}.
+Keep them authentic and varied (students, professionals, beginners).`;
+                    
+                    default:
+                        return "Prompt not found. Please try again.";
+                }
+            }
+            
+            // Copy to clipboard functionality
+            copyButton.addEventListener('click', function() {
+                const textToCopy = resultContent.textContent;
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    // Visual feedback for successful copy
+                    copyButton.classList.add('copied');
+                    copyButton.innerHTML = '<span>Copied!</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                    
+                    setTimeout(() => {
+                        copyButton.classList.remove('copied');
+                        copyButton.innerHTML = '<span>Copy</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 4V16C8 16.5304 8.21071 17.0391 8.58579 17.4142C8.96086 17.7893 9.46957 18 10 18H18C18.5304 18 19.0391 17.7893 19.4142 17.4142C19.7893 17.0391 20 16.5304 20 16V7.242C20 6.97556 19.9467 6.71181 19.8433 6.46624C19.7399 6.22068 19.5885 5.99824 19.398 5.812L16.083 2.57C15.7094 2.20466 15.2076 2.00007 14.685 2H10C9.46957 2 8.96086 2.21071 8.58579 2.58579C8.21071 2.96086 8 3.46957 8 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 18V20C16 20.5304 15.7893 21.0391 15.4142 21.4142C15.0391 21.7893 14.5304 22 14 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V9C4 8.46957 4.21071 7.96086 4.58579 7.58579C4.96086 7.21071 5.46957 7 6 7H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    alert('Failed to copy text to clipboard. Please try again.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
