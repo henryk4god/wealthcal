@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVERGREEN WEBINAR SLIDE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">EVERGREEN WEBINAR SLIDE</h1>
+            <p class="subtitle">Create high-converting webinar slides and teacher notes</p>
+        </header>
+
+        <main class="main-content">
+            <div class="phase-selector">
+                <h2>Select a Phase</h2>
+                <div class="phase-buttons">
+                    <button class="phase-btn" data-phase="1">Phase 1: Discovery & Positioning</button>
+                    <button class="phase-btn" data-phase="2">Phase 2: Slide Structure Development</button>
+                    <button class="phase-btn" data-phase="3">Phase 3: Slide Content Creation</button>
+                    <button class="phase-btn" data-phase="4">Phase 4: Offer & Close</button>
+                    <button class="phase-btn" data-phase="5">Phase 5: Design & Finalization</button>
+                </div>
+            </div>
+
+            <div class="prompt-section">
+                <div class="prompt-header">
+                    <h2 id="prompt-title">Select a Phase to Get Started</h2>
+                    <div class="progress-indicator">
+                        <span id="current-prompt">0</span> of <span id="total-prompts">15</span>
+                    </div>
+                </div>
+
+                <div class="prompt-content">
+                    <div class="input-section">
+                        <div id="input-fields">
+                            <!-- Dynamic input fields will be inserted here -->
+                        </div>
+                        <button id="generate-btn" class="generate-btn">Generate Prompt</button>
+                    </div>
+
+                    <div class="result-section">
+                        <div class="result-header">
+                            <h3>Generated Prompt</h3>
+                            <button id="copy-btn" class="copy-btn">
+                                <span class="copy-icon">📋</span>
+                                Copy Prompt
+                            </button>
+                        </div>
+                        <div id="result-content" class="result-content">
+                            <p class="placeholder-text">Your generated prompt will appear here</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="navigation-buttons">
+                    <button id="prev-btn" class="nav-btn" disabled>Previous</button>
+                    <button id="next-btn" class="nav-btn" disabled>Next Phase</button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2023 EVERGREEN WEBINAR SLIDE. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
