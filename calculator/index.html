@@ -250,9 +250,16 @@ risk: riskSelect.value
 });
 
 const res = await fetch(`${SCRIPT_URL}?${params.toString()}`);
+
+if (!res.ok) {
+throw new Error(`HTTP error! status: ${res.status}`);
+}
+
 const json = await res.json();
 
-if(json.status !== "success") throw new Error("Backend response error");
+if(json.status !== "success") {
+throw new Error(json.message || "Unknown backend error occurred.");
+}
 
 storedResult = json.content;
 
@@ -260,8 +267,8 @@ welcomeState.classList.add("hidden");
 preGate.classList.remove("hidden");
 
 } catch(err){
-alert("Error generating plan. Check backend.");
-console.error(err);
+alert(`Error generating plan: ${err.message}\n\nPlease check your Google Apps Script configuration and ensure script properties (API_KEY, API_URL, API_MODEL) are set up properly.`);
+console.error("Diagnostic error trace:", err);
 }
 
 btn.disabled = false;
