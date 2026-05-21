@@ -175,6 +175,17 @@ Get Full Strategy on WhatsApp →
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw1enICZFH4DFdhaglEiJN9df0mjgJ1zn4q1XfYJ1K4ZOXe_gsBbnfrO2wSFTTCjeOO/exec";
 let storedResult = "";
 
+// Element Selectors
+const welcomeState = document.getElementById("welcome-state");
+const preGate = document.getElementById("preGate");
+const resultContainer = document.getElementById("result-container");
+const downloadBtn = document.getElementById("downloadBtn");
+const incomeInput = document.getElementById("income");
+const countryInput = document.getElementById("country");
+const currencyInput = document.getElementById("currency");
+const goalSelect = document.getElementById("goal");
+const riskSelect = document.getElementById("risk");
+
 // COUNTRY DATA
 const data = [
 {n:"Nigeria",c:"NGN"},
@@ -207,14 +218,14 @@ currencyList.appendChild(opt);
 });
 
 // Auto match
-country.addEventListener("input", function(){
+countryInput.addEventListener("input", function(){
 let match = data.find(x=>x.n.toLowerCase() === this.value.toLowerCase());
-if(match) currency.value = match.c;
+if(match) currencyInput.value = match.c;
 });
 
 // SMALL POWERFUL UPGRADE
-country.value = "Nigeria";
-currency.value = "NGN";
+countryInput.value = "Nigeria";
+currencyInput.value = "NGN";
 
 // FORM SUBMIT
 document.getElementById("wealthForm").addEventListener("submit", async (e)=>{
@@ -231,21 +242,21 @@ text.innerText = "Generating...";
 try {
 
 const params = new URLSearchParams({
-income: income.value,
-country: country.value,
-currency: currency.value,
-goal: goal.value,
-risk: risk.value
+income: incomeInput.value,
+country: countryInput.value,
+currency: currencyInput.value,
+goal: goalSelect.value,
+risk: riskSelect.value
 });
 
 const res = await fetch(`${SCRIPT_URL}?${params.toString()}`);
 const json = await res.json();
 
-if(json.status !== "success") throw new Error();
+if(json.status !== "success") throw new Error("Backend response error");
 
 storedResult = json.content;
 
-welcome-state.classList.add("hidden");
+welcomeState.classList.add("hidden");
 preGate.classList.remove("hidden");
 
 } catch(err){
@@ -262,7 +273,7 @@ text.innerText = "GENERATE PLAN";
 // SHOW RESULT
 function showResult(){
 preGate.classList.add("hidden");
-result-container.classList.remove("hidden");
+resultContainer.classList.remove("hidden");
 document.getElementById("result-content").innerHTML = marked.parse(storedResult);
 }
 
