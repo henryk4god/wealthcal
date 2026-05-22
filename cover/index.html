@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Marketing Assets Generator</title>
+  
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- STYLE.CSS CONTENT INLINED BELOW -->
+  <style>
+    :root {
+      --primary-color: #7c3aed; /* Vibrant Violet */
+      --primary-hover: #6d28d9;
+      --primary-light: #f5f3ff;
+      --secondary-color: #ec4899; /* Bright Pink */
+      --secondary-light: #fdf2f8;
+      --accent-color: #06b6d4; /* Teal */
+      --bg-gradient: linear-gradient(135deg, #f5f3ff 0%, #fdf2f8 100%);
+      --card-bg: #ffffff;
+      --text-color: #1e1b4b; /* Deep Indigo Navy */
+      --text-muted: #6b7280;
+      --border-color: #e9d5ff; /* Light Purple Border */
+      --success-color: #10b981;
+      
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --shadow-sm: 0 4px 6px -1px rgba(124, 58, 237, 0.05);
+      --shadow-md: 0 10px 15px -3px rgba(124, 58, 237, 0.1), 0 4px 6px -4px rgba(124, 58, 237, 0.1);
+      --shadow-lg: 0 20px 25px -5px rgba(124, 58, 237, 0.15), 0 8px 10px -6px rgba(124, 58, 237, 0.15);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 40px 15px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: var(--transition);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Ambient Background Glows */
+    .glow-orb-1 {
+      position: absolute;
+      top: -100px;
+      left: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(255,255,255,0) 70%);
+      z-index: -1;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .glow-orb-2 {
+      position: absolute;
+      top: 300px;
+      right: -100px;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, rgba(255,255,255,0) 70%);
+      z-index: -1;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Header Design */
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 10px 0;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 18px;
+      box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+      animation: bouncePulse 4s infinite ease-in-out;
+    }
+
+    header h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.75px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 620px;
+      margin: 0 auto;
+      font-weight: 400;
+    }
+
+    /* Optional API Box styling */
+    .settings-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: -15px auto 30px auto;
+      font-size: 0.85rem;
+      color: var(--primary-color);
+      cursor: pointer;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 8px 18px;
+      border-radius: 50px;
+      width: max-content;
+      font-weight: 600;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .settings-button:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .api-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 30px;
+      display: none;
+      box-shadow: var(--shadow-md);
+      animation: slideDown 0.3s ease-out forwards;
+    }
+
+    .api-panel.show {
+      display: block;
+    }
+
+    .api-panel p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    /* Cards Layout */
+    .card {
+      background-color: var(--card-bg);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-md);
+      padding: 30px;
+      transition: var(--transition);
+      margin-bottom: 30px;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--primary-color);
+      border-bottom: 2px dashed var(--primary-light);
+      padding-bottom: 12px;
+    }
+
+    /* Input Controls */
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-color);
+      text-transform: uppercase;
+      letter-spacing: 0.75px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary-color);
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+    }
+
+    input[type="text"], select, textarea {
+      width: 100%;
+      padding: 14px 16px 14px 46px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      transition: var(--transition);
+      outline: none;
+    }
+
+    input[type="text"]:focus, select:focus, textarea:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15);
+      background-color: #ffffff;
+    }
+
+    .helper-text {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      display: block;
+    }
+
+    /* Premium Presets Section */
+    .preset-header {
+      font-size: 0.8rem;
+      color: var(--primary-color);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+
+    .presets-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 25px;
+    }
+
+    .preset-pill {
+      background-color: var(--primary-light);
+      border: 1px solid var(--border-color);
+      color: var(--primary-color);
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .preset-pill:hover {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+      transform: translateY(-1px);
+    }
+
+    /* Template Picker Grid */
+    .asset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .asset-card {
+      background: var(--primary-light);
+      border: 2px solid transparent;
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .asset-card i {
+      width: 24px;
+      height: 24px;
+      color: var(--primary-color);
+    }
+
+    .asset-card span {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .asset-card.selected {
+      background-color: #ffffff;
+      border-color: var(--primary-color);
+      box-shadow: var(--shadow-md);
+      transform: scale(1.03);
+    }
+
+    .asset-card.selected i {
+      color: var(--secondary-color);
+    }
+
+    /* Big Bright Action Button */
+    .action-btn-main {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      border: none;
+      padding: 16px 24px;
+      font-family: inherit;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 10px 20px rgba(124, 58, 237, 0.2);
+      transition: var(--transition);
+    }
+
+    .action-btn-main:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(124, 58, 237, 0.3);
+      filter: brightness(1.05);
+    }
+
+    .action-btn-main:active {
+      transform: translateY(-1px);
+    }
+
+    /* Output Results Styling */
+    .output-wrapper-card {
+      background: #ffffff;
+      border: 2px solid var(--primary-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-top: 35px;
+      display: none;
+      animation: fadeIn 0.5s ease-out;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .output-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .output-title-label {
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary-color);
+    }
+
+    .copy-pill-btn {
+      background-color: var(--primary-light);
+      border: 1px solid var(--border-color);
+      color: var(--primary-color);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .copy-pill-btn:hover {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    .copy-pill-btn.success {
+      background-color: var(--success-color);
+      color: white;
+      border-color: var(--success-color);
+    }
+
+    /* Clean Bright Output Code Block */
+    .output-text-area {
+      background: #fdfbff;
+      color: #2e1065; /* Dark violet text */
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 22px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-height: 180px;
+      max-height: 450px;
+      overflow-y: auto;
+      line-height: 1.6;
+      font-weight: 500;
+      box-shadow: inset 0 2px 4px rgba(124, 58, 237, 0.05);
+    }
+
+    /* Loading Indicator */
+    .loader-box {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      border: 1px dashed var(--border-color);
+      box-shadow: var(--shadow-md);
+      margin-top: 30px;
+    }
+
+    .spinning-wheel {
+      border: 4px solid var(--primary-light);
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 14px;
+    }
+
+    /* Toast system */
+    .notification-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e1b4b;
+      color: white;
+      padding: 14px 24px;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateY(100px);
+      opacity: 0;
+      z-index: 9999;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+
+    .notification-toast.reveal {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Keyframe Animations */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes bouncePulse {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-6px) scale(1.04); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile Adaptations */
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 10px;
+      }
+      header h1 {
+        font-size: 1.8rem;
+      }
+      .card {
+        padding: 20px;
+      }
+      .asset-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .output-header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .copy-pill-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Glow Orbs for Visual Premium Depth -->
+  <div class="glow-orb-1"></div>
+  <div class="glow-orb-2"></div>
+
+  <div class="container">
+    <header>
+      <div class="logo-badge">
+        <i data-lucide="sparkles" style="width: 32px; height: 32px;"></i>
+      </div>
+      <h1>Image Marketing Assets Generator</h1>
+      <p>Transform raw copy ideas into highly-detailed, high-converting design prompts for Gemini AI, DALL-E, or Midjourney.</p>
+    </header>
+
+    <!-- Optional API Configuration -->
+    <div class="settings-button" onclick="toggleApiSettings()">
+      <i data-lucide="cog" style="width: 15px; height: 15px;"></i>
+      <span>Connect Gemini API (Optional)</span>
+    </div>
+
+    <!-- Hidden API Key Panel -->
+    <div class="api-panel" id="apiPanel">
+      <p>By default, this tool synthesizes perfect ready-to-copy design instructions client-side. If you prefer to have the <strong>Gemini AI Model</strong> dynamically expand and enhance your design parameters, paste your API key below.</p>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label for="apiKey">Gemini API Key</label>
+        <div class="input-wrapper">
+          <i data-lucide="key" class="input-icon"></i>
+          <input type="text" id="apiKey" placeholder="AIzaSy..." style="padding-left: 46px;" oninput="saveKeyLocal()">
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Interface -->
+    <div class="card">
+      <div class="card-title">
+        <i data-lucide="palette"></i>
+        <span>Configure Visual Prompt Options</span>
+      </div>
+
+      <!-- Quick Start Presets -->
+      <div class="preset-header">Try a Quick Start Preset</div>
+      <div class="presets-row">
+        <button type="button" class="preset-pill" onclick="applyPreset('wealth')">₦5k Wealth Blueprint</button>
+        <button type="button" class="preset-pill" onclick="applyPreset('crypto')">Crypto For Beginners</button>
+        <button type="button" class="preset-pill" onclick="applyPreset('cooking')">Healthy Cooking</button>
+        <button type="button" class="preset-pill" onclick="applyPreset('coding')">Python Automation</button>
+      </div>
+
+      <!-- Main Input Fields -->
+      <form id="generatorForm" onsubmit="generatePromptAssets(event)">
+        
+        <!-- Asset Selector -->
+        <div class="form-group">
+          <label>1. Select Marketing Asset Type</label>
+          <div class="asset-grid" id="assetGrid">
+            <div class="asset-card selected" data-value="Product cover mockups" onclick="selectAsset(this)">
+              <i data-lucide="box"></i>
+              <span>Product Cover</span>
+            </div>
+            <div class="asset-card" data-value="Promo banners" onclick="selectAsset(this)">
+              <i data-lucide="flag"></i>
+              <span>Promo Banner</span>
+            </div>
+            <div class="asset-card" data-value="Carousel posts" onclick="selectAsset(this)">
+              <i data-lucide="layers"></i>
+              <span>Carousel Post</span>
+            </div>
+            <div class="asset-card" data-value="Ebook Cover" onclick="selectAsset(this)">
+              <i data-lucide="book-open"></i>
+              <span>Ebook Cover</span>
+            </div>
+            <div class="asset-card" data-value="Ad Image Cover" onclick="selectAsset(this)">
+              <i data-lucide="megaphone"></i>
+              <span>Ad Image Cover</span>
+            </div>
+            <div class="asset-card" data-value="Lading Page Product Image" onclick="selectAsset(this)">
+              <i data-lucide="monitor"></i>
+              <span>Landing Page</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="productName">Product Name</label>
+          <div class="input-wrapper">
+            <i data-lucide="tag" class="input-icon"></i>
+            <input type="text" id="productName" required placeholder="e.g., The ₦5k Wealth Blueprint">
+          </div>
+          <span class="helper-text">What is the creative, high-converting title of your product?</span>
+        </div>
+
+        <div class="form-group">
+          <label for="skillTopic">The Skill/Topic I am Teaching</label>
+          <div class="input-wrapper">
+            <i data-lucide="graduation-cap" class="input-icon"></i>
+            <input type="text" id="skillTopic" required placeholder="e.g., Micro-investing and automated daily savings systems">
+          </div>
+          <span class="helper-text">What core knowledge or action is the customer learning?</span>
+        </div>
+
+        <div class="form-group">
+          <label for="resourceHave">The Resource They Already Have</label>
+          <div class="input-wrapper">
+            <i data-lucide="smartphone" class="input-icon"></i>
+            <input type="text" id="resourceHave" required placeholder="e.g., A smartphone and ₦5,000 weekly">
+          </div>
+          <span class="helper-text">What simple starting tool/capital do they need?</span>
+        </div>
+
+        <div class="form-group">
+          <label for="targetAudience">Target Audience</label>
+          <div class="input-wrapper">
+            <i data-lucide="users" class="input-icon"></i>
+            <input type="text" id="targetAudience" required placeholder="e.g., Busy young professionals and beginners in Nigeria">
+          </div>
+          <span class="helper-text">Describe the core demographic who needs this offer.</span>
+        </div>
+
+        <button type="submit" class="action-btn-main" id="submitBtn">
+          <i data-lucide="wand-2"></i>
+          <span>Synthesize Image Prompt</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Live Loading Box -->
+    <div class="loader-box" id="loaderBox">
+      <div class="spinning-wheel"></div>
+      <p style="font-weight: 600; color: var(--primary-color);">Structuring Professional Graphic Prompt...</p>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Analyzing colors, emotional psychology, and aspect layout ratios...</p>
+    </div>
+
+    <!-- Output Prompt Panel -->
+    <div class="output-wrapper-card" id="outputPanel">
+      <div class="output-header-bar">
+        <div class="output-title-label">
+          <i data-lucide="sparkle" style="color: var(--secondary-color);"></i>
+          <span>Your Complete Copy-Ready Design Prompt</span>
+        </div>
+        <button class="copy-pill-btn" onclick="copyPromptToClipboard()" id="copyBtn">
+          <i data-lucide="copy"></i>
+          <span>Copy Prompt Block</span>
+        </button>
+      </div>
+      <div class="output-text-area" id="promptOutput"></div>
+    </div>
+  </div>
+
+  <!-- Interactive Toast Notification -->
+  <div class="notification-toast" id="toastNotification">
+    <i data-lucide="check-circle" style="color: var(--success-color);"></i>
+    <span id="toastText">Prompt copied successfully!</span>
+  </div>
+
+  <!-- SCRIPT.JS CONTENT INLINED BELOW -->
+  <script>
+    // Selected template tracked locally
+    let chosenAsset = "Product cover mockups";
+
+    // Initialize UI on page load
+    window.onload = function() {
+      lucide.createIcons();
+      // Restore locally saved Gemini API Key if available
+      const savedKey = localStorage.getItem('gemini_market_asset_key');
+      if (savedKey) {
+        document.getElementById('apiKey').value = savedKey;
+        document.getElementById('apiPanel').classList.add('show');
+      }
+    };
+
+    // Toggle API parameters
+    function toggleApiSettings() {
+      const apiPanel = document.getElementById('apiPanel');
+      apiPanel.classList.toggle('show');
+    }
+
+    function saveKeyLocal() {
+      const val = document.getElementById('apiKey').value.trim();
+      localStorage.setItem('gemini_market_asset_key', val);
+    }
+
+    // Toggle asset templates
+    function selectAsset(element) {
+      document.querySelectorAll('.asset-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      element.classList.add('selected');
+      chosenAsset = element.getAttribute('data-value');
+    }
+
+    // Interactive Preset Database
+    const presetDatabase = {
+      wealth: {
+        product: "The ₦5k Wealth Blueprint",
+        skill: "Micro-investing and automated daily savings systems",
+        resource: "A smartphone and ₦5,000 weekly",
+        audience: "Busy young professionals and beginners in Nigeria"
+      },
+      crypto: {
+        product: "Crypto Freedom Formula",
+        skill: "Spot trading and identifying low-risk blue chip cryptos",
+        resource: "A mobile phone and internet connection",
+        audience: "Ambitious youth and career professionals seeking side income"
+      },
+      cooking: {
+        product: "Fit & Healthy African Kitchen",
+        skill: "Preparing high-protein, calorie-controlled local meals under 20 minutes",
+        resource: "Basic grocery store items and common pots",
+        audience: "Fitness enthusiasts and working individuals aiming to stay lean"
+      },
+      coding: {
+        product: "Python Automation Blueprint",
+        skill: "Automating repetitive data sorting, Excel file backups, and email tasks",
+        resource: "A standard office computer and 20 free minutes daily",
+        audience: "Corporate workers, administrative agents, and non-programmers"
+      }
+    };
+
+    function applyPreset(key) {
+      const choice = presetDatabase[key];
+      if (choice) {
+        document.getElementById('productName').value = choice.product;
+        document.getElementById('skillTopic').value = choice.skill;
+        document.getElementById('resourceHave').value = choice.resource;
+        document.getElementById('targetAudience').value = choice.audience;
+        triggerToast("Loaded preset template!");
+      }
+    }
+
+    // Clean Local Prompt Database Engine
+    function buildLocalPrompt(asset, product, skill, resource, audience) {
+      let layoutStyle = "";
+      let dimensionRatio = "";
+      let visualMetaphor = "";
+
+      switch(asset) {
+        case "Product cover mockups":
+          layoutStyle = "Colors: Vibrant violet, clean emerald gradients, and rich metallic gold details. Premium studio lighting with elegant soft dropshadows. Minimalist light workspace backdrop. Clean, professional and high-value.";
+          dimensionRatio = "Aspect ratio: 1:1 (Square aspect). Shot Type: 3D modern design product packaging mockup. Clean shadows.";
+          visualMetaphor = "Include visual motifs of financial progress (discreet climbing graphics, simplified upward-trending charts, sleek smartphone screens).";
+          break;
+        case "Promo banners":
+          layoutStyle = "Colors: Ultra-bright electric blue, glowing sunset orange accents, and crisp white typography. Bold spotlighting hitting central components. High energy, conversion-driven visual vibe.";
+          dimensionRatio = "Aspect ratio: 16:9 (Horizontal Banner). Shot Type: Flat lay workspace scene combined with digital elements.";
+          visualMetaphor = "The background should hint at success replacing stress, showcasing dynamic workflow streams of automated steps.";
+          break;
+        case "Carousel posts":
+          layoutStyle = "Colors: Sleek pastel lilac, crisp charcoal, and subtle warm rose tints. Even, soft-glow lighting. Calm, modern, organized look with high legibility.";
+          dimensionRatio = "Aspect ratio: 4:5 (Vertical Carousel). Shot Type: Modern minimalist visual interface design.";
+          visualMetaphor = "Step-by-step visual roadmap showing simplified steps, making the topic feel extremely simple and approachable.";
+          break;
+        case "Ebook Cover":
+          layoutStyle = "Colors: Premium deep rich plum, sparkling gold, and pure white titles. Cinematic overhead focus lights. Trustworthy, academic, elite publishing standards.";
+          dimensionRatio = "Aspect ratio: 2:3 (Book Orientation). Shot Type: Front-facing photorealistic book cover graphic.";
+          visualMetaphor = "An elegant key icon or open gateway vector, signifying simple steps to unlock massive professional value.";
+          break;
+        case "Ad Image Cover":
+          layoutStyle = "Colors: High-contrast alert magenta, neon yellow highlights, and dark indigo panels. Dramatic, scroll-stopping bright lighting.";
+          dimensionRatio = "Aspect ratio: 1.91:1 (Standard Advertising format). Shot Type: Balanced dynamic focal view.";
+          visualMetaphor = "A split graphic showcasing the dramatic difference between complex confusion (left side) and absolute ease (right side).";
+          break;
+        case "Lading Page Product Image":
+          layoutStyle = "Colors: Light clean teal, soft slate gray, and bright white backgrounds. Warm natural window light. Modern SaaS style.";
+          dimensionRatio = "Aspect ratio: 16:9 (High-definition mockup visual). Shot Type: Clean isometric rendering.";
+          visualMetaphor = "An easy-to-read, clean graphic dashboard displaying high performance and immediate success results.";
+          break;
+        default:
+          layoutStyle = "Colors: Crisp vibrant colors with premium gradients. Professional conversion style.";
+          dimensionRatio = "Aspect ratio: 1:1 Square.";
+          visualMetaphor = "Sleek elements showing rapid growth and automation.";
+      }
+
+      // The core template that matches requirements perfectly
+      return `Identify Selected Asset: ${asset}
+
+Visual Direction: Generate a premium, masterfully designed, modern visual for "${product}". The main theme revolves around the learning skill of "${skill}". The image should elicit trust, high authority, excitement, and a desire to act immediately.
+
+Visualizing Pain Points: Symbolize the struggle of confusing systems by keeping background distractions out of focus. Ensure the absolute simplicity of only needing "${resource}" is elevated through clean, uncluttered visual space.
+
+Showcase Product Features: Include visual cues like clean device interface dashboards, stylized checkmark badges, and crisp modern progress indicators representing rapid advancement. Make this highly targeted and deeply exciting to "${audience}".
+
+Design Style & Theme:
+- Style Mood: Sleek, premium, bright workspace design, high-end conversions-oriented layout.
+- Colors & Lighting: ${layoutStyle}
+- Composition: ${visualMetaphor}
+
+Technical Specifications:
+- ${dimensionRatio}
+- Highly photorealistic, 8k resolution, crisp clean borders, professional studio render.
+
+(Do not generate any introductions or explanations. Deliver only this pristine final image generation prompt block.)`;
+    }
+
+    // Main Submit Action Handlers
+    async function generatePromptAssets(event) {
+      event.preventDefault();
+
+      const product = document.getElementById('productName').value.trim();
+      const skill = document.getElementById('skillTopic').value.trim();
+      const resource = document.getElementById('resourceHave').value.trim();
+      const audience = document.getElementById('targetAudience').value.trim();
+
+      const loader = document.getElementById('loaderBox');
+      const outputPanel = document.getElementById('outputPanel');
+      const submitBtn = document.getElementById('submitBtn');
+      const outputText = document.getElementById('promptOutput');
+
+      // UI state switches
+      outputPanel.style.display = 'none';
+      loader.style.display = 'flex';
+      submitBtn.disabled = true;
+
+      const userApiKey = document.getElementById('apiKey').value.trim();
+
+      if (userApiKey) {
+        // Run live API call
+        try {
+          const apiInput = `
+            You are an expert visual designer with 20+ years of experience in creating high-converting digital product images.
+            Generate a detailed image-generation prompt for:
+            - Selected Asset: ${chosenAsset}
+            - PRODUCT NAME: ${product}
+            - THE SKILL/TOPIC I AM TEACHING: ${skill}
+            - THE RESOURCE THEY ALREADY HAVE: ${resource}
+            - TARGET AUDIENCE: ${audience}
+
+            Output requirements:
+            - No introduction, no conclusion. Only deliver the final crafted prompt.
+            - Focus on colors, layout, emotion, and conversion psychology.
+            - Structure the prompt using the visual assets framework.
+            - Write it inside a clean single text block ready to copy.
+          `;
+          
+          const result = await triggerGeminiCall(userApiKey, apiInput);
+          outputText.textContent = result;
+        } catch (e) {
+          console.error(e);
+          triggerToast("API Error. Activating local generator engine!");
+          const fallbackPrompt = buildLocalPrompt(chosenAsset, product, skill, resource, audience);
+          outputText.textContent = fallbackPrompt;
+        }
+      } else {
+        // Run locally
+        await new Promise(resolve => setTimeout(resolve, 800)); // Simulating premium compiler feel
+        const localPrompt = buildLocalPrompt(chosenAsset, product, skill, resource, audience);
+        outputText.textContent = localPrompt;
+      }
+
+      loader.style.display = 'none';
+      outputPanel.style.display = 'block';
+      submitBtn.disabled = false;
+
+      outputPanel.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Gemini 2.5 Flash API with Exponential Backoff
+    async function triggerGeminiCall(apiKey, promptText) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+      const payload = {
+        contents: [{
+          parts: [{ text: promptText }]
+        }]
+      };
+
+      let delay = 1000;
+      for (let attempt = 1; attempt <= 5; attempt++) {
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (text) return text.trim();
+            throw new Error("Invalid response structural format.");
+          }
+        } catch (err) {
+          if (attempt === 5) throw err;
+        }
+        await new Promise(r => setTimeout(r, delay));
+        delay *= 2;
+      }
+      throw new Error("API call timed out.");
+    }
+
+    // Clipboard Copy Manager
+    function copyPromptToClipboard() {
+      const content = document.getElementById('promptOutput').textContent;
+      
+      const textBlock = document.createElement('textarea');
+      textBlock.value = content;
+      document.body.appendChild(textBlock);
+      textBlock.select();
+
+      try {
+        const copyCheck = document.execCommand('copy');
+        if (copyCheck) {
+          const copyBtn = document.getElementById('copyBtn');
+          copyBtn.classList.add('success');
+          copyBtn.innerHTML = `<i data-lucide="check"></i><span>Copied!</span>`;
+          lucide.createIcons();
+          triggerToast("Prompt copied to clipboard successfully!");
+
+          setTimeout(() => {
+            copyBtn.classList.remove('success');
+            copyBtn.innerHTML = `<i data-lucide="copy"></i><span>Copy Prompt Block</span>`;
+            lucide.createIcons();
+          }, 2000);
+        } else {
+          triggerToast("Copy failed, please select manually.");
+        }
+      } catch (err) {
+        triggerToast("Browser copy failed, please select manually.");
+      }
+      document.body.removeChild(textBlock);
+    }
+
+    // Toast message dispatcher
+    function triggerToast(message) {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastText').textContent = message;
+      toast.classList.add('reveal');
+      setTimeout(() => {
+        toast.classList.remove('reveal');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
