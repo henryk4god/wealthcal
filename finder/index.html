@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Problem Idea Finder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🔍</span>
+      <span class="logo-text">Problem<strong>Finder</strong></span>
+    </div>
+    <p class="tagline">Spot high-demand ideas. Build sellable digital products.</p>
+  </header>
+
+  <main class="main">
+
+    <section class="hero">
+      <h1 class="hero-title">
+        Find Trending<br/>
+        <span class="highlight">Problem Ideas</span>
+      </h1>
+      <p class="hero-sub">Type <code>trending now</code> with optional modifiers to unlock 7 high-potential digital product opportunities.</p>
+    </section>
+
+    <section class="input-section">
+      <div class="input-card">
+        <label class="input-label">Your Command</label>
+        <div class="input-row">
+          <input
+            type="text"
+            id="userCommand"
+            class="input-field"
+            placeholder='e.g. trending now in health tech'
+            autocomplete="off"
+          />
+          <button class="btn-generate" id="generateBtn" onclick="generateIdeas()">
+            <span class="btn-text">Generate</span>
+            <span class="btn-icon">→</span>
+          </button>
+        </div>
+        <div class="examples-row">
+          <span class="example-label">Try:</span>
+          <button class="chip" onclick="fillExample('trending now for Nigerian entrepreneurs')">Nigerian entrepreneurs</button>
+          <button class="chip" onclick="fillExample('trending now in health tech')">Health tech</button>
+          <button class="chip" onclick="fillExample('trending now under $50')">Under $50</button>
+          <button class="chip" onclick="fillExample('trending now in online education')">Online education</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="output-section" id="outputSection" style="display:none;">
+      <div class="output-header">
+        <h2 class="output-title">Your 7 Problem Ideas</h2>
+        <button class="btn-copy" id="copyBtn" onclick="copyOutput()">
+          <span>📋</span> Copy All
+        </button>
+      </div>
+      <div class="output-box" id="outputBox"></div>
+    </section>
+
+    <div class="loader" id="loader" style="display:none;">
+      <div class="spinner"></div>
+      <p class="loader-text">Researching trending opportunities…</p>
+    </div>
+
+    <div class="error-box" id="errorBox" style="display:none;"></div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Powered By MichyAI· Problem Idea Finder</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
