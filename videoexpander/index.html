@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIDEO CONTENT EXPANDER</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <h1>🎬 VIDEO CONTENT EXPANDER</h1>
+      <p>Transform your outlines into elite, ready-to-record video scripts.</p>
+    </header>
+
+    <main class="app-main">
+      <form id="promptForm" class="input-card">
+        <label for="outlineInput">Course / Module / Lesson Outline</label>
+        <textarea id="outlineInput" placeholder="Paste your detailed lesson outline, bullet points, or framework here..." required></textarea>
+        <button type="submit" id="generateBtn" class="btn-primary">
+          <span class="btn-text">Generate Video Script</span>
+          <span class="spinner hidden" aria-hidden="true"></span>
+        </button>
+      </form>
+
+      <section id="outputSection" class="output-card hidden">
+        <div class="output-header">
+          <h2>✨ Your Expanded Video Script</h2>
+          <button id="copyBtn" class="btn-copy" title="Copy to clipboard">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span id="copyText">Copy Prompt</span>
+          </button>
+        </div>
+        <pre id="outputContent" class="output-body"></pre>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
