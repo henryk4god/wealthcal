@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROBLEM IDEA FINDER</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎯 PROBLEM IDEA FINDER</h1>
+            <p>Spot trending, high-demand opportunities. Package them into sellable digital products.</p>
+        </header>
+
+        <form id="finder-form" class="form-wrapper">
+            <div class="trigger-badge">
+                <span class="badge-icon">⚡</span>
+                <span class="badge-text">BASE TRIGGER: "trending now"</span>
+            </div>
+
+            <div class="modifiers-grid">
+                <div class="input-group">
+                    <label for="niche">[niche] <span class="optional">(Optional)</span></label>
+                    <input type="text" id="niche" placeholder="e.g., health tech, skincare">
+                </div>
+                <div class="input-group">
+                    <label for="region">[region] <span class="optional">(Optional)</span></label>
+                    <input type="text" id="region" placeholder="e.g., Nigeria, Global">
+                </div>
+                <div class="input-group">
+                    <label for="audience">[audience] <span class="optional">(Optional)</span></label>
+                    <input type="text" id="audience" placeholder="e.g., entrepreneurs, students">
+                </div>
+                <div class="input-group">
+                    <label for="price">[price-point] <span class="optional">(Optional)</span></label>
+                    <input type="text" id="price" placeholder="e.g., under $50, premium">
+                </div>
+            </div>
+
+            <div class="command-preview">
+                <span class="preview-label">Your Command:</span>
+                <code id="command-display">trending now</code>
+            </div>
+
+            <button type="submit" id="generate-btn" class="primary-btn">
+                <span class="btn-text">Generate 7 Trending Ideas</span>
+                <span class="loader"></span>
+            </button>
+        </form>
+
+        <div class="output-section" id="output-section">
+            <div class="output-header">
+                <h2>📊 Generated Results</h2>
+                <button id="copy-btn" class="secondary-btn">📋 Copy Raw Output</button>
+            </div>
+            <div id="results-container" class="results-container"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
