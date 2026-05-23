@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Outline Transformer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="fade-in">
+      <h1>🔷 OUTLINE TRANSFORMER</h1>
+      <p>Convert raw outlines into proprietary, signature frameworks instantly.</p>
+    </header>
+
+    <main>
+      <section class="input-card fade-in">
+        <label for="outlineInput">📝 [PROVIDED OUTLINE]</label>
+        <textarea id="outlineInput" placeholder="Paste your chapter-by-chapter outline here... (e.g., Chapter 1: ...)\n\nTip: The more structured your input, the sharper the output."></textarea>
+        
+        <button id="transformBtn" class="btn primary-btn">
+          <span class="btn-text">Transform Outline</span>
+        </button>
+      </section>
+
+      <div id="loader" class="loader hidden">
+        <div class="spinner"></div>
+        <p class="pulse-text">Architecting your framework...</p>
+      </div>
+
+      <section id="outputSection" class="output-card hidden fade-in">
+        <div class="output-header">
+          <h2>✨ Transformed Prompt</h2>
+          <button id="copyBtn" class="btn copy-btn">📋 Copy Output</button>
+        </div>
+        <pre id="outputContent" class="code-block"></pre>
+      </section>
+    </main>
+
+    <footer class="fade-in">
+      <p>Built for GitHub Hosting • Ready for API Integration • Bright Theme</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
