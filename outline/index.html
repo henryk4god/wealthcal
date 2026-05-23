@@ -1,58 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Product Outline Prompt Generator | Bright & Elegant</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- Font Awesome 6 (free icons) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Outline Prompt Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="product-outline-app">
-  <div class="app-header">
-    <h1><i class="fas fa-box-open"></i> PRODUCT OUTLINE PROMPT GENERATOR</h1>
-    <p>Turn your problem-solution idea into a full digital product package (Ebook + Course)</p>
-  </div>
+    <div class="container">
+        <header class="header">
+            <h1>📘 Product Outline Prompt Generator</h1>
+            <p>Turn your product ideas into structured ebook & course prompts instantly.</p>
+        </header>
 
-  <div class="generator-grid">
-    <!-- INPUT FORM -->
-    <div class="form-card">
-      <h2><i class="fas fa-pen-ruler"></i> Input Details</h2>
-      <div class="input-group">
-        <label><i class="fas fa-tag"></i> Product Name [Title]</label>
-        <input type="text" id="productName" placeholder="e.g., The Side Hustle Blueprint" value="Freelance Accelerator Kit">
-      </div>
-      <div class="input-group">
-        <label><i class="fas fa-list-ol"></i> Step-by-Step Solution [Steps]</label>
-        <textarea id="solutionSteps" placeholder="List steps separated by commas or new lines&#10;Example: 1. Define your niche, 2. Build portfolio, 3. Find clients, 4. Close deals, 5. Scale income"></textarea>
-      </div>
-      <div class="input-group">
-        <label><i class="fas fa-exclamation-triangle"></i> Key Pain Points [List]</label>
-        <textarea id="painPoints" placeholder="e.g., No clear direction, fear of rejection, inconsistent income, lack of portfolio"></textarea>
-      </div>
-      <div class="input-group">
-        <label><i class="fas fa-gem"></i> Unique Value Proposition [UVP]</label>
-        <input type="text" id="uvp" placeholder="e.g., From zero to first $5k month with proven templates" value="Actionable frameworks that bypass 2 years of trial & error">
-      </div>
-      <div class="input-group">
-        <label><i class="fas fa-users"></i> Target Audience [Persona]</label>
-        <input type="text" id="audience" placeholder="e.g., Aspiring freelancers, career switchers" value="Creative freelancers & remote workers">
-      </div>
-      <button class="btn-generate" id="generateBtn"><i class="fas fa-magic"></i> Generate Product Outline</button>
+        <main class="generator-card">
+            <form id="promptForm">
+                <div class="input-group">
+                    <label for="title">Product Name</label>
+                    <input type="text" id="title" placeholder="e.g., Ultimate Freelancer Blueprint" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="steps">Step-by-Step Solution</label>
+                    <textarea id="steps" placeholder="e.g., 1. Niche selection&#10;2. Portfolio building&#10;3. Client outreach..." required></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="painPoints">Key Pain Points</label>
+                    <textarea id="painPoints" placeholder="e.g., Lack of clients, inconsistent income, pricing confusion" required></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="uvp">Unique Value Proposition (UVP)</label>
+                    <input type="text" id="uvp" placeholder="e.g., Fast-track your first ₦1M in 30 days" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="audience">Target Audience</label>
+                    <input type="text" id="audience" placeholder="e.g., Beginners, Side-hustlers, Creative freelancers" required>
+                </div>
+
+                <button type="submit" class="btn-generate">
+                    <span class="btn-text">Generate Prompt</span>
+                    <span class="loader hidden"></span>
+                </button>
+            </form>
+        </main>
+
+        <section id="outputSection" class="output-card hidden">
+            <div class="output-header">
+                <h2>✨ Generated Prompt</h2>
+                <button id="copyBtn" class="btn-copy">📋 Copy to Clipboard</button>
+            </div>
+            <pre id="promptOutput"></pre>
+        </section>
     </div>
 
-    <!-- RESULT CARD -->
-    <div class="result-card">
-      <h2><i class="fas fa-file-alt"></i> AI Product Package</h2>
-      <div class="result-content" id="resultOutput">
-        <pre>✨ Your complete ebook outline + online course curriculum will appear here. <br>Fill in the details and click "Generate Product Outline".</pre>
-      </div>
-      <button class="copy-btn" id="copyResultBtn"><i class="far fa-copy"></i> Copy full output</button>
-    </div>
-  </div>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
