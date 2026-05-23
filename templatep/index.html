@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fill in the Gap – Template Prompt Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background orbs -->
+  <div class="bg-orb orb1"></div>
+  <div class="bg-orb orb2"></div>
+  <div class="bg-orb orb3"></div>
+
+  <div class="app-wrapper">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="header-badge">AI Prompt Builder</div>
+      <h1 class="site-title">Fill in the <span class="accent">Gap</span></h1>
+      <p class="site-subtitle">Select a template, fill in the blanks, and generate your AI prompt instantly.</p>
+    </header>
+
+    <!-- Template Selector -->
+    <section class="template-selector">
+      <p class="selector-label">Choose a Template</p>
+      <div class="template-tabs" id="templateTabs">
+        <button class="tab-btn active" data-template="1">
+          <span class="tab-icon">💡</span>
+          <span>Idea Generator</span>
+        </button>
+        <button class="tab-btn" data-template="2">
+          <span class="tab-icon">📣</span>
+          <span>Ad Copywriter</span>
+        </button>
+        <button class="tab-btn" data-template="3">
+          <span class="tab-icon">🔬</span>
+          <span>Offer Diagnostic</span>
+        </button>
+        <button class="tab-btn" data-template="4">
+          <span class="tab-icon">📄</span>
+          <span>Landing Page</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Form Area -->
+    <main class="main-content">
+      <div class="form-card" id="formCard">
+        <div class="form-card-header">
+          <div class="template-badge" id="templateBadge">Template 1</div>
+          <h2 class="form-title" id="formTitle">The Idea Generator</h2>
+          <p class="form-desc" id="formDesc">Brainstorm 12 product ideas across 4 formulas based on your skill and available resources.</p>
+        </div>
+
+        <div class="fields-container" id="fieldsContainer">
+          <!-- Dynamically rendered -->
+        </div>
+
+        <button class="generate-btn" id="generateBtn">
+          <span class="btn-text">Generate Prompt</span>
+          <span class="btn-icon">✦</span>
+        </button>
+      </div>
+
+      <!-- Output Area -->
+      <div class="output-card" id="outputCard" style="display:none;">
+        <div class="output-header">
+          <h3 class="output-title">Your Prompt</h3>
+          <button class="copy-btn" id="copyBtn" title="Copy to clipboard">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span id="copyLabel">Copy</span>
+          </button>
+        </div>
+        <div class="output-body" id="outputBody"></div>
+        <div class="output-actions">
+          <button class="reset-btn" id="resetBtn">← Edit Fields</button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      Built with ✦ for digital creators &nbsp;|&nbsp; Fill in the Gap Prompt Builder
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
