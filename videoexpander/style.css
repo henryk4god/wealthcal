@@ -1,0 +1,227 @@
+:root {
+  --primary-color: #4f46e5;
+  --primary-hover: #4338ca;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-color: #1e293b;
+  --text-light: #64748b;
+  --border-color: #e2e8f0;
+  --success-color: #10b981;
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.08);
+  --radius: 16px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 800px;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.app-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+.app-header p {
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+.input-card, .output-card {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+}
+
+.input-card:hover {
+  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.1);
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--text-color);
+}
+
+textarea {
+  width: 100%;
+  min-height: 180px;
+  padding: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text-color);
+  background: #fafbfc;
+  resize: vertical;
+  transition: var(--transition);
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+}
+
+.btn-primary, .btn-copy {
+  display: inline-flex;  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  margin-top: 1.25rem;
+  background: var(--primary-color);
+  color: #fff;
+  border-radius: 12px;
+  font-size: 1.05rem;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(79, 70, 229, 0.25);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.output-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 1rem;}
+
+.output-header h2 {
+  font-size: 1.25rem;
+  color: var(--primary-color);
+}
+
+.btn-copy {
+  padding: 0.6rem 1rem;
+  background: #f1f5f9;
+  color: var(--text-color);
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.btn-copy:hover {
+  background: #e2e8f0;
+  color: var(--primary-color);
+}
+
+.btn-copy.copied {
+  background: var(--success-color);
+  color: #fff;
+}
+
+.output-body {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  max-height: 600px;
+  overflow-y: auto;
+  color: var(--text-color);
+}
+
+.output-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.output-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.output-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@media (max-width: 768px) {
+  .app-header h1 { font-size: 1.6rem; }
+  .input-card, .output-card { padding: 1.5rem; }
+  textarea { min-height: 150px; }
+  .output-header { flex-direction: column; align-items: flex-start; }
+  .btn-copy { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  body { padding: 10px; }
+  .app-header h1 { font-size: 1.4rem; }
+  .input-card, .output-card { padding: 1rem; border-radius: 12px; }
+  textarea { font-size: 0.9rem; }
+  .btn-primary { font-size: 0.95rem; padding: 0.85rem; }
+}
