@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Page Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-wrapper">
+        <header class="app-header">
+            <h1>📘 Legal Page Generator</h1>
+            <p>Generate professional front & back matter for your manuscript in seconds.</p>
+        </header>
+
+        <main class="main-content">
+            <form id="generator-form" class="input-card" novalidate>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="book-title">Book Title</label>
+                        <input type="text" id="book-title" placeholder="e.g., Master Your Mindset" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-subtitle">Book Subtitle</label>
+                        <input type="text" id="book-subtitle" placeholder="e.g., A Step-by-Step Guide to Peak Performance" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="target-audience">Target Audience</label>
+                        <input type="text" id="target-audience" placeholder="e.g., Nigerian professionals aged 25-45" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tone">Tone</label>
+                        <input type="text" id="tone" placeholder="e.g., Friendly, conversational, and encouraging" required>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label for="chapter-outline">Complete Chapter Outline</label>
+                    <textarea id="chapter-outline" rows="5" placeholder="Paste your complete chapter outline here (chapter numbers, titles, subtopics)..." required></textarea>
+                </div>
+                <button type="submit" class="generate-btn" id="generate-btn">
+                    <span class="btn-text">Generate Pages</span>
+                    <span class="spinner hidden"></span>
+                </button>
+            </form>
+
+            <section id="output-section" class="output-card hidden">
+                <div class="output-header">
+                    <h2>📄 Generated Manuscript Pages</h2>
+                    <button id="copy-btn" class="copy-btn" aria-label="Copy to clipboard">📋 Copy Output</button>
+                </div>
+                <pre id="output-content" class="output-text"></pre>
+                <div id="copy-toast" class="copy-toast hidden">✅ Copied to clipboard!</div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>Designed for authors. Hosted on GitHub. Ready to publish.</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
