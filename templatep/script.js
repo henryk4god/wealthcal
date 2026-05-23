@@ -6,8 +6,8 @@
 const TEMPLATES = {
   1: {
     badge: "Template 1",
-    title: "The Idea Generator",
-    desc:  "Brainstorm 12 product ideas across 4 formulas based on your problem idea, skill, resource, and audience.",
+    title: "Product Name",
+    desc:  "Brainstorm 12 product names across 4 formulas based on your problem idea, skill, resource, and audience.",
     fields: [
       {
         id:          "problemIdea",
