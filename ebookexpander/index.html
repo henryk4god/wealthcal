@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ebook Content Expander</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="app-container">
+        <header class="app-header">
+            <h1>📘 Ebook Content Expander</h1>
+            <p>Paste your complete outline below. The system will format the expert AI prompt for immediate use.</p>
+        </header>
+
+        <section class="input-card">
+            <label for="outlineInput">Complete Book/Course Outline</label>
+            <textarea id="outlineInput" placeholder="Paste your complete outline here..." rows="8"></textarea>
+            <button id="generateBtn" class="primary-btn">
+                <span class="btn-text">Generate AI Prompt</span>
+                <span class="loader hidden"></span>
+            </button>
+        </section>
+
+        <section class="output-section hidden" id="outputSection">
+            <div class="result-card">
+                <div class="card-header">
+                    <h2>✅ Your Optimized Prompt</h2>
+                    <button id="copyBtn" class="copy-btn">📋 Copy Prompt</button>
+                </div>
+                <pre id="promptOutput" class="prompt-display"></pre>
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
