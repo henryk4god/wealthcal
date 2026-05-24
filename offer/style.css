@@ -1,0 +1,317 @@
+:root {
+    --primary: linear-gradient(135deg, #4f46e5, #7c3aed);
+    --primary-dark: #4338ca;
+    --primary-light: #c7d2fe;
+    --accent: #f97316;
+    --accent-bg: #fff7ed;
+    --accent2: #ec4899;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --shadow-glow: 0 0 0 4px rgba(124, 58, 237, 0.15);
+    --radius: 16px;
+    --font-main: 'Poppins', sans-serif;
+    --font-display: 'DM Serif Display', serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Header & Banner styling */
+.app-header {
+    background: var(--primary);
+    position: relative;
+    padding: 60px 20px 100px 20px;
+    text-align: center;
+    color: #ffffff;
+    clip-path: ellipse(60% 80% at 50% 20%);
+}
+
+.app-header::before,
+.app-header::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.app-header::before {
+    width: 200px;
+    height: 200px;
+    top: -50px;
+    left: -50px;
+}
+
+.app-header::after {
+    width: 300px;
+    height: 300px;
+    bottom: -80px;
+    right: -50px;
+}
+
+.header-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    display: inline-block;
+    margin-bottom: 16px;
+    backdrop-filter: blur(4px);
+}
+
+.app-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.app-title {
+    font-family: var(--font-display);
+    font-size: 2.75rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+}
+
+.app-tagline {
+    font-size: 1rem;
+    color: var(--primary-light);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Layout container */
+.main-container {
+    max-width: 800px;
+    margin: -50px auto 60px auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 3;
+}
+
+/* Cards shared layout */
+.card {
+    background-color: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 40px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    margin-bottom: 30px;
+}
+
+/* Form element styling */
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text);
+}
+
+.form-control {
+    width: 100%;
+    padding: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+    color: var(--text);
+    background-color: #ffffff;
+    resize: vertical;
+    transition: all 0.3s ease;
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-dark);
+    box-shadow: var(--shadow-glow);
+}
+
+/* Button UI states */
+.btn {
+    font-family: var(--font-main);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-generate {
+    width: 100%;
+    background: var(--primary);
+    color: #ffffff;
+    padding: 16px 32px;
+    font-size: 1.05rem;
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+    animation: pulse-glow 2s infinite;
+}
+
+.btn-generate:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+.btn-generate:disabled {
+    background: var(--text-muted);
+    cursor: not-allowed;
+    animation: none;
+    box-shadow: none;
+    opacity: 0.7;
+}
+
+.btn-copy {
+    background-color: var(--accent-bg);
+    color: var(--accent);
+    border: 1px solid rgba(249, 115, 22, 0.2);
+    padding: 10px 20px;
+    font-size: 0.9rem;
+}
+
+.btn-copy:hover {
+    background-color: var(--accent);
+    color: #ffffff;
+}
+
+/* Spinner element UI */
+.spinner {
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 0.8s linear infinite;
+    margin-left: 12px;
+}
+
+/* Output result UI presentation */
+.result-card {
+    border-left: 6px solid var(--accent);
+}
+
+.result-card.show {
+    display: block;
+    animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.result-title {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 400;
+}
+
+.result-body {
+    background-color: var(--bg);
+    border-radius: 8px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    overflow-x: auto;
+}
+
+#outputCode {
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: var(--text);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Structural Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
+    70% { box-shadow: 0 0 0 12px rgba(124, 58, 237, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
+}
+
+/* Responsiveness Media Rules */
+@media (max-width: 600px) {
+    .app-header {
+        padding: 40px 16px 80px 16px;
+        clip-path: ellipse(90% 80% at 50% 20%);
+    }
+    
+    .app-title {
+        font-size: 2rem;
+    }
+    
+    .main-container {
+        margin-top: -30px;
+        padding: 0 12px;
+    }
+    
+    .card {
+        padding: 24px 16px;
+        border-radius: 12px;
+    }
+    
+    .result-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .btn-copy {
+        width: 100%;
+    }
+}
