@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OFFER PROMPT GENERATOR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-content">
+            <span class="badge">AI-POWERED TOOL</span>
+            <div class="app-icon">🎯</div>
+            <h1 class="app-title">OFFER PROMPT GENERATOR</h1>
+            <p class="app-tagline">Transform your raw product ideas into engineering-ready direct response marketing prompts.</p>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="card form-card">
+            <form id="generatorForm">
+                <div class="form-group">
+                    <label for="productInfo" class="form-label">Product Information</label>
+                    <textarea 
+                        id="productInfo" 
+                        class="form-control" 
+                        rows="8" 
+                        placeholder="Enter your product info here (e.g., Product Name, Subtitle, Step-By-Step Solution, Pain Points, Unique Value Proposition, Target Audience, or Frameworks)..."
+                        required></textarea>
+                </div>
+                <button type="submit" id="generateBtn" class="btn btn-generate">
+                    <span class="btn-text">Generate Prompt Blueprint</span>
+                    <span class="spinner hidden"></span>
+                </button>
+            </form>
+        </section>
+
+        <section id="resultContainer" class="card result-card hidden">
+            <div class="result-header">
+                <h2 class="result-title">Generated Prompt Result</h2>
+                <button id="copyBtn" class="btn btn-copy">
+                    <span class="copy-icon">📋</span> Copy Prompt
+                </button>
+            </div>
+            <div class="result-body">
+                <pre id="outputCode"></pre>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
