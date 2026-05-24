@@ -1,63 +1,106 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OFFER GENERATOR</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Offer Generator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app-container">
-    <header class="header">
-      <h1>🎯 OFFER GENERATOR</h1>
-      <p>Transform any idea into a high-converting digital product offer</p>
-    </header>
-    
-    <main class="main-content">
-      <form id="offerForm" class="offer-form">
-        <div class="form-group">
-          <label for="productName">Product Name / Title</label>
-          <input type="text" id="productName" name="productName" placeholder="e.g., The 30-Day Real Estate Blueprint" required>
-        </div>
-        <div class="form-group">
-          <label for="targetAudience">Target Audience</label>
-          <input type="text" id="targetAudience" name="targetAudience" placeholder="e.g., Nigerian professionals aged 25-45" required>
-        </div>
-        <div class="form-group">
-          <label for="stepByStep">Step-by-Step Solution</label>
-          <textarea id="stepByStep" name="stepByStep" rows="3" placeholder="Briefly describe the core steps or system your product teaches" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="painPoints">Key Pain Points</label>
-          <textarea id="painPoints" name="painPoints" rows="3" placeholder="e.g., Lack of capital, confusing regulations, fear of scams" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="uvp">Unique Value Proposition (UVP)</label>
-          <input type="text" id="uvp" name="uvp" placeholder="What makes your offer different & irresistible?" required>
-        </div>
-        <button type="submit" id="generateBtn" class="btn-generate">
-          <span class="btn-text">Generate Offer</span>
-          <span class="btn-loading hidden">
-            <span class="spinner"></span> Generating...
-          </span>
-        </button>
-      </form>
 
-      <section id="resultSection" class="result-section hidden">
-        <div class="result-card">
-          <div class="result-header">
-            <h2>🚀 Your High-Converting Offer</h2>
-            <button id="copyBtn" class="btn-copy" title="Copy to Clipboard">📋 Copy</button>
-          </div>
-          <pre id="resultOutput" class="result-output"></pre>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-badge">AI-POWERED TOOL</div>
+      <h1 class="header-title">🎯 Offer Generator</h1>
+      <p class="header-subtitle">Transform any idea into a high-converting digital product offer — instantly.</p>
+    </div>
+    <div class="header-shape"></div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main-container">
+
+    <!-- FORM CARD -->
+    <section class="form-card fade-in">
+      <div class="form-heading">
+        <span class="form-icon">📝</span>
+        <div>
+          <h2>Fill In Your Product Details</h2>
+          <p>Complete all fields to generate your custom offer</p>
         </div>
-      </section>
-    </main>
-  </div>
+      </div>
+
+      <div class="form-grid">
+
+        <div class="field-group">
+          <label for="title"><span class="label-icon">🏷️</span> Product Name</label>
+          <input type="text" id="title" placeholder="e.g. The Prayer Income System" />
+        </div>
+
+        <div class="field-group">
+          <label for="subtitle"><span class="label-icon">✏️</span> Subtitle</label>
+          <input type="text" id="subtitle" placeholder="e.g. Turn Your Faith Into a Digital Business" />
+        </div>
+
+        <div class="field-group full-width">
+          <label for="steps"><span class="label-icon">🪜</span> Logical Step-By-Step Solution</label>
+          <textarea id="steps" rows="3" placeholder="e.g. Step 1: Identify niche  Step 2: Build app  Step 3: Launch funnel"></textarea>
+        </div>
+
+        <div class="field-group full-width">
+          <label for="painPoints"><span class="label-icon">🔥</span> Key Pain Points</label>
+          <textarea id="painPoints" rows="3" placeholder="e.g. No income, no tech skills, no audience, no time..."></textarea>
+        </div>
+
+        <div class="field-group full-width">
+          <label for="uvp"><span class="label-icon">💎</span> Unique Value Proposition</label>
+          <input type="text" id="uvp" placeholder="e.g. First AI-powered prayer app builder for non-coders in Nigeria" />
+        </div>
+
+        <div class="field-group">
+          <label for="persona"><span class="label-icon">🎯</span> Target Audience</label>
+          <input type="text" id="persona" placeholder="e.g. Nigerian Christians aged 25–45 who want digital income" />
+        </div>
+
+        <div class="field-group">
+          <label for="framework"><span class="label-icon">⚙️</span> Proprietary Framework</label>
+          <input type="text" id="framework" placeholder="e.g. The F.A.I.T.H. Framework" />
+        </div>
+
+      </div>
+
+      <div id="error-msg" class="error-msg hidden">
+        ⚠️ Please fill in all fields before generating.
+      </div>
+
+      <button class="generate-btn" id="generateBtn" onclick="handleGenerate()">
+        <span class="btn-text">🚀 Generate My Offer</span>
+        <span class="btn-loader hidden" id="btnLoader">
+          <span class="spinner"></span> Generating...
+        </span>
+      </button>
+    </section>
+
+    <!-- RESULT CARD -->
+    <section class="result-card hidden fade-in" id="resultCard">
+      <div class="result-header">
+        <h3>✅ Your Offer is Ready!</h3>
+        <button class="copy-btn" id="copyBtn" onclick="copyResult()">
+          📋 Copy Output
+        </button>
+      </div>
+      <div class="result-body" id="resultBody"></div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Offer Generator · Powered by Smart Prompt Engine · Built for Marketers 🇳🇬</p>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
