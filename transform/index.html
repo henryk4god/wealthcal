@@ -1,0 +1,57 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outline Transformer Prompt Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <span class="app-badge">AI-POWERED TOOL</span>
+            <div class="app-icon">🎯</div>
+            <h1 class="app-title">OUTLINE TRANSFORMER PROMPT</h1>
+            <p class="app-tagline">Transform standard outlines into proprietary, signature frameworks instantly.</p>
+        </div>
+    </header>
+
+    <main class="app-container">
+        <section class="form-card">
+            <form id="transformerForm">
+                <div class="form-group">
+                    <label for="outlineInput" class="form-label">Input Outline Content</label>
+                    <textarea 
+                        id="outlineInput" 
+                        class="form-control" 
+                        placeholder="Paste your standard outline content here..." 
+                        required
+                    ></textarea>
+                </div>
+                <button type="submit" id="generateBtn" class="btn-submit">
+                    <span class="btn-text">Generate Prompt Blueprint</span>
+                    <span class="spinner hidden"></span>
+                </button>
+            </form>
+        </section>
+
+        <section id="resultCard" class="result-card hidden">
+            <div class="result-header">
+                <h2 class="result-title">Your Custom Prompt Engineering Blueprint</h2>
+                <button id="copyBtn" class="btn-copy">
+                    <span class="copy-text">Copy Entire Prompt</span>
+                </button>
+            </div>
+            <div class="result-body">
+                <pre id="promptOutput"></pre>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
