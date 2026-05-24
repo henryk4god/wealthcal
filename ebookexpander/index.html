@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ebook Content Expander Prompt Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="hero-banner">
+        <div class="hero-content">
+            <span class="badge">AI-POWERED TOOL</span>
+            <div class="app-icon">📚</div>
+            <h1 class="app-title">Ebook Content Expander</h1>
+            <p class="app-tagline">Transform your outline into a highly structured, interactive AI generation prompt.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card form-card">
+            <form id="promptForm">
+                <div class="form-group">
+                    <label for="outlineInput">Paste Your Book or Course Outline</label>
+                    <textarea 
+                        id="outlineInput" 
+                        placeholder="e.g.,&#10;Chapter 1: Introduction to Coding&#10;- Subtopic A: What is code?&#10;- Subtopic B: Setting up your environment&#10;Learning Outcome: Build your first page."
+                        required></textarea>
+                </div>
+                <button type="submit" id="generateBtn" class="btn-generate pulse-glow">
+                    <span class="btn-text">Generate Prompt</span>
+                    <span class="spinner hidden"></span>
+                </button>
+            </form>
+        </section>
+
+        <section id="resultCard" class="card result-card hidden">
+            <div class="result-header">
+                <h2>Your Generated Prompt</h2>
+                <button id="copyBtn" class="btn-copy">
+                    <span class="copy-icon">📋</span> Copy Prompt
+                </button>
+            </div>
+            <div class="result-body">
+                <div class="section-title-wrapper">
+                    <h3>Final System Prompt Instructions</h3>
+                </div>
+                <pre id="outputPrompt"></pre>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
