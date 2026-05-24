@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outline Content Generator Prompt</title>
+    <!-- Google Fonts: Playfair Display (Display) & Nunito (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300..1000;1,300..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Banner -->
+    <header class="hero-banner">
+        <div class="badge">AI-POWERED TOOL</div>
+        <div class="app-icon">🎯</div>
+        <h1 class="app-title">Outline Content Generator Prompt</h1>
+        <p class="app-tagline">Transform core details into highly structural, high-converting framework prompts instantly.</p>
+    </header>
+
+    <main class="container">
+        <!-- Form Section -->
+        <section class="card form-card">
+            <h2 class="section-title">Configure Your Prompt</h2>
+            <form id="generatorForm">
+                
+                <!-- Template Selection (Radio Group) -->
+                <div class="input-group">
+                    <label class="label-heading">Select Template Type</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="templateSelect" value="template1" checked>
+                            <span class="custom-radio"></span>
+                            <span class="radio-text">Template 1: The Idea Generator (Brainstorming)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="templateSelect" value="template2">
+                            <span class="custom-radio"></span>
+                            <span class="radio-text">Template 2: The Ad Copywriter (Ads)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="templateSelect" value="template3">
+                            <span class="custom-radio"></span>
+                            <span class="radio-text">Template 3: The Offer Diagnostic (Fixing Low Sales)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="templateSelect" value="template4">
+                            <span class="custom-radio"></span>
+                            <span class="radio-text">Template 4: The Landing Page Copywriter</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Dynamic Guidelines Block -->
+                <div class="info-box" id="guidelineBox">
+                    <strong>Expected Inputs Matrix:</strong>
+                    <ul id="guidelineList" class="guideline-list">
+                        <!-- Dynamic content loaded from JavaScript -->
+                    </ul>
+                </div>
+
+                <!-- Shared Form Field Block -->
+                <div class="input-group">
+                    <label for="userInput" class="label-heading" id="inputLabel">User Input Details</label>
+                    <textarea id="userInput" name="userInput" rows="8" placeholder="Type or paste your information details here based on the instructions above..." required></textarea>
+                </div>
+
+                <!-- Submit Action Box -->
+                <button type="submit" id="submitBtn" class="btn btn-primary pulse-glow">
+                    <span class="btn-text">Generate Framework Prompt</span>
+                    <span class="spinner hidden"></span>
+                </button>
+            </form>
+        </section>
+
+        <!-- Result Framework Section -->
+        <section id="resultCard" class="card result-card hidden">
+            <div class="result-header">
+                <h2 class="section-title">Generated Prompt Outcome</h2>
+                <button id="copyBtn" class="btn btn-secondary">Copy Prompt</button>
+            </div>
+            <div class="result-body">
+                <pre id="outputPrompt"></pre>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
