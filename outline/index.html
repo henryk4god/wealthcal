@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outline Content Generator Prompt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-content">
+            <span class="app-badge">AI-POWERED TOOL</span>
+            <div class="app-icon">🎯</div>
+            <h1 class="app-title">Outline Content Generator</h1>
+            <p class="app-tagline">Transform product information into comprehensive digital product blueprints instantly</p>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="form-card">
+            <form id="generatorForm" onsubmit="generatePrompt(event)">
+                <div class="input-group">
+                    <label for="productInfo" class="input-label">Product Information</label>
+                    <textarea 
+                        id="productInfo" 
+                        class="form-control" 
+                        rows="10" 
+                        placeholder="Enter your product details here...&#10;&#10;May include:&#10;- Product Name&#10;- Logical Step-By-Step Solution&#10;- Key Pain Points&#10;- Unique Value Proposition&#10;- Target Audience" 
+                        required></textarea>
+                </div>
+                
+                <button type="submit" id="generateBtn" class="btn-generate">
+                    <span class="btn-text">Generate Prompt Blueprint</span>
+                    <span class="spinner hidden"></span>
+                </button>
+            </form>
+        </section>
+
+        <section id="resultCard" class="result-card hidden">
+            <div class="result-header">
+                <h2 class="result-title">Your Generated Prompt</h2>
+                <button id="copyBtn" class="btn-copy" onclick="copyToClipboard()">
+                    <span class="copy-icon">📋</span> Copy Prompt
+                </button>
+            </div>
+            <div class="result-body">
+                <pre id="outputPrompt"></pre>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
