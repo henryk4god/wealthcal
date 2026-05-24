@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Content Expander Prompt Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-shapes"></div>
+        <div class="header-content">
+            <span class="badge">AI-POWERED TOOL</span>
+            <div class="logo-icon">🎬</div>
+            <h1>Video Content Expander Prompt</h1>
+            <p class="tagline">Transform your course outline into a highly engaging, structured script prompt instantly.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="form-card">
+            <form id="promptForm">
+                <div class="form-group">
+                    <label for="outlineInput">Course / Module / Lesson Outline</label>
+                    <textarea 
+                        id="outlineInput" 
+                        placeholder="Paste your course structure, modules, topics, or lesson details here..." 
+                        required
+                    ></textarea>
+                </div>
+                <button type="submit" id="generateBtn" class="pulse-glow">
+                    <span class="btn-text">Generate Prompt</span>
+                    <span class="spinner hidden"></span>
+                </button>
+            </form>
+        </section>
+
+        <section id="resultCard" class="result-card hidden">
+            <div class="result-header">
+                <h2>Generated Prompt Ready</h2>
+                <button id="copyBtn" class="copy-button">
+                    <span class="copy-text">Copy Prompt</span>
+                </button>
+            </div>
+            <div class="result-body">
+                <pre id="outputPrompt"></pre>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
