@@ -82,6 +82,7 @@ Description Text for the product information: product information MAY include:
 - Unique Value Proposition,
 - Target Audience or
 - proprietary frameworks 
+- Price Range
 
 
 OUTPUT STRUCTURE:
@@ -101,7 +102,7 @@ OUTPUT STRUCTURE:
   Step 3: (Execution path to result)
 
 - OFFER:
-  Price: (Set within ₦5,000 – ₦7,500 range)
+  Price: (Global/Country of Location Currency price range)
 
 Product:
 ✅ [Core System Name]. What is inside:
@@ -112,17 +113,17 @@ Product:
 
 (Assign realistic Global/ Location Country Currency value to core product)
 
-- 🎁 BONUS 1: (Cheat Sheet / Guide specific to niche) (₦ value)
+- 🎁 BONUS 1: (Cheat Sheet / Guide specific to niche) ( value)
 
 - 🎁 BONUS 2: (Advanced strategy or expansion guide)
 
-- 🎁 BONUS 3: (Risk reduction / mistakes / checklist) (₦ value)
+- 🎁 BONUS 3: (Risk reduction / mistakes / checklist) ( value)
 
-- 🎁 BONUS 4: (Tracking / template / system) (₦ value)
+- 🎁 BONUS 4: (Tracking / template / system) ( value)
 
-- 🎁 BONUS 5: (Routine / workflow / execution system) (₦ value)
+- 🎁 BONUS 5: (Routine / workflow / execution system) ( value)
 
-- 🎁 BONUS 6: (Community / support / access) (₦ value)
+- 🎁 BONUS 6: (Community / support / access) ( value)
 
 - PAYMENT GUIDE:
   Selar Checkout Link
