@@ -74,16 +74,6 @@ The output must be practical, specific, conversion-focused, and tailored to the 
 INPUT:
 ${productInfo}
 
-Description Text for the product information: product information MAY include:
-- Product Name,
-- Subtitle,
-- Logical Step-By-Step Solution,
-- Key Pain Points,
-- Unique Value Proposition,
-- Target Audience or
-- proprietary frameworks 
-- Price Range
-
 
 OUTPUT STRUCTURE:
 
