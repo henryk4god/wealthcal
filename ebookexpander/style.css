@@ -1,0 +1,325 @@
+/* --- CSS VARIABLES & THEME CONFIGURATION --- */
+:root {
+    --primary: linear-gradient(135deg, #4f46e5, #7c3aed);
+    --primary-dark: #4338ca;
+    --primary-light: #e0e7ff;
+    --accent: #f97316;
+    --accent-tint: #ffedd5;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --radius: 16px;
+    --font-main: 'Nunito', sans-serif;
+    --font-display: 'Playfair Display', serif;
+}
+
+/* --- BASE STYLES --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 800px;
+    margin: -40px auto 60px auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 10;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
+    70% { box-shadow: 0 0 0 12px rgba(124, 58, 237, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); }
+}
+
+/* --- HEADER / HERO BANNER --- */
+.hero-banner {
+    background: var(--primary);
+    color: #ffffff;
+    padding: 80px 20px 120px 20px;
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.hero-banner::before,
+.hero-banner::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 50%;
+}
+
+.hero-banner::before {
+    width: 250px;
+    height: 250px;
+    top: -50px;
+    left: -50px;
+}
+
+.hero-banner::after {
+    width: 180px;
+    height: 180px;
+    bottom: 20px;
+    right: -30px;
+}
+
+.hero-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.app-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.app-title {
+    font-family: var(--font-display);
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.app-tagline {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+/* --- CARDS GENERAL --- */
+.card {
+    background-color: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 40px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+}
+
+/* --- FORM CARD --- */
+.form-card {
+    animation: fadeIn 1s ease-out;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text);
+}
+
+textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 16px;
+    border-radius: 10px;
+    border: 2px solid var(--border);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    color: var(--text);
+    resize: vertical;
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #7c3aed;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px var(--primary-light);
+}
+
+textarea::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+/* --- GENERATE BUTTON --- */
+.btn-generate {
+    width: 100%;
+    background: var(--primary);
+    color: #ffffff;
+    border: none;
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-generate:hover:not(:disabled) {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+}
+
+.btn-generate:disabled {
+    background: var(--text-muted);
+    cursor: not-allowed;
+    animation: none;
+}
+
+.pulse-glow {
+    animation: pulse-glow 2s infinite;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 0.8s linear infinite;
+}
+
+/* --- RESULT CARD --- */
+.result-card {
+    margin-top: 30px;
+    animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+}
+
+.result-header h2 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: var(--text);
+}
+
+.btn-copy {
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: var(--font-main);
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-copy:hover {
+    background-color: var(--primary-light);
+    border-color: #7c3aed;
+    color: #4f46e5;
+}
+
+.section-title-wrapper {
+    border-left: 5px solid var(--accent);
+    background-color: var(--accent-tint);
+    padding: 10px 15px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 20px;
+}
+
+.section-title-wrapper h3 {
+    font-size: 1.05rem;
+    color: #c2410c;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+pre {
+    background-color: #f1f5f9;
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: monospace;
+    font-size: 0.95rem;
+    color: #334155;
+    border: 1px solid var(--border);
+}
+
+/* --- UTILITY CLASSES --- */
+.hidden {
+    display: none !important;
+}
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+@media (max-width: 600px) {
+    .hero-banner {
+        padding: 60px 15px 100px 15px;
+    }
+    
+    .app-title {
+        font-size: 2.1rem;
+    }
+    
+    .container {
+        margin-top: -30px;
+        padding: 0 15px;
+    }
+    
+    .card {
+        padding: 25px 20px;
+    }
+    
+    .result-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .btn-copy {
+        width: 100%;
+        justify-content: center;
+    }
+}
