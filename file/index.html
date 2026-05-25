@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Files Source Downloader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="hero-banner">
+        <div class="header-container">
+            <span class="badge">SECURE REPOSITORY</span>
+            <div class="app-icon">📦</div>
+            <h1 class="app-title">Files Source Downloader</h1>
+            <p class="app-tagline">Access and download your premium digital assets instantly</p>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="grid-layout" id="files-grid">
+            
+            <div class="file-card">
+                <div class="card-icon">📄</div>
+                <div class="file-info">
+                    <span class="file-type">TEXT FILE</span>
+                    <h3 class="file-name">Source Code Configurations</h3>
+                    <p class="file-description">Core initialization script and environment layout blueprints for deployment.</p>
+                </div>
+                <button class="download-btn" data-filepath="file/source.txt" data-filename="source.txt">
+                    <span class="btn-text">Download File</span>
+                    <span class="spinner"></span>
+                </button>
+            </div>
+
+            <div class="file-card">
+                <div class="card-icon">📕</div>
+                <div class="file-info">
+                    <span class="file-type">PDF DOCUMENT</span>
+                    <h3 class="file-name">Ebook Strategy Guide</h3>
+                    <p class="file-description">Complete instructional walkthrough covering setup protocols and framework deployment.</p>
+                </div>
+                <button class="download-btn" data-filepath="file/ebook-guide.pdf" data-filename="ebook-guide.pdf">
+                    <span class="btn-text">Download File</span>
+                    <span class="spinner"></span>
+                </button>
+            </div>
+
+            <div class="file-card">
+                <div class="card-icon">📘</div>
+                <div class="file-info">
+                    <span class="file-type">WORD DOCUMENT</span>
+                    <h3 class="file-name">Step-by-Step Instructions</h3>
+                    <p class="file-description">Operational manual containing exact command strings and platform setup tasks.</p>
+                </div>
+                <button class="download-btn" data-filepath="file/instructions.doc" data-filename="instructions.doc">
+                    <span class="btn-text">Download File</span>
+                    <span class="spinner"></span>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
