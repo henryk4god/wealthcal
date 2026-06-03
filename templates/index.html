@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad & Landing Page Copy Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300..1000;1,300..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="hero-banner">
+        <div class="badge">AI-POWERED TOOL</div>
+        <div class="app-icon">🎯</div>
+        <h1 class="app-title">Ad & Landing Page Copy Generator</h1>
+        <p class="app-tagline">Transform core details into highly structural, high-converting framework prompts instantly.</p>
+    </header>
+
+    <main class="container">
+        <section class="card form-card">
+            <h2 class="section-title">Configure Your Prompt</h2>
+            <form id="generatorForm">
+                
+                <div class="input-group">
+                    <label class="label-heading">Select Template Type</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="templateSelect" value="template2" checked>
+                            <span class="custom-radio"></span>
+                            <span class="radio-text">Template 1: The Ad Copywriter (Ads)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="templateSelect" value="template4">
+                            <span class="custom-radio"></span>
+                            <span class="radio-text">Template 2: The Landing Page Copywriter</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="templateSelect" value="template3">
+                            <span class="custom-radio"></span>
+                            <span class="radio-text">Template 3: The Offer Diagnostic (Fixing Low Sales)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="info-box" id="guidelineBox">
+                    <strong>Expected Inputs Matrix:</strong>
+                    <ul id="guidelineList" class="guideline-list">
+                        </ul>
+                </div>
+
+                <div class="input-group">
+                    <label for="userInput" class="label-heading" id="inputLabel">User Input Details</label>
+                    <textarea id="userInput" name="userInput" rows="8" placeholder="Type or paste your information details here based on the instructions above..." required></textarea>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn btn-primary pulse-glow">
+                    <span class="btn-text">Generate Framework Prompt</span>
+                    <span class="spinner hidden"></span>
+                </button>
+            </form>
+        </section>
+
+        <section id="resultCard" class="card result-card hidden">
+            <div class="result-header">
+                <h2 class="section-title">Generated Prompt Outcome</h2>
+                <button id="copyBtn" class="btn btn-secondary">Copy Prompt</button>
+            </div>
+            <div class="info-box instructional-box">
+                📌 <strong>AI Execution Rule:</strong> For maximum output fidelity, make sure to attach or copy your downloaded source document alongside this generated prompt frame when submitting to any Large Language Model.
+            </div>
+            <div class="result-body">
+                <pre id="outputPrompt"></pre>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
