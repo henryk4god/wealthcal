@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Workspace Pro — Content Command Center</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <svg style="display: none;">
+        <symbol id="icon-dashboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></symbol>
+        <symbol id="icon-scratchpad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></symbol>
+        <symbol id="icon-research" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></symbol>
+        <symbol id="icon-ebook" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z"></path></symbol>
+        <symbol id="icon-ads" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></symbol>
+        <symbol id="icon-ideas" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21h6"></path><path d="M9 17h6"></path><path d="M12 2a7 7 0 0 0-7 7c0 2.3 1.09 4.35 2.8 5.71a3.42 3.42 0 0 1 1.2 2.29h6a3.42 3.42 0 0 1 1.2-2.29c1.71-1.36 2.8-3.41 2.8-5.71a7 7 0 0 0-7-7z"></path></symbol>
+        <symbol id="icon-client" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></symbol>
+        <symbol id="icon-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></symbol>
+        <symbol id="icon-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></symbol>
+        <symbol id="icon-history" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></symbol>
+        <symbol id="icon-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></symbol>
+        <symbol id="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></symbol>
+        <symbol id="icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></symbol>
+        <symbol id="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></symbol>
+        <symbol id="icon-archive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></symbol>
+    </svg>
+
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo">C</div>
+                <div class="brand-info">
+                    <span class="brand-name">Creator Workspace</span>
+                    <span class="brand-tagline">PRO v1.0</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <button class="menu-item active" data-target="dashboard">
+                    <svg><use href="#icon-dashboard"></use></svg> <span>🏠 Dashboard</span>
+                </button>
+                <div class="menu-label">Workspaces</div>
+                <button class="menu-item" data-target="ws-research" data-workspace="Research">
+                    <svg><use href="#icon-research"></use></svg> <span>📚 Research</span>
+                </button>
+                <button class="menu-item" data-target="ws-ebook" data-workspace="Ebook">
+                    <svg><use href="#icon-ebook"></use></svg> <span>📖 Ebook Projects</span>
+                </button>
+                <button class="menu-item" data-target="ws-ads" data-workspace="Ads">
+                    <svg><use href="#icon-ads"></use></svg> <span>📢 Ads</span>
+                </button>
+                <button class="menu-item" data-target="ws-ideas" data-workspace="Ideas">
+                    <svg><use href="#icon-ideas"></use></svg> <span>💡 Ideas</span>
+                </button>
+                <button class="menu-item" data-target="ws-client" data-workspace="Client Work">
+                    <svg><use href="#icon-client"></use></svg> <span>👥 Client Work</span>
+                </button>
+                
+                <div class="menu-label">System Views</div>
+                <button class="menu-item" data-target="sys-favorites">
+                    <svg><use href="#icon-star"></use></svg> <span>⭐ Favorites</span>
+                </button>
+                <button class="menu-item" data-target="sys-pinned">
+                    <svg><use href="#icon-pin"></use></svg> <span>📌 Pinned Notes</span>
+                </button>
+                <button class="menu-item" data-target="sys-history">
+                    <svg><use href="#icon-history"></use></svg> <span>📜 Prompt History</span>
+                </button>
+                <button class="menu-item" data-target="sys-settings">
+                    <svg><use href="#icon-settings"></use></svg> <span>⚙ Settings</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="theme-toggle" class="btn-theme">
+                    <span class="light-icon">☀️ Light Mode</span>
+                    <span class="dark-icon">🌙 Dark Mode</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <button class="mobile-toggle" id="mobile-menu-btn">☰</button>
+                <div class="search-container">
+                    <input type="text" id="global-search" placeholder="Search entries, content, tags structural matches...">
+                    <select id="search-scope">
+                        <option value="current">Current Tab</option>
+                        <option value="all">All Tabs</option>
+                        <option value="favorites">Favorites</option>
+                        <option value="pinned">Pinned</option>
+                    </select>
+                </div>
+                <div class="quick-status">
+                    <span id="auto-save-indicator" class="status-pill">System Synced</span>
+                </div>
+            </header>
+
+            <div class="content-body" id="view-port">
+                
+                <section id="view-dashboard" class="app-view active">
+                    <div class="view-header">
+                        <h1>Command Dashboard</h1>
+                        <p>Real-time analytics and global content command status.</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card"><h3>Total Notes</h3><p id="stat-total-notes">0</p></div>
+                        <div class="stat-card"><h3>Global Words</h3><p id="stat-total-words">0</p></div>
+                        <div class="stat-card"><h3>Snippets Cached</h3><p id="stat-total-snippets">4</p></div>
+                        <div class="stat-card"><h3>Pinned Hooks</h3><p id="stat-total-pinned">0</p></div>
+                    </div>
+
+                    <div class="dashboard-split">
+                        <div class="dash-card">
+                            <h2>Scratch Pad Console</h2>
+                            <div class="scratchpad-controls">
+                                <button class="btn btn-sm" id="scratch-undo">Undo</button>
+                                <button class="btn btn-sm" id="scratch-redo">Redo</button>
+                                <span id="scratch-saved-time" class="timestamp">Last Saved: Never</span>
+                            </div>
+                            <textarea id="dashboard-scratchpad" placeholder="Drop prompt outputs, rapid conceptual drafts, or raw scratch text here... Auto-saves locally."></textarea>
+                        </div>
+
+                        <div class="dash-card">
+                            <h2>Quick Actions & Utilities</h2>
+                            <div class="quick-actions-box">
+                                <button class="btn btn-primary" onclick="app.switchView('ws-research')">New Research Track</button>
+                                <button class="btn" id="btn-manual-backup">Force Local Backup</button>
+                                <button class="btn" id="btn-quick-export-all">Export All (JSON)</button>
+                            </div>
+                            <div class="category-manager-box">
+                                <h3>Manage Custom Categories</h3>
+                                <div class="category-input-group">
+                                    <input type="text" id="new-category-name" placeholder="Category Label...">
+                                    <button class="btn btn-sm" id="btn-add-category">+</button>
+                                </div>
+                                <ul id="category-list-render" class="category-pills-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="view-workspace-template" class="app-view workspace-view">
+                    <div class="workspace-layout">
+                        <div class="notes-sidebar">
+                            <div class="sidebar-action-header">
+                                <button class="btn btn-primary" id="btn-create-note"><svg><use href="#icon-plus"></use></svg> Create Entry</button>
+                            </div>
+                            <div class="notes-drag-container" id="notes-list-target">
+                                </div>
+                        </div>
+
+                        <div class="notes-editor-workspace">
+                            <div class="editor-header-actions" id="editor-controls-bar" style="display:none;">
+                                <div class="note-meta-inputs">
+                                    <input type="text" id="active-note-title" placeholder="Untitled Document Title...">
+                                    <select id="active-note-category">
+                                        <option value="">No Category</option>
+                                    </select>
+                                </div>
+                                <div class="note-action-pills">
+                                    <button class="pill-btn" id="action-pin" title="Pin Note">📌 Pin</button>
+                                    <button class="pill-btn" id="action-fav" title="Favorite Note">⭐ Fav</button>
+                                    <button class="pill-btn" id="action-duplicate" title="Duplicate">📋 Clone</button>
+                                    <button class="pill-btn" id="action-copy-text" title="Copy Content">✂️ Copy</button>
+                                    <button class="pill-btn destr" id="action-delete" title="Delete Note">🗑️ Delete</button>
+                                </div>
+                            </div>
+
+                            <div class="rich-toolbar">
+                                <button class="tool-btn" data-cmd="bold" title="Ctrl+B"><b>B</b></button>
+                                <button class="tool-btn" data-cmd="italic" title="Ctrl+I"><i>I</i></button>
+                                <button class="tool-btn" data-cmd="underline"><u>U</u></button>
+                                <button class="tool-btn" data-cmd="formatBlock" data-arg="h1">H1</button>
+                                <button class="tool-btn" data-cmd="formatBlock" data-arg="h2">H2</button>
+                                <button class="tool-btn" data-cmd="insertUnorderedList">• List</button>
+                                <button class="tool-btn" data-cmd="insertOrderedList">1. List</button>
+                                <button class="tool-btn" data-cmd="formatBlock" data-arg="blockquote">“ Quote</button>
+                                <button class="tool-btn" data-cmd="formatBlock" data-arg="pre">Code</button>
+                                <button class="tool-btn" id="tool-link">Link</button>
+                                <button class="tool-btn" id="tool-table">Table</button>
+                                <button class="tool-btn" data-cmd="justifyLeft">⬅</button>
+                                <button class="tool-btn" data-cmd="justifyCenter"> can </button>
+                                <button class="tool-btn" data-cmd="justifyRight">➡</button>
+                                <button class="tool-btn text-danger" data-cmd="removeFormat">Clear</button>
+                            </div>
+
+                            <div class="editor-container">
+                                <div id="rich-editor" contenteditable="true" placeholder="Begin architecture of production layout text components here..."></div>
+                            </div>
+
+                            <div class="find-replace-panel">
+                                <input type="text" id="find-input" placeholder="Find text...">
+                                <input type="text" id="replace-input" placeholder="Replace with...">
+                                <button class="btn btn-sm" id="btn-find-next">Next</button>
+                                <button class="btn btn-sm" id="btn-replace">Replace</button>
+                                <button class="btn btn-sm" id="btn-replace-all">Replace All</button>
+                                <label class="check-label"><input type="checkbox" id="find-case"> Match Case</label>
+                                <label class="check-label"><input type="checkbox" id="find-word"> Whole Word</label>
+                            </div>
+
+                            <div class="metrics-panel">
+                                <div class="metric-unit">Words: <span id="m-words">0</span></div>
+                                <div class="metric-unit">Chars: <span id="m-chars">0</span></div>
+                                <div class="metric-unit">Paragraphs: <span id="m-paras">0</span></div>
+                                <div class="metric-unit">Sentences: <span id="m-sentences">0</span></div>
+                                <div class="metric-unit">Reading Time: <span id="m-read">0m</span></div>
+                                <div class="metric-unit">Speaking Time: <span id="m-speak">0m</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="view-sys-favorites" class="app-view">
+                    <div class="view-header">
+                        <h1>Centralized Favorites Dashboard</h1>
+                        <p>Global collection of starred assets, notes, and snippet blocks.</p>
+                    </div>
+                    <div class="favorites-grid" id="favorites-render-grid"></div>
+                </section>
+
+                <section id="view-sys-pinned" class="app-view">
+                    <div class="view-header">
+                        <h1>Pinned Matrix</h1>
+                        <p>High-priority operational documents persistent across content nodes.</p>
+                    </div>
+                    <div class="pinned-grid" id="pinned-render-grid"></div>
+                </section>
+
+                <section id="view-sys-history" class="app-view">
+                    <div class="view-header">
+                        <h1>System Prompt & Content History</h1>
+                        <p>Audit trail recording the last 100 interaction iterations, copies, and compilation drafts.</p>
+                    </div>
+                    <div class="table-container">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Context Node</th>
+                                    <th>Activity / Action Type</th>
+                                    <th>Data Preview Payload</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-table-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="view-sys-settings" class="app-view">
+                    <div class="view-header">
+                        <h1>System Configuration & Integration Control</h1>
+                        <p>Manage data export matrix configurations, snippet libraries, and manual atomic rollback states.</p>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="settings-card">
+                            <h2>Asset Data Portability Suite</h2>
+                            <div class="form-group">
+                                <label>Discrete Export Control Matrix</label>
+                                <div class="btn-stack">
+                                    <button class="btn btn-sm" onclick="app.exportData('txt')">Active Note as Plain Text (.txt)</button>
+                                    <button class="btn btn-sm" onclick="app.exportData('md')">Active Note as Markdown (.md)</button>
+                                    <button class="btn btn-sm" onclick="app.exportData('html')">Active Note as Web Block (.html)</button>
+                                    <button class="btn btn-sm" onclick="app.exportData('doc')">Active Note as Word Comp (.doc)</button>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top:1.5rem;">
+                                <label>Global System Architecture Ingestion & Extraction</label>
+                                <div class="btn-stack">
+                                    <button class="btn btn-primary" onclick="app.exportGlobalBackup()">Download System Integrity Snapshot (.json)</button>
+                                </div>
+                                <div class="file-import-zone" style="margin-top:1rem;">
+                                    <label for="import-file-uploader" class="btn">Restore System State from File</label>
+                                    <input type="file" id="import-file-uploader" accept=".json,.txt" style="display:none;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <h2>Programmable Snippets Engine Component</h2>
+                            <div class="snippets-creation-form">
+                                <input type="text" id="snip-title" placeholder="Snippet Hook Name (e.g. [CTA])">
+                                <textarea id="snip-content" placeholder="Injected payload text components..."></textarea>
+                                <button class="btn btn-primary" id="btn-save-snippet">Commit Snippet Blueprint</button>
+                            </div>
+                            <div class="snippets-display-list" id="snippets-config-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
