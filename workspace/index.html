@@ -36,18 +36,35 @@
                         </div>
                     </div>
                     
-                    <div class="workspace-actions">
+                 <div class="workspace-actions">
                         <button id="btn-fetch-instructions" class="btn btn-secondary btn-sm" title="Fetch configuration instructions">
                             📥 Fetch Instructions
+                        </button>
+                        <button id="btn-fetch-source2" class="btn btn-secondary btn-sm" title="Fetch context from source2.txt">
+                            📄 Fetch Source 2
                         </button>
                         <button id="btn-download-source" class="btn btn-secondary btn-sm" title="Download matching source file">
                             💾 Download Source
                         </button>
+                        
+                        <button id="btn-import-trigger" class="btn btn-secondary btn-sm" title="Import TXT, DOC, JSON, or MD">
+                            📂 Import File
+                        </button>
+                        <input type="file" id="file-import-input" accept=".txt,.doc,.docx,.json,.md" style="display: none;">
+
+                        <select id="export-format-selector" class="btn btn-secondary btn-sm" style="cursor: pointer; padding-right: 8px;">
+                            <option value="" disabled selected>📤 Export As...</option>
+                            <option value="txt">Text (.txt)</option>
+                            <option value="doc">Word (.doc)</option>
+                            <option value="md">Markdown (.md)</option>
+                            <option value="json">JSON Backup (.json)</option>
+                        </select>
+
                         <button id="btn-clear-workspace" class="btn btn-outline btn-sm btn-danger-text" title="Clear entire editing canvas">
                             🧹 Clear Area
                         </button>
                     </div>
-                </div>
+
 
                 <div class="editor-toolbar">
                     <div class="toolbar-group">
