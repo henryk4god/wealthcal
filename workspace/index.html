@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Workspace Pro — Content Command Center</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="top-nav">
+            <div class="nav-brand">
+                <div class="brand-logo">⚡</div>
+                <div class="brand-text">
+                    <h1>Creator Workspace Pro</h1>
+                    <span>Your Private Content Command Center</span>
+                </div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="global-search" placeholder="Search notes, history, categories, snippets...">
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <button id="theme-toggle" class="btn btn-icon" title="Toggle Light/Dark Mode">
+                    <span class="theme-icon-sun">☀️</span>
+                    <span class="theme-icon-moon">🌙</span>
+                </button>
+                <button id="btn-open-history" class="btn btn-secondary">
+                    <span>⏳</span> History
+                </button>
+                <button id="btn-open-backup" class="btn btn-primary">
+                    <span>💾</span> Sync &amp; Backup
+                </button>
+            </div>
+        </header>
+
+        <main class="main-layout">
+            
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <button id="btn-new-note" class="btn btn-action-primary">
+                        <span>➕</span> Create New Note
+                    </button>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="section-title">
+                        <h3>Categories</h3>
+                        <button id="btn-add-category" class="btn-text" title="Add Category">＋ New</button>
+                    </div>
+                    <ul id="category-list" class="sidebar-list">
+                        </ul>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="section-title">
+                        <h3>Filter views</h3>
+                    </div>
+                    <ul class="filter-list">
+                        <li class="filter-item active" data-filter="all">📁 All Notes (<span id="count-all">0</span>)</li>
+                        <li class="filter-item" data-filter="pinned">📌 Pinned (<span id="count-pinned">0</span>)</li>
+                        <li class="filter-item" data-filter="archived">📦 Archive (<span id="count-archived">0</span>)</li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-section content-flex">
+                    <div class="section-title">
+                        <h3>Documents</h3>
+                    </div>
+                    <div id="notes-deck" class="notes-deck">
+                        </div>
+                </div>
+            </aside>
+
+            <section class="workspace">
+                <div class="workspace-header">
+                    <div class="active-note-meta">
+                        <input type="text" id="active-note-title" placeholder="Untitled Document" value="Scratchpad Workspace">
+                        <div class="meta-details">
+                            <span id="active-note-category-badge" class="badge">Uncategorized</span>
+                            <span id="autosave-indicator" class="save-indicator">Synced locally</span>
+                        </div>
+                    </div>
+                    <div class="workspace-actions">
+                        <button id="btn-pin-active" class="btn btn-icon-outline" title="Pin Document">📌</button>
+                        <button id="btn-archive-active" class="btn btn-icon-outline" title="Archive Document">📦</button>
+                        <button id="btn-copy-active" class="btn btn-icon-outline" title="Copy Content to Clipboard">📋</button>
+                        <button id="btn-export-menu-trigger" class="btn btn-secondary">
+                            Export ▾
+                        </button>
+                        <div id="export-dropdown" class="dropdown-menu hidden">
+                            <button data-export="txt">📄 Export Current TXT</button>
+                            <button data-export="md">📝 Export Current MD</button>
+                            <button data-export="html">🌐 Export Current HTML</button>
+                            <button data-export="doc">🏢 Export Current DOC</button>
+                            <hr>
+                            <button data-export="json-active">💎 Export Current JSON</button>
+                            <button data-export="all-json">🗄️ Export All Notes (JSON Backup)</button>
+                            <button data-export="favs">⭐️ Export Pinned Notes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="editor-toolbar">
+                    <div class="toolbar-group">
+                        <button class="tb-btn" data-command="bold" title="Bold (Ctrl+B)"><b>B</b></button>
+                        <button class="tb-btn" data-command="italic" title="Italic (Ctrl+I)"><i>I</i></button>
+                        <button class="tb-btn" data-command="underline" title="Underline (Ctrl+U)"><u>U</u></button>
+                        <button class="tb-btn" data-command="strikeThrough" title="Strikethrough"><s>S</s></button>
+                    </div>
+                    <div class="toolbar-divider"></div>
+                    
+                    <div class="toolbar-group color-picker-wrapper">
+                        <span class="color-picker-label">🎨</span>
+                        <input type="color" id="tb-forecolor" title="Choose Text Color" value="#3b82f6">
+                    </div>
+                    
+                    <div class="toolbar-divider"></div>
+                    <div class="toolbar-group">
+                        <button class="tb-btn" data-command="formatBlock" data-value="H1" title="Heading 1">H1</button>
+                        <button class="tb-btn" data-command="formatBlock" data-value="H2" title="Heading 2">H2</button>
+                        <button class="tb-btn" data-command="formatBlock" data-value="H3" title="Heading 3">H3</button>
+                        <button class="tb-btn" data-command="formatBlock" data-value="p" title="Paragraph">P</button>
+                    </div>
+                    <div class="toolbar-divider"></div>
+                    <div class="toolbar-group">
+                        <button class="tb-btn" data-command="insertUnorderedList" title="Bullet List">• List</button>
+                        <button class="tb-btn" data-command="insertOrderedList" title="Numbered List">1. List</button>
+                        <button class="tb-btn" data-command="formatBlock" data-value="blockquote" title="Quote">“ ”</button>
+                        <button class="tb-btn" data-command="formatBlock" data-value="pre" title="Code Block">&lt;/&gt;</button>
+                    </div>
+                    <div class="toolbar-divider"></div>
+                    <div class="toolbar-group">
+                        <button class="tb-btn" data-command="justifyLeft" title="Align Left">←</button>
+                        <button class="tb-btn" data-command="justifyCenter" title="Align Center">↔</button>
+                        <button class="tb-btn" data-command="justifyRight" title="Align Right">→</button>
+                    </div>
+                    <div class="toolbar-divider"></div>
+                    <div class="toolbar-group">
+                        <button class="tb-btn" id="tb-link" title="Insert Link">🔗</button>
+                        <button class="tb-btn" id="tb-table" title="Insert Table">📊</button>
+                        <button class="tb-btn" data-command="removeFormat" title="Clear Formatting">🧹</button>
+                    </div>
+                    <div class="toolbar-divider"></div>
+                    <div class="toolbar-group history-controls">
+                        <button class="tb-btn" id="tb-undo" title="Undo (Ctrl+Z)">↩️</button>
+                        <button class="tb-btn" id="tb-redo" title="Redo (Ctrl+Y)">↪️</button>
+                    </div>
+                    <div class="toolbar-divider"></div>
+                    <div class="toolbar-group">
+                        <button class="tb-btn" id="tb-toggle-find" title="Open Find &amp; Replace">🔍 Find</button>
+                    </div>
+                </div>
+
+                <div class="editor-canvas-wrapper">
+                    <div id="editor-core" contenteditable="true" placeholder="Paste your AI generation prompts or draft here..."></div>
+                </div>
+
+                <footer class="editor-footer">
+                    <div class="metrics-group">
+                        <span>Words: <strong id="metric-words">0</strong></span>
+                        <span>Characters: <strong id="metric-chars">0</strong></span>
+                    </div>
+                    <div id="last-saved-stamp" class="timestamp-stamp">
+                        Last Saved: Never
+                    </div>
+                </footer>
+            </section>
+
+            <aside class="quick-panel">
+                <div class="panel-section">
+                    <div class="panel-title">⚡ Find &amp; Replace</div>
+                    <div class="find-replace-card">
+                        <input type="text" id="fr-find" placeholder="Find text...">
+                        <input type="text" id="fr-replace" placeholder="Replace with...">
+                        
+                        <div class="toggle-row">
+                            <label class="toggle-lbl">
+                                <input type="checkbox" id="fr-case"> Case Sensitive
+                            </label>
+                            <label class="toggle-lbl">
+                                <input type="checkbox" id="fr-word"> Whole Word
+                            </label>
+                        </div>
+
+                        <div class="action-grid">
+                            <button id="btn-fr-next" class="btn btn-secondary btn-sm">Find Next</button>
+                            <button id="btn-fr-replace" class="btn btn-secondary btn-sm">Replace</button>
+                            <button id="btn-fr-all" class="btn btn-action-primary btn-sm">Replace All</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="panel-title">🧩 AI Utilities &amp; Quick Snippets</div>
+                    <div class="snippet-grid">
+                        <button class="btn-snippet" data-snippet="Summarize this: ">📝 Summarize Prompt</button>
+                        <button class="btn-snippet" data-snippet="Expand on this technical draft: ">🚀 Expand Concept</button>
+                        <button class="btn-snippet" data-snippet="Rewrite this copy for high-conversion marketing: ">💰 Marketing Hook</button>
+                        <button class="btn-snippet" data-snippet="Fix all grammar, voice consistency, and structural flow in this content: ">🔧 Refine Prose</button>
+                    </div>
+                </div>
+
+                <div class="panel-section assigned-cat-section">
+                    <div class="panel-title">Assign Category</div>
+                    <select id="select-note-category" class="form-select">
+                        <option value="">Uncategorized</option>
+                    </select>
+                </div>
+            </aside>
+        </main>
+
+        <div id="modal-history" class="modal-overlay hidden">
+            <div class="modal-surface large">
+                <div class="modal-header">
+                    <h2>⏳ Global Automation History logs</h2>
+                    <button class="btn-close-modal">✖</button>
+                </div>
+                <div class="modal-tabs">
+                    <button class="tab-btn active" data-tab="history-copied">Copied Notes (100)</button>
+                    <button class="tab-btn" data-tab="history-drafts">Auto Drafts (100)</button>
+                    <button class="tab-btn" data-tab="history-snippets">Used Snippets (100)</button>
+                </div>
+                <div class="modal-body tab-content-wrapper">
+                    <div id="tab-history-copied" class="tab-panel">
+                        <ul id="list-history-copied" class="history-log-list"></ul>
+                    </div>
+                    <div id="tab-history-drafts" class="tab-panel hidden">
+                        <ul id="list-history-drafts" class="history-log-list"></ul>
+                    </div>
+                    <div id="tab-history-snippets" class="tab-panel hidden">
+                        <ul id="list-history-snippets" class="history-log-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-backup" class="modal-overlay hidden">
+            <div class="modal-surface">
+                <div class="modal-header">
+                    <h2>💾 System Storage, Backups &amp; Migrations</h2>
+                    <button class="btn-close-modal">✖</button>
+                </div>
+                <div class="modal-body">
+                    <section class="backup-modal-sec">
+                        <h3>Local Data Backups</h3>
+                        <p>Your content is auto-backed up every 5 minutes internally to browser isolated memory vaults.</p>
+                        <div class="btn-cluster">
+                            <button id="btn-manual-backup" class="btn btn-secondary">Trigger Snapshot Manual Backup</button>
+                            <button id="btn-manual-restore" class="btn btn-outline">Restore From Snapshot</button>
+                        </div>
+                    </section>
+                    <hr class="modal-divider">
+                    <section class="backup-modal-sec">
+                        <h3>Import External Workspace Data</h3>
+                        <p>Upload previously exported files (.json backups, data maps, text matrices) to sync state.</p>
+                        <div class="import-drop-zone">
+                            <input type="file" id="file-import-input" accept=".json,.txt,.md">
+                            <p class="drop-zone-text">Click to choose or drop text, JSON or Markdown backup file here</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
