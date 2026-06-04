@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Creator Workspace Pro — Your Private Content Command Center</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- MOBILE OVERLAY -->
+<div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+<!-- APP SHELL -->
+<div id="app" class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">⌘</span>
+      <div class="brand-text">
+        <strong>Creator</strong><span>Workspace Pro</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">WORKSPACE</div>
+      <a class="nav-item active" data-view="dashboard" href="#">
+        <span class="nav-icon">🏠</span><span>Dashboard</span>
+      </a>
+      <a class="nav-item" data-view="scratch" href="#">
+        <span class="nav-icon">📝</span><span>Scratch Pad</span>
+      </a>
+      <a class="nav-item" data-view="research" href="#">
+        <span class="nav-icon">📚</span><span>Research</span>
+      </a>
+      <a class="nav-item" data-view="ebook" href="#">
+        <span class="nav-icon">📖</span><span>Ebook Projects</span>
+      </a>
+      <a class="nav-item" data-view="ads" href="#">
+        <span class="nav-icon">📢</span><span>Ads</span>
+      </a>
+      <a class="nav-item" data-view="ideas" href="#">
+        <span class="nav-icon">💡</span><span>Ideas</span>
+      </a>
+      <a class="nav-item" data-view="client" href="#">
+        <span class="nav-icon">👥</span><span>Client Work</span>
+      </a>
+
+      <div class="nav-section-label">ORGANIZED</div>
+      <a class="nav-item" data-view="favorites" href="#">
+        <span class="nav-icon">⭐</span><span>Favorites</span>
+      </a>
+      <a class="nav-item" data-view="pinned" href="#">
+        <span class="nav-icon">📌</span><span>Pinned Notes</span>
+      </a>
+      <a class="nav-item" data-view="history" href="#">
+        <span class="nav-icon">📜</span><span>Prompt History</span>
+      </a>
+
+      <div class="nav-section-label">SYSTEM</div>
+      <a class="nav-item" data-view="snippets" href="#">
+        <span class="nav-icon">⚡</span><span>Snippets</span>
+      </a>
+      <a class="nav-item" data-view="settings" href="#">
+        <span class="nav-icon">⚙</span><span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button id="theme-toggle" class="theme-btn" title="Toggle Theme">
+        <span id="theme-icon">☀️</span> Toggle Theme
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button id="sidebar-toggle" class="sidebar-toggle-btn">☰</button>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="global-search" placeholder="Search all notes, snippets, history…" autocomplete="off" />
+        <select id="search-scope" class="search-scope">
+          <option value="all">All Tabs</option>
+          <option value="current">Current Tab</option>
+          <option value="favorites">Favorites</option>
+          <option value="pinned">Pinned</option>
+        </select>
+      </div>
+      <div class="topbar-actions">
+        <button class="tb-btn" id="btn-new-note" title="New Note (Ctrl+N)">＋ Note</button>
+        <button class="tb-btn secondary" id="btn-export-all" title="Export All">↑ Export</button>
+        <button class="tb-btn secondary" id="btn-import" title="Import">↓ Import</button>
+        <input type="file" id="import-file" accept=".txt,.json" style="display:none" />
+      </div>
+    </header>
+
+    <!-- SEARCH RESULTS OVERLAY -->
+    <div id="search-results" class="search-results hidden"></div>
+
+    <!-- VIEWS -->
+    <div class="views-container">
+
+      <!-- DASHBOARD VIEW -->
+      <section id="view-dashboard" class="view active">
+        <div class="view-header">
+          <h1>Dashboard</h1>
+          <p class="view-sub">Welcome back. Your content command center.</p>
+        </div>
+        <div class="dashboard-grid">
+          <div class="dash-card" data-view="scratch">
+            <div class="dash-card-icon">📝</div>
+            <div class="dash-card-label">Scratch Pad</div>
+            <div class="dash-card-count" id="count-scratch">0 notes</div>
+          </div>
+          <div class="dash-card" data-view="research">
+            <div class="dash-card-icon">📚</div>
+            <div class="dash-card-label">Research</div>
+            <div class="dash-card-count" id="count-research">0 notes</div>
+          </div>
+          <div class="dash-card" data-view="ebook">
+            <div class="dash-card-icon">📖</div>
+            <div class="dash-card-label">Ebook Projects</div>
+            <div class="dash-card-count" id="count-ebook">0 notes</div>
+          </div>
+          <div class="dash-card" data-view="ads">
+            <div class="dash-card-icon">📢</div>
+            <div class="dash-card-label">Ads</div>
+            <div class="dash-card-count" id="count-ads">0 notes</div>
+          </div>
+          <div class="dash-card" data-view="ideas">
+            <div class="dash-card-icon">💡</div>
+            <div class="dash-card-label">Ideas</div>
+            <div class="dash-card-count" id="count-ideas">0 notes</div>
+          </div>
+          <div class="dash-card" data-view="client">
+            <div class="dash-card-icon">👥</div>
+            <div class="dash-card-label">Client Work</div>
+            <div class="dash-card-count" id="count-client">0 notes</div>
+          </div>
+        </div>
+        <div class="dash-bottom">
+          <div class="dash-recent">
+            <h3>Recent Notes</h3>
+            <div id="recent-notes-list" class="recent-list"></div>
+          </div>
+          <div class="dash-stats-mini">
+            <h3>Overview</h3>
+            <div class="stat-row"><span>Total Notes</span><strong id="stat-total">0</strong></div>
+            <div class="stat-row"><span>Favorites</span><strong id="stat-favs">0</strong></div>
+            <div class="stat-row"><span>Pinned</span><strong id="stat-pins">0</strong></div>
+            <div class="stat-row"><span>Snippets</span><strong id="stat-snips">0</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WORKSPACE VIEWS (scratch, research, ebook, ads, ideas, client) -->
+      <section id="view-scratch" class="view workspace-view" data-workspace="scratch">
+        <div class="workspace-layout">
+          <div class="notes-panel">
+            <div class="panel-header">
+              <span>📝 Scratch Pad</span>
+              <button class="icon-btn" id="new-scratch">＋</button>
+            </div>
+            <div class="notes-list" id="list-scratch" data-workspace="scratch"></div>
+          </div>
+          <div class="editor-panel">
+            <div class="editor-toolbar" id="rich-toolbar">
+              <button data-cmd="bold" title="Bold (Ctrl+B)"><b>B</b></button>
+              <button data-cmd="italic" title="Italic (Ctrl+I)"><i>I</i></button>
+              <button data-cmd="underline" title="Underline"><u>U</u></button>
+              <span class="tb-sep">|</span>
+              <button data-cmd="formatBlock" data-val="h2" title="Heading">H</button>
+              <button data-cmd="insertUnorderedList" title="Bullets">•—</button>
+              <button data-cmd="insertOrderedList" title="Numbers">1.</button>
+              <button data-cmd="formatBlock" data-val="blockquote" title="Quote">"</button>
+              <button data-cmd="formatBlock" data-val="pre" title="Code">{ }</button>
+              <span class="tb-sep">|</span>
+              <button data-cmd="justifyLeft" title="Left">⬅</button>
+              <button data-cmd="justifyCenter" title="Center">⬛</button>
+              <button data-cmd="justifyRight" title="Right">➡</button>
+              <span class="tb-sep">|</span>
+              <button id="btn-table" title="Insert Table">⊞</button>
+              <button id="btn-link" title="Insert Link">🔗</button>
+              <button data-cmd="removeFormat" title="Clear Format">⊘</button>
+              <span class="tb-sep">|</span>
+              <button id="btn-find-replace" title="Find & Replace (Ctrl+H)">Find/Replace</button>
+            </div>
+            <div class="editor-title-wrap">
+              <input type="text" id="note-title" class="note-title-input" placeholder="Note title…" />
+            </div>
+            <div id="editor" class="rich-editor" contenteditable="true" spellcheck="true">
+              <p>Select or create a note to begin…</p>
+            </div>
+            <div class="editor-footer">
+              <div class="stats-bar">
+                <span id="stat-words">0 words</span>
+                <span id="stat-chars">0 chars</span>
+                <span id="stat-paras">0 paras</span>
+                <span id="stat-read">~0 min read</span>
+                <span id="stat-speak">~0 min speak</span>
+              </div>
+              <div class="save-status" id="save-status">All saved ✓</div>
+            </div>
+          </div>
+          <div class="note-meta-panel" id="meta-panel">
+            <div class="meta-section">
+              <div class="meta-label">CREATED</div>
+              <div class="meta-val" id="meta-created">—</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">MODIFIED</div>
+              <div class="meta-val" id="meta-modified">—</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">WORKSPACE</div>
+              <div class="meta-val" id="meta-workspace">—</div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">ACTIONS</div>
+              <div class="meta-actions">
+                <button class="meta-btn" id="btn-save" title="Save (Ctrl+S)">💾 Save</button>
+                <button class="meta-btn" id="btn-duplicate" title="Duplicate (Ctrl+D)">⧉ Duplicate</button>
+                <button class="meta-btn" id="btn-copy-note" title="Copy">📋 Copy</button>
+                <button class="meta-btn" id="btn-favorite" title="Favorite">⭐ Favorite</button>
+                <button class="meta-btn" id="btn-pin" title="Pin">📌 Pin</button>
+                <button class="meta-btn" id="btn-archive" title="Archive">📦 Archive</button>
+                <button class="meta-btn danger" id="btn-delete" title="Delete">🗑 Delete</button>
+              </div>
+            </div>
+            <div class="meta-section">
+              <div class="meta-label">EXPORT</div>
+              <div class="meta-actions">
+                <button class="meta-btn" id="btn-exp-txt">TXT</button>
+                <button class="meta-btn" id="btn-exp-md">MD</button>
+                <button class="meta-btn" id="btn-exp-html">HTML</button>
+                <button class="meta-btn" id="btn-exp-json">JSON</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Other workspace views (research, ebook, ads, ideas, client) — cloned by JS -->
+      <section id="view-research" class="view workspace-view" data-workspace="research"></section>
+      <section id="view-ebook" class="view workspace-view" data-workspace="ebook"></section>
+      <section id="view-ads" class="view workspace-view" data-workspace="ads"></section>
+      <section id="view-ideas" class="view workspace-view" data-workspace="ideas"></section>
+      <section id="view-client" class="view workspace-view" data-workspace="client"></section>
+
+      <!-- FAVORITES VIEW -->
+      <section id="view-favorites" class="view">
+        <div class="view-header">
+          <h1>⭐ Favorites</h1>
+          <p class="view-sub">Your starred notes and snippets</p>
+        </div>
+        <div id="favorites-list" class="grid-notes"></div>
+      </section>
+
+      <!-- PINNED VIEW -->
+      <section id="view-pinned" class="view">
+        <div class="view-header">
+          <h1>📌 Pinned Notes</h1>
+          <p class="view-sub">Important notes always at the top</p>
+        </div>
+        <div id="pinned-list" class="grid-notes"></div>
+      </section>
+
+      <!-- HISTORY VIEW -->
+      <section id="view-history" class="view">
+        <div class="view-header">
+          <h1>📜 Prompt History</h1>
+          <p class="view-sub">Last 100 actions tracked</p>
+        </div>
+        <div id="history-list" class="history-list"></div>
+      </section>
+
+      <!-- SNIPPETS VIEW -->
+      <section id="view-snippets" class="view">
+        <div class="view-header">
+          <h1>⚡ Quick Snippets</h1>
+          <p class="view-sub">Reusable blocks for your workflow</p>
+        </div>
+        <div class="snippets-toolbar">
+          <input type="text" id="snippet-name" placeholder="Snippet name…" class="snippet-input" />
+          <textarea id="snippet-body" placeholder="Snippet content…" class="snippet-textarea" rows="3"></textarea>
+          <button class="tb-btn" id="btn-add-snippet">＋ Add Snippet</button>
+        </div>
+        <div id="snippets-list" class="snippets-grid"></div>
+      </section>
+
+      <!-- SETTINGS VIEW -->
+      <section id="view-settings" class="view">
+        <div class="view-header">
+          <h1>⚙ Settings</h1>
+          <p class="view-sub">Preferences and data management</p>
+        </div>
+        <div class="settings-grid">
+          <div class="settings-card">
+            <h3>Appearance</h3>
+            <label class="toggle-row">
+              <span>Dark Mode</span>
+              <input type="checkbox" id="pref-dark" checked />
+            </label>
+            <label class="toggle-row">
+              <span>Auto Save</span>
+              <input type="checkbox" id="pref-autosave" checked />
+            </label>
+          </div>
+          <div class="settings-card">
+            <h3>Backup & Restore</h3>
+            <button class="tb-btn" id="btn-backup">📦 Manual Backup Now</button>
+            <button class="tb-btn secondary" id="btn-restore">🔄 Restore Backup</button>
+            <input type="file" id="restore-file" accept=".json" style="display:none" />
+            <p class="settings-note">Auto-backup runs every 5 minutes.</p>
+          </div>
+          <div class="settings-card">
+            <h3>Export Everything</h3>
+            <button class="tb-btn" id="btn-export-all-json">📤 Export All (JSON)</button>
+            <button class="tb-btn secondary" id="btn-export-favs">⭐ Export Favorites</button>
+          </div>
+          <div class="settings-card danger-zone">
+            <h3>Danger Zone</h3>
+            <button class="tb-btn danger" id="btn-clear-all">🗑 Clear All Data</button>
+            <p class="settings-note">This cannot be undone.</p>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /views-container -->
+
+  </main>
+</div><!-- /app-shell -->
+
+<!-- FIND & REPLACE MODAL -->
+<div id="modal-find-replace" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Find & Replace</h3>
+      <button class="modal-close" data-modal="modal-find-replace">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="text" id="fr-find" placeholder="Find text…" class="modal-input" />
+      <input type="text" id="fr-replace" placeholder="Replace with…" class="modal-input" />
+      <div class="fr-options">
+        <label><input type="checkbox" id="fr-case" /> Case sensitive</label>
+        <label><input type="checkbox" id="fr-whole" /> Whole word</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="tb-btn" id="fr-find-next">Find Next</button>
+      <button class="tb-btn" id="fr-replace-one">Replace</button>
+      <button class="tb-btn" id="fr-replace-all">Replace All</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
