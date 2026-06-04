@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Image Marketing Assets Generator</title>
   
-  <!-- Google Fonts: Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- STYLE.CSS CONTENT INLINED BELOW -->
   <style>
     :root {
       --primary-color: #7c3aed; /* Vibrant Violet */
@@ -228,6 +225,16 @@
       left: 14px;
       top: 50%;
       transform: translateY(-50%);
+      color: var(--primary-color);
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+    }
+
+    .input-icon-textarea {
+      position: absolute;
+      left: 14px;
+      top: 18px;
       color: var(--primary-color);
       width: 20px;
       height: 20px;
@@ -545,7 +552,6 @@
 </head>
 <body>
 
-  <!-- Floating Glow Orbs for Visual Premium Depth -->
   <div class="glow-orb-1"></div>
   <div class="glow-orb-2"></div>
 
@@ -558,13 +564,11 @@
       <p>Transform raw copy ideas into highly-detailed, high-converting design prompts for Gemini AI, DALL-E, or Midjourney.</p>
     </header>
 
-    <!-- Optional API Configuration -->
     <div class="settings-button" onclick="toggleApiSettings()">
       <i data-lucide="cog" style="width: 15px; height: 15px;"></i>
       <span>Connect Gemini API (Optional)</span>
     </div>
 
-    <!-- Hidden API Key Panel -->
     <div class="api-panel" id="apiPanel">
       <p>By default, this tool synthesizes perfect ready-to-copy design instructions client-side. If you prefer to have the <strong>Gemini AI Model</strong> dynamically expand and enhance your design parameters, paste your API key below.</p>
       <div class="form-group" style="margin-bottom: 0;">
@@ -576,14 +580,12 @@
       </div>
     </div>
 
-    <!-- Form Interface -->
     <div class="card">
       <div class="card-title">
         <i data-lucide="palette"></i>
         <span>Configure Visual Prompt Options</span>
       </div>
 
-      <!-- Quick Start Presets -->
       <div class="preset-header">Try a Quick Start Preset</div>
       <div class="presets-row">
         <button type="button" class="preset-pill" onclick="applyPreset('wealth')">₦5k Wealth Blueprint</button>
@@ -592,10 +594,8 @@
         <button type="button" class="preset-pill" onclick="applyPreset('coding')">Python Automation</button>
       </div>
 
-      <!-- Main Input Fields -->
       <form id="generatorForm" onsubmit="generatePromptAssets(event)">
         
-        <!-- Asset Selector -->
         <div class="form-group">
           <label>1. Select Marketing Asset Type</label>
           <div class="asset-grid" id="assetGrid">
@@ -627,39 +627,12 @@
         </div>
 
         <div class="form-group">
-          <label for="productName">Product Name</label>
+          <label for="productDetails">Product Details</label>
           <div class="input-wrapper">
-            <i data-lucide="tag" class="input-icon"></i>
-            <input type="text" id="productName" required placeholder="e.g., The ₦5k Wealth Blueprint">
+            <i data-lucide="text-cursor-input" class="input-icon-textarea"></i>
+            <textarea id="productDetails" required rows="4" style="padding-left: 46px;" placeholder="Product Title: The ₦5k Wealth Blueprint&#10;Product Subtitle: Micro-investing and automated daily savings systems for busy young professionals"></textarea>
           </div>
-          <span class="helper-text">What is the creative, high-converting title of your product?</span>
-        </div>
-
-        <div class="form-group">
-          <label for="skillTopic">The Skill/Topic I am Teaching</label>
-          <div class="input-wrapper">
-            <i data-lucide="graduation-cap" class="input-icon"></i>
-            <input type="text" id="skillTopic" required placeholder="e.g., Micro-investing and automated daily savings systems">
-          </div>
-          <span class="helper-text">What core knowledge or action is the customer learning?</span>
-        </div>
-
-        <div class="form-group">
-          <label for="resourceHave">The Resource They Already Have</label>
-          <div class="input-wrapper">
-            <i data-lucide="smartphone" class="input-icon"></i>
-            <input type="text" id="resourceHave" required placeholder="e.g., A smartphone and ₦5,000 weekly">
-          </div>
-          <span class="helper-text">What simple starting tool/capital do they need?</span>
-        </div>
-
-        <div class="form-group">
-          <label for="targetAudience">Target Audience</label>
-          <div class="input-wrapper">
-            <i data-lucide="users" class="input-icon"></i>
-            <input type="text" id="targetAudience" required placeholder="e.g., Busy young professionals and beginners in Nigeria">
-          </div>
-          <span class="helper-text">Describe the core demographic who needs this offer.</span>
+          <span class="helper-text">Input your product title and subtitle only.</span>
         </div>
 
         <button type="submit" class="action-btn-main" id="submitBtn">
@@ -669,14 +642,12 @@
       </form>
     </div>
 
-    <!-- Live Loading Box -->
     <div class="loader-box" id="loaderBox">
       <div class="spinning-wheel"></div>
       <p style="font-weight: 600; color: var(--primary-color);">Structuring Professional Graphic Prompt...</p>
       <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Analyzing colors, emotional psychology, and aspect layout ratios...</p>
     </div>
 
-    <!-- Output Prompt Panel -->
     <div class="output-wrapper-card" id="outputPanel">
       <div class="output-header-bar">
         <div class="output-title-label">
@@ -692,13 +663,11 @@
     </div>
   </div>
 
-  <!-- Interactive Toast Notification -->
   <div class="notification-toast" id="toastNotification">
     <i data-lucide="check-circle" style="color: var(--success-color);"></i>
     <span id="toastText">Prompt copied successfully!</span>
   </div>
 
-  <!-- SCRIPT.JS CONTENT INLINED BELOW -->
   <script>
     // Selected template tracked locally
     let chosenAsset = "Product cover mockups";
@@ -737,44 +706,29 @@
     // Interactive Preset Database
     const presetDatabase = {
       wealth: {
-        product: "The ₦5k Wealth Blueprint",
-        skill: "Micro-investing and automated daily savings systems",
-        resource: "A smartphone and ₦5,000 weekly",
-        audience: "Busy young professionals and beginners in Nigeria"
+        text: "Product Title: The ₦5k Wealth Blueprint\nProduct Subtitle: Micro-investing and automated daily savings systems for busy young professionals in Nigeria"
       },
       crypto: {
-        product: "Crypto Freedom Formula",
-        skill: "Spot trading and identifying low-risk blue chip cryptos",
-        resource: "A mobile phone and internet connection",
-        audience: "Ambitious youth and career professionals seeking side income"
+        text: "Product Title: Crypto Freedom Formula\nProduct Subtitle: Spot trading and identifying low-risk blue chip cryptos for side income"
       },
       cooking: {
-        product: "Fit & Healthy African Kitchen",
-        skill: "Preparing high-protein, calorie-controlled local meals under 20 minutes",
-        resource: "Basic grocery store items and common pots",
-        audience: "Fitness enthusiasts and working individuals aiming to stay lean"
+        text: "Product Title: Fit & Healthy African Kitchen\nProduct Subtitle: Preparing high-protein, calorie-controlled local meals under 20 minutes"
       },
       coding: {
-        product: "Python Automation Blueprint",
-        skill: "Automating repetitive data sorting, Excel file backups, and email tasks",
-        resource: "A standard office computer and 20 free minutes daily",
-        audience: "Corporate workers, administrative agents, and non-programmers"
+        text: "Product Title: Python Automation Blueprint\nProduct Subtitle: Automating repetitive data sorting, Excel file backups, and email tasks"
       }
     };
 
     function applyPreset(key) {
       const choice = presetDatabase[key];
       if (choice) {
-        document.getElementById('productName').value = choice.product;
-        document.getElementById('skillTopic').value = choice.skill;
-        document.getElementById('resourceHave').value = choice.resource;
-        document.getElementById('targetAudience').value = choice.audience;
+        document.getElementById('productDetails').value = choice.text;
         triggerToast("Loaded preset template!");
       }
     }
 
     // Clean Local Prompt Database Engine
-    function buildLocalPrompt(asset, product, skill, resource, audience) {
+    function buildLocalPrompt(asset, productDetails) {
       let layoutStyle = "";
       let dimensionRatio = "";
       let visualMetaphor = "";
@@ -783,7 +737,7 @@
         case "Product cover mockups":
           layoutStyle = "Colors: Vibrant violet, clean emerald gradients, and rich metallic gold details. Premium studio lighting with elegant soft dropshadows. Minimalist light workspace backdrop. Clean, professional and high-value.";
           dimensionRatio = "Aspect ratio: 1:1 (Square aspect). Shot Type: 3D modern design product packaging mockup. Clean shadows.";
-          visualMetaphor = "Include visual motifs of financial progress (discreet climbing graphics, simplified upward-trending charts, sleek smartphone screens).";
+          visualMetaphor = "Include visual motifs of growth, progress, and professional quality graphics matching the thematic concept.";
           break;
         case "Promo banners":
           layoutStyle = "Colors: Ultra-bright electric blue, glowing sunset orange accents, and crisp white typography. Bold spotlighting hitting central components. High energy, conversion-driven visual vibe.";
@@ -819,11 +773,7 @@
       // The core template that matches requirements perfectly
       return `Identify Selected Asset: ${asset}
 
-Visual Direction: Generate a premium, masterfully designed, modern visual for "${product}". The main theme revolves around the learning skill of "${skill}". The image should elicit trust, high authority, excitement, and a desire to act immediately.
-
-Visualizing Pain Points: Symbolize the struggle of confusing systems by keeping background distractions out of focus. Ensure the absolute simplicity of only needing "${resource}" is elevated through clean, uncluttered visual space.
-
-Showcase Product Features: Include visual cues like clean device interface dashboards, stylized checkmark badges, and crisp modern progress indicators representing rapid advancement. Make this highly targeted and deeply exciting to "${audience}".
+Visual Direction: Generate a premium, masterfully designed, modern visual asset based on these details:\n${productDetails}\nThe image should elicit trust, high authority, excitement, and a desire to act immediately.
 
 Design Style & Theme:
 - Style Mood: Sleek, premium, bright workspace design, high-end conversions-oriented layout.
@@ -841,10 +791,7 @@ Technical Specifications:
     async function generatePromptAssets(event) {
       event.preventDefault();
 
-      const product = document.getElementById('productName').value.trim();
-      const skill = document.getElementById('skillTopic').value.trim();
-      const resource = document.getElementById('resourceHave').value.trim();
-      const audience = document.getElementById('targetAudience').value.trim();
+      const productDetails = document.getElementById('productDetails').value.trim();
 
       const loader = document.getElementById('loaderBox');
       const outputPanel = document.getElementById('outputPanel');
@@ -865,10 +812,7 @@ Technical Specifications:
             You are an expert visual designer with 20+ years of experience in creating high-converting digital product images.
             Generate a detailed image-generation prompt for:
             - Selected Asset: ${chosenAsset}
-            - PRODUCT NAME: ${product}
-            - THE SKILL/TOPIC I AM TEACHING: ${skill}
-            - THE RESOURCE THEY ALREADY HAVE: ${resource}
-            - TARGET AUDIENCE: ${audience}
+            - PRODUCT DETAILS (Title & Subtitle): ${productDetails}
 
             Output requirements:
             - No introduction, no conclusion. Only deliver the final crafted prompt.
@@ -882,13 +826,13 @@ Technical Specifications:
         } catch (e) {
           console.error(e);
           triggerToast("API Error. Activating local generator engine!");
-          const fallbackPrompt = buildLocalPrompt(chosenAsset, product, skill, resource, audience);
+          const fallbackPrompt = buildLocalPrompt(chosenAsset, productDetails);
           outputText.textContent = fallbackPrompt;
         }
       } else {
         // Run locally
         await new Promise(resolve => setTimeout(resolve, 800)); // Simulating premium compiler feel
-        const localPrompt = buildLocalPrompt(chosenAsset, product, skill, resource, audience);
+        const localPrompt = buildLocalPrompt(chosenAsset, productDetails);
         outputText.textContent = localPrompt;
       }
 
