@@ -772,6 +772,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadActiveNote(state.activeNoteId, false);
             }
         });
+                // 1. Color Picker Implementation Wire-Up
+        const colorPicker = document.getElementById('tb-forecolor');
+        if (colorPicker) {
+            colorPicker.addEventListener('input', (e) => {
+                execEditorCommand('foreColor', e.target.value);
+            });
+        }
+
+        // 2. Toolbar Find & Replace Panel Quick-Focus Link
+        const toggleFindBtn = document.getElementById('tb-toggle-find');
+        if (toggleFindBtn) {
+            toggleFindBtn.addEventListener('click', () => {
+                const rightPanel = document.querySelector('.quick-panel');
+                const findInput = document.getElementById('fr-find');
+                
+                // If hidden on tablets/mobile, let's pop an alert fallback or highlight it
+                if (window.getComputedStyle(rightPanel).display === 'none') {
+                    const inlineFind = prompt("Enter text matrix to find directly:");
+                    if (inlineFind) {
+                        document.getElementById('fr-find').value = inlineFind;
+                        const inlineReplace = prompt(`Replace "${inlineFind}" with:`);
+                        if (inlineReplace !== null) {
+                            document.getElementById('fr-replace').value = inlineReplace;
+                            executeFindReplace(true); // Fire dynamic replace all sequence directly
+                        }
+                    }
+                } else {
+                    findInput.focus();
+                    findInput.style.borderColor = 'var(--accent-color)';
+                    setTimeout(() => findInput.style.borderColor = 'var(--border-color)', 1500);
+                }
+            });
+        }
+
 
         // Instant Engine Search Input Pipeline Threading
         document.getElementById('global-search').addEventListener('input', (e) => {
