@@ -113,6 +113,11 @@
                         <button class="tb-btn" data-command="strikeThrough" title="Strikethrough"><s>S</s></button>
                     </div>
                     <div class="toolbar-divider"></div>
+                    <div class="toolbar-group color-picker-wrapper">
+                        <label for="tb-forecolor" class="tb-btn" title="Text Color">🎨</label>
+                        <input type="color" id="tb-forecolor" title="Choose Text Color" value="#3b82f6">
+                    </div>
+                    <div class="toolbar-divider"></div>
                     <div class="toolbar-group">
                         <button class="tb-btn" data-command="formatBlock" data-value="H1" title="Heading 1">H1</button>
                         <button class="tb-btn" data-command="formatBlock" data-value="H2" title="Heading 2">H2</button>
@@ -142,6 +147,10 @@
                     <div class="toolbar-group history-controls">
                         <button class="tb-btn" id="tb-undo" title="Undo (Ctrl+Z)">↩️</button>
                         <button class="tb-btn" id="tb-redo" title="Redo (Ctrl+Y)">↪️</button>
+                    </div>
+                    <div class="toolbar-divider"></div>
+                    <div class="toolbar-group">
+                        <button class="tb-btn" id="tb-toggle-find" title="Open Find & Replace">🔍 Find</button>
                     </div>
                 </div>
 
