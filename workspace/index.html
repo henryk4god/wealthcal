@@ -34,9 +34,8 @@
                         <div class="meta-details">
                             <span id="autosave-indicator" class="save-indicator">Synced locally</span>
                         </div>
-                    </div>
-                    
-                    <div class="workspace-actions">
+                    </div>   
+                  <div class="workspace-actions">
                         <button id="btn-fetch-instructions" class="btn btn-secondary btn-sm" title="Fetch configuration instructions">
                             📥 Fetch Instructions
                         </button>
@@ -60,12 +59,14 @@
                             <option value="json">JSON Backup (.json)</option>
                         </select>
 
+                        <button id="btn-copy-workspace" class="btn btn-secondary btn-sm" style="color: var(--accent-color); font-weight: 600;" title="Copy entire workspace content to clipboard">
+                            📋 Copy All
+                        </button>
+
                         <button id="btn-clear-workspace" class="btn btn-outline btn-sm btn-danger-text" title="Clear entire editing canvas">
                             🧹 Clear Area
                         </button>
                     </div>
-                </div>
-
                 <div class="editor-toolbar">
                     <div class="toolbar-group">
                         <button class="tb-btn" data-command="bold" title="Bold (Ctrl+B)"><b>B</b></button>
