@@ -299,29 +299,33 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // NEW FEATURE: QUICK COPY ALL TO CLIPBOARD
-        const copyBtn = document.getElementById('btn-copy-workspace');
-        if (copyBtn) {
-            copyBtn.addEventListener('click', () => {
-                const textToCopy = editorCore.innerText || editorCore.textContent || "";
-                
-                if (!textToCopy.trim()) {
-                    alert("The workspace canvas area is empty. There is nothing to copy!");
-                    return;
-                }
+        // SAFE FEATURE ACTION LISTENER: QUICK COPY ALL TO CLIPBOARD
+        try {
+            const copyBtn = document.getElementById('btn-copy-workspace');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                    const textToCopy = editorCore.innerText || editorCore.textContent || "";
+                    
+                    if (!textToCopy.trim()) {
+                        alert("The workspace canvas area is empty. There is nothing to copy!");
+                        return;
+                    }
 
-                navigator.clipboard.writeText(textToCopy)
-                    .then(() => {
-                        const originalText = copyBtn.textContent;
-                        copyBtn.textContent = "✅ Copied!";
-                        setTimeout(() => {
-                            copyBtn.textContent = originalText;
-                        }, 2000);
-                    })
-                    .catch(() => {
-                        alert("Unable to copy automatically. Please select text and copy manually.");
-                    });
-            });
+                    navigator.clipboard.writeText(textToCopy)
+                        .then(() => {
+                            const originalText = copyBtn.textContent;
+                            copyBtn.textContent = "✅ Copied!";
+                            setTimeout(() => {
+                                copyBtn.textContent = originalText;
+                            }, 2000);
+                        })
+                        .catch(() => {
+                            alert("Unable to copy automatically. Please select text and copy manually.");
+                        });
+                });
+            }
+        } catch (e) {
+            console.error("Copy button DOM mapping failed structural validation setup:", e);
         }
 
         const toggleFindBtn = document.getElementById('tb-toggle-find');
