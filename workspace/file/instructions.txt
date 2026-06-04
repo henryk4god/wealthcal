@@ -1,0 +1,36 @@
+Here is exactly how to use this source document with any Large Language Model (like ChatGPT, Claude, or Gemini) to write ads, create products, or brainstorm hooks.
+Think of that document as a **"plug-and-play" brain** for the AI. Because it is highly structured with clear formulas, the AI can read it instantly and perfectly execute your commands without losing context.
+## Method 1: The "Upload & Task" Method (Best for Quick Work)
+Copy the entire source document text I gave you, paste it at the very top of your chat window, and then add your instructions at the bottom.
+### Copy-and-Paste Prompt Blueprint:
+> **[Paste the Source Document Content Here]**
+> **Task:** Using the "Resource-Based Positioning Strategy" source document above, I want you to help me with my business.
+>  * **My Niche/Topic:** [e.g., Teaching people how to design graphics]
+>  * **The Core Resource my audience already has:** [e.g., Canva / a free smartphone app]
+>  * **The Starting Capital or Time constraint:** [e.g., 0 capital / 45 minutes a day]
+>  * **Target Audience:** [e.g., Stay-at-home moms in Nigeria]
+> Please give me:
+>  1. Three distinct Product Names using the naming archetypes.
+>  2. Two Facebook Ad scripts using the exact Facebook Ad Angle layout in the document.
+> 
+## Method 2: The "Custom GPT / System Prompt" Method (Best for Long-Term Use)
+If you use ChatGPT Plus or Claude Projects, you can upload this document as a permanent file into a "Custom GPT" or "Project Knowledge Base."
+Once uploaded, you don't need to keep copy-pasting it. You can just open that specific chat and talk to it normally:
+ * *"Hey, look at our source document. Create a 5-day email sequence for a new product called 'The ₦2,000 Airtime-to-Income System'."*
+ * *"Give me 5 punchy hooks for a TikTok video using the Gadget-Based angle from the file."*
+## 3 Specific Ways to Use It Right Now
+To give you an idea of the power of this document, here are three things you can ask any AI to do with it right now:
+### 1. The Idea Generator
+**What to ask the AI:**
+> *"Look at Section 4 (Product Naming Archetypes) and Section 6. I run a business training people on [insert your skill]. Give me a matrix of 12 product ideas spanning the 'Start With', 'Blueprint', 'System', and 'Challenge' formulas."*
+> 
+### 2. The Ad Copywriter
+**What to ask the AI:**
+> *"Using Section 6's High-Converting Facebook Ad Framework, write 3 variations of Facebook ad primary text for my ebook. Keep the tone emotional, realistic, and strictly adhere to the Cardinal Rule of Believability in Section 5."*
+> 
+### 3. The Offer Diagnostic (Fixing low sales)
+**What to ask the AI:**
+> *"I have an existing product called '[Insert your current product name]'. It's not converting well. Read Section 1 and Section 5 of the source document, analyze why it might be causing friction or overwhelm, and re-write the offer using Resource-Based Positioning."*
+> 
+> 💡 **Pro-Tip for Best Results:** When working with the AI, always tell it to look at a **specific section** of the document (e.g., *"Using the Master Formula in Section 2..."*). This forces the LLM to tightly anchor its logic to the document constraints and prevents it from giving you generic marketing fluff.
+> 
