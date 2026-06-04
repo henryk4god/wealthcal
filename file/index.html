@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Files Source Downloader</title>
+    <!-- Google Fonts Connection -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <!-- External Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Header Section -->
     <header class="hero-banner">
         <div class="header-container">
             <span class="badge">SECURE REPOSITORY</span>
@@ -20,9 +23,11 @@
         </div>
     </header>
 
+    <!-- Main Content Area -->
     <main class="main-container">
         <div class="grid-layout" id="files-grid">
             
+            <!-- File Card 1: Source Code -->
             <div class="file-card">
                 <div class="card-icon">📄</div>
                 <div class="file-info">
@@ -36,19 +41,21 @@
                 </button>
             </div>
 
+            <!-- Updated Card 2: Workspace Tool (External Link) -->
             <div class="file-card">
-                <div class="card-icon">📕</div>
+                <div class="card-icon">🛠️</div>
                 <div class="file-info">
-                    <span class="file-type">PDF DOCUMENT</span>
-                    <h3 class="file-name">Ebook Strategy Guide</h3>
-                    <p class="file-description">Complete instructional walkthrough covering setup protocols and framework deployment.</p>
+                    <span class="file-type">WEB APPLICATION</span>
+                    <h3 class="file-name">Workspace Tool</h3>
+                    <p class="file-description">Access the digital workspace platform environment to manage and optimize your live utilities.</p>
                 </div>
-                <button class="download-btn" data-filepath="file/ebook-guide.pdf" data-filename="ebook-guide.pdf">
-                    <span class="btn-text">Download File</span>
+                <button class="download-btn link-btn" data-link="https://michyhub.com.ng/workspace/">
+                    <span class="btn-text">Open Workspace</span>
                     <span class="spinner"></span>
                 </button>
             </div>
 
+            <!-- File Card 3: Instructions -->
             <div class="file-card">
                 <div class="card-icon">📘</div>
                 <div class="file-info">
@@ -65,6 +72,7 @@
         </div>
     </main>
 
+    <!-- External JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
