@@ -183,7 +183,139 @@ document.addEventListener('DOMContentLoaded', () => {
             anchor.click();
             document.body.removeChild(anchor);
         });
+               
+        // ==========================================================================
+        // NEW FEATURE: FETCH & INJECT CONTENT FROM SOURCE2.TXT
+        // ==========================================================================
+        document.getElementById('btn-fetch-source2').addEventListener('click', async () => {
+            try {
+                const response = await fetch('./File Folder/source2.txt');
+                if (!response.ok) throw new Error('Could not access source2.txt');
+                const textData = await response.text();
+                
+                editorCore.innerHTML = textData.replace(/\n/g, '<br>');
+                trackHistoryStateSnapshot();
+                updateMetrics();
+                triggerAutosaveLoop();
+                alert("Source 2 text fetched and loaded into workspace successfully.");
+            } catch (err) {
+                alert("Fetch Error: Ensure your target file is saved exactly at: ./File Folder/source2.txt");
+            }
+        });
 
+        // ==========================================================================
+        // NEW FEATURE: UNIVERSAL IMPORT ENGINE (.txt, .doc, .md, .json)
+        // ==========================================================================
+        const importTrigger = document.getElementById('btn-import-trigger');
+        const importInput = document.getElementById('file-import-input');
+
+        importTrigger.addEventListener('click', () => importInput.click());
+
+        importInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            const extension = file.name.split('.').pop().toLowerCase();
+
+            reader.onload = function(event) {
+                const rawContent = event.target.result;
+
+                try {
+                    if (extension === 'json') {
+                        const parsed = JSON.parse(rawContent);
+                        // If it's a structural JSON workspace backup, look for data keys
+                        editorCore.innerHTML = parsed.workspaceContent || parsed.content || rawContent;
+                        if (parsed.title) activeNoteTitle.value = parsed.title;
+                    } else if (extension === 'md') {
+                        // Simple Markdown-to-HTML formatting parser rules
+                        let html = rawContent
+                            .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                            .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                            .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                            .replace(/^\s*\n\* (.*)/gim, '<ul>\n<li>$1</li>\n</ul>')
+                            .replace(/\n/g, '<br>');
+                        editorCore.innerHTML = html;
+                    } else {
+                        // Handles basic txt and doc data raw conversion
+                        editorCore.innerHTML = rawContent.replace(/\n/g, '<br>');
+                    }
+                    
+                    trackHistoryStateSnapshot();
+                    updateMetrics();
+                    triggerAutosaveLoop();
+                    alert(`"${file.name}" imported successfully.`);
+                } catch (err) {
+                    alert("Error parsing file structure contents.");
+                }
+                importInput.value = ''; // Clear picker state
+            };
+
+            reader.readAsText(file);
+        });
+
+        // ==========================================================================
+        // NEW FEATURE: UNIVERSAL EXPORT ENGINE (.txt, .doc, .md, .json)
+        // ==========================================================================
+        document.getElementById('export-format-selector').addEventListener('change', (e) => {
+            const format = e.target.value;
+            if (!format) return;
+
+            const documentTitle = activeNoteTitle.value.trim() || "Workspace-Export";
+            let exportData = "";
+            let mimeType = "text/plain";
+            let fileExtension = format;
+
+            // Extract plain text vs rich HTML representation depending on export targets
+            const plainTextContent = editorCore.innerText || editorCore.textContent || "";
+            const rawHTMLContent = editorCore.innerHTML;
+
+            switch(format) {
+                case 'json':
+                    exportData = JSON.stringify({
+                        title: documentTitle,
+                        timestamp: new Date().toISOString(),
+                        workspaceContent: rawHTMLContent
+                    }, null, 2);
+                    mimeType = "application/json";
+                    break;
+                case 'md':
+                    // Convert basic HTML structures back to pristine Markdown formatting
+                    exportData = rawHTMLContent
+                        .replace(/<h1>(.*?)<\/h1>/gi, '# $1\n')
+                        .replace(/<h2>(.*?)<\/h2>/gi, '## $1\n')
+                        .replace(/<h3>(.*?)<\/h3>/gi, '### $1\n')
+                        .replace(/<br>/gi, '\n')
+                        .replace(/<p>(.*?)<\/p>/gi, '$1\n\n')
+                        .replace(/<[^>]+>/g, ''); // strip remaining structural noise tags
+                    break;
+                case 'doc':
+                    // Pack html inside structural office document wrappers for MS Word readability
+                    exportData = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"></head><body>${rawHTMLContent}</body></html>`;
+                    mimeType = "application/msword";
+                    break;
+                case 'txt':
+                default:
+                    exportData = plainTextContent;
+                    mimeType = "text/plain";
+                    break;
+            }
+
+            // Fire download programmatic trigger anchor
+            const blob = new Blob([exportData], { type: `${mimeType};charset=utf-8;` });
+            const downloadLink = document.createElement("a");
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = `${documentTitle}.${fileExtension}`;
+            
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+
+            // Reset selector option fallback UI index frame
+            e.target.value = "";
+        });
+
+        
         // SMART MOBILE POPUP FALLBACK DIALOG LAYER FOR SEARCH ENGINE WHEN SIDEBAR COLLAPSES
         const toggleFindBtn = document.getElementById('tb-toggle-find');
         if (toggleFindBtn) {
