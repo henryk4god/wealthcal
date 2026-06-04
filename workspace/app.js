@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // ==========================================================================
         document.getElementById('btn-fetch-source2').addEventListener('click', async () => {
             try {
-                const response = await fetch('./File Folder/source2.txt');
+                const response = await fetch('./file/source2.txt');
                 if (!response.ok) throw new Error('Could not access source2.txt');
                 const textData = await response.text();
                 
