@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // DYNAMIC CONFIGURATION FETCH ROUTING: PATH TARGET MATRIX FILE DIRECTORY
         document.getElementById('btn-fetch-instructions').addEventListener('click', async () => {
             try {
-                const response = await fetch('./File/instructions.txt');
+                const response = await fetch('./file/instructions.txt');
                 if (!response.ok) throw new Error('File architecture access validation failed.');
                 const textData = await response.text();
                 
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // SOURCE TARGET SYSTEM TEMPLATE DOWNLOADING TRIGGER
         document.getElementById('btn-download-source').addEventListener('click', () => {
             const anchor = document.createElement('a');
-            anchor.href = './File/source.txt';
+            anchor.href = './file/source.txt';
             anchor.download = 'source.txt';
             document.body.appendChild(anchor);
             anchor.click();
