@@ -861,3 +861,24 @@ html[data-theme="light"] .theme-icon-moon { display: none; }
     }
     .editor-canvas-wrapper { padding: 20px; }
 }
+/* COLOR PICKER SPECIAL CUSTOMIZATION */
+.color-picker-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+.color-picker-wrapper label {
+    cursor: pointer;
+    font-size: 14px;
+}
+.color-picker-wrapper input[type="color"] {
+    position: absolute;
+    opacity: 0;
+    width: 28px;
+    height: 28px;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    border: none;
+}
+
