@@ -26,6 +26,31 @@ ${outlineInput}
 
 Follow these strict modification rules to create "SAMPLE 2" style output:
 
+### VARIATION 1: The "Asymmetry & Playbook" Rules
+**RULE 1: The Asymmetric Signature**
+For every major chapter or module, identify the highest-leverage, proprietary strategy that yields outsized results and rebrand it with a unique name using this pattern: 🔶 [Proprietary Playbook Title]: [The Asymmetric Leverage Point]
+**RULE 2: The "Hedge vs. Gamble" Reframing**
+Identify a standard, high-risk practice in each chapter and contrast it directly with a calculated, low-cost action using this pattern: 🔶 [Low-Barrier Hedge] vs. [High-Risk Gamble]
+**RULE 3: The "Frictionless Shield" Framework**
+Where the outline mentions cognitive bias, emotional fatigue, or interpersonal pressure, introduce an automated boundary framework named "The Frictionless Shield: [System Name]" accompanied by a specific operational script or rule.
+
+### VARIATION 2: The "Mechanic & Friction" Rules
+**RULE 1: The Blueprint Core**
+Rebrand the central operational mechanism of every chapter into a proprietary, mechanical framework name using this pattern: ⚙️ [The Machine Construct]: [The High-Efficiency Output]
+**RULE 2: The "Leverage vs. Friction" Reframing**
+Expose a common, energy-draining trap or bottleneck and contrast it directly with a low-friction, high-leverage alternative using this pattern: ⚙️ [The High-Leverage Input] vs. [The High-Friction Drag]
+**RULE 3: The "Fault-Tolerance" Protocol**
+Where the outline highlights human error, bad habits, or emotional decision-making, embed a structural safeguard framework named "The Fault-Tolerance Protocol: [Mechanism Name]" with an immutable operational boundary.
+
+### VARIATION 3: The "Velocity & Scale" Rules
+**RULE 1: The Velocity Engine**
+Isolate the primary growth or speed vector in each module and weaponize it under a proprietary, high-speed brand name using this pattern: 🚀 [Velocity Concept]: [The Scaled Breakthrough Formula]
+**RULE 2: The "Scale Move vs. Scope Creep" Reframing**
+Identify a bloated, high-overhead operational practice and contrast it directly with an agile, high-impact growth move using this pattern: 🚀 [The Lean Velocity Move] vs. [The Heavy Scale Trap]
+**RULE 3: The "Zero-Drag" Protocol**
+Where the text introduces hesitation, analysis paralysis, or bureaucratic delay, insert a fast-acting execution framework titled "The Zero-Drag Protocol: [Action Script Name]" featuring an immediate execution rule.
+
+VARIATION 4:
 **RULE 1: The Framework Signature**
 For every major chapter or module, identify the core strategic concept and rebrand it with a unique, memorable, proprietary name using this pattern: 🔷 [Unique Name]: [Bold claim or sequence]
 (Examples from sample: "The Emergency Trinity: My 3-layer, 20%+ naira strategy" / "The Lagos Dollar Bridge: The exact safe sequence")
