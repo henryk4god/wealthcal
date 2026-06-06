@@ -46,11 +46,9 @@ with TWO deliverables:
 [Continue for all steps — minimum 5 chapters]
 
 - Conclusion: (Transformation summary + call to action)
-- Bonus Section: (One quick-win checklist or template)
 - Recommended Ebook Length: [X pages]
-- Suggested Price Point: [₦ or $ range]
+- Suggested Price Point: [₦ or $ range
 
----
 
 🎓 DELIVERABLE 2 — ONLINE COURSE CURRICULUM
 
