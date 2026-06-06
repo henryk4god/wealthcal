@@ -76,8 +76,6 @@ ${productInfo}
 
 OUTPUT STRUCTURE:
 
-- Seven (7) Pain Points:
-
 - Educational Teaching To Use In Webinar:
   Step 1: (First simple action user takes)
   Step 2: (System/process introduced)
