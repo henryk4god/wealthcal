@@ -74,17 +74,9 @@ The output must be practical, specific, conversion-focused, and tailored to the 
 INPUT:
 ${productInfo}
 
-
 OUTPUT STRUCTURE:
 
 - Seven (7) Pain Points:
-  (List highly emotional, specific struggles the target audience faces in this niche)
-
-- Seven (7) Transformations Expected:
-  (Clear before → after outcomes tied to the pain points)
-
-- Big Promise:
-  (One bold, compelling outcome statement that combines speed, simplicity, and result)
 
 - Educational Teaching To Use In Webinar:
   Step 1: (First simple action user takes)
@@ -118,7 +110,6 @@ Product:
 - PAYMENT GUIDE:
   Selar Checkout Link
 
----
 
 RULES (STRICT):
 
