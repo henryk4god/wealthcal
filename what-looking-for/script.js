@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Your Google Apps Script Web App URL
-  const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzgyvOypumA9an5vyi5jsBA2N74RJ22Mghj9bcZMu-iH8DLOibto2yFbaHyaWw_PSxs/exec';
+  const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyCleBK9sFSkxTGRQHbCCRNn1UMM4Zq42dOVhN4Va4NvmYoXqRPhuHjvj5xYkYbiRM/exec';
   
   // Tab switching functionality
   const tabs = document.querySelectorAll('.category-tab');
