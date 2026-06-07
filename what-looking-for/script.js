@@ -1,18 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Your Google Apps Script Web App URL
   const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyCleBK9sFSkxTGRQHbCCRNn1UMM4Zq42dOVhN4Va4NvmYoXqRPhuHjvj5xYkYbiRM/exec';
   
-  // Tab switching functionality
   const tabs = document.querySelectorAll('.category-tab');
   const categoryContents = document.querySelectorAll('.category-content');
   
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      // Remove active class from all tabs and contents
       tabs.forEach(t => t.classList.remove('active'));
       categoryContents.forEach(c => c.classList.remove('active'));
-      
-      // Add active class to clicked tab and corresponding content
       tab.classList.add('active');
       const categoryId = tab.getAttribute('data-category');
       document.getElementById(categoryId).classList.add('active');
@@ -43,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   async function generateProductIdeas() {
-    // Get the active category
     const activeTab = document.querySelector('.category-tab.active');
     const activeCategory = activeTab ? activeTab.getAttribute('data-category') : null;
     
@@ -52,7 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     
-    // Get the selected value from the active category's select
     const selectId = `${activeCategory}Select`;
     const selectElement = document.getElementById(selectId);
     const selectedGroup = selectElement ? selectElement.value : null;
@@ -68,7 +61,6 @@ document.addEventListener('DOMContentLoaded', function() {
     resultsContainer.style.display = 'none';
     
     try {
-      // Call your Google Apps Script backend
       const response = await fetch(GAS_WEB_APP_URL, {
         method: 'POST',
         body: JSON.stringify({
@@ -83,22 +75,20 @@ document.addEventListener('DOMContentLoaded', function() {
         throw new Error(data.error || 'Failed to generate product ideas');
       }
       
-      // --- FIXED OUTPUT DISPLAY LOGIC ---
-      // Update heading with target title
-      resultTitle.textContent = data.targetGroup;
-      
-      // Clear out the old hardcoded header prefixes
-      painPoint.textContent = ''; 
+      // Clear legacy visual label blocks to make room for clean template strings
+      if (painPoint) painPoint.style.display = 'none'; 
       productIdeas.innerHTML = '';
       
-      // Format fullResponse with proper spacing to output the exact requested template layout
-      const formattedContent = data.fullResponse || '';
+      resultTitle.textContent = data.targetGroup;
       
-      // Inject the clean output layout dynamically into the main container block
+      // Build a clean, styled text canvas for the custom layout output template
+      const formattedContent = data.fullResponse || '';
       const contentDisplay = document.createElement('div');
       contentDisplay.style.whiteSpace = 'pre-wrap';
-      contentDisplay.style.lineHeight = '1.6';
+      contentDisplay.style.lineHeight = '1.7';
       contentDisplay.style.textAlign = 'left';
+      contentDisplay.style.padding = '15px';
+      contentDisplay.style.fontSize = '16px';
       contentDisplay.textContent = formattedContent;
       
       productIdeas.appendChild(contentDisplay);
@@ -117,10 +107,8 @@ document.addEventListener('DOMContentLoaded', function() {
   
   function copyResults() {
     const title = resultTitle.textContent;
-    // Captures the complete generated 📦 OUTPUT FORMAT string layout directly
     const completeOutput = productIdeas.textContent; 
-    
-    const textToCopy = `Target Audience Strategy for: ${title}\n\n${completeOutput}`;
+    const textToCopy = `Target Audience Strategy: ${title}\n\n${completeOutput}`;
     
     navigator.clipboard.writeText(textToCopy).then(() => {
       const originalText = copyBtn.textContent;
@@ -148,8 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function shareToPlatform(platform) {
     const title = resultTitle.textContent;
     const completeOutput = productIdeas.textContent;
-    
-    const shareText = `Check out this digital product strategy blueprint for ${title}:\n\n${completeOutput}`;
+    const shareText = `Check out this digital product blueprint for ${title}:\n\n${completeOutput}`;
     const shareUrl = encodeURIComponent(window.location.href);
     const text = encodeURIComponent(shareText);
     
@@ -178,14 +165,12 @@ document.addEventListener('DOMContentLoaded', function() {
   function showError(message) {
     errorMessage.textContent = message;
     errorMessage.style.display = 'block';
-    
     setTimeout(() => {
       errorMessage.textContent = '';
       errorMessage.style.display = 'none';
     }, 5000);
   }
 
-  // Keyboard shortcut support
   document.addEventListener('keydown', function(e) {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
@@ -193,20 +178,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Auto-focus first select when category changes
   tabs.forEach(tab => {
     tab.addEventListener('click', function() {
       const categoryId = this.getAttribute('data-category');
       const selectElement = document.getElementById(`${categoryId}Select`);
       if (selectElement) {
-        setTimeout(() => {
-          selectElement.focus();
-        }, 100);
+        setTimeout(() => { selectElement.focus(); }, 100);
       }
     });
   });
 
-  // Enter key support in select elements
   document.querySelectorAll('select').forEach(select => {
     select.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') {
@@ -216,52 +197,37 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Load saved state from localStorage
   function loadSavedState() {
     const savedCategory = localStorage.getItem('lastCategory');
     const savedSelection = localStorage.getItem('lastSelection');
-    
     if (savedCategory) {
       const savedTab = document.querySelector(`[data-category="${savedCategory}"]`);
       if (savedTab) {
         savedTab.click();
-        
         if (savedSelection) {
           const selectElement = document.getElementById(`${savedCategory}Select`);
-          if (selectElement) {
-            selectElement.value = savedSelection;
-          }
+          if (selectElement) selectElement.value = savedSelection;
         }
       }
     }
   }
 
-  // Save state to localStorage
   function saveState() {
     const activeTab = document.querySelector('.category-tab.active');
     if (activeTab) {
       const category = activeTab.getAttribute('data-category');
       const selectElement = document.getElementById(`${category}Select`);
       const selection = selectElement ? selectElement.value : '';
-      
       localStorage.setItem('lastCategory', category);
       localStorage.setItem('lastSelection', selection);
     }
   }
 
-  // Add event listeners for state saving
-  tabs.forEach(tab => {
-    tab.addEventListener('click', saveState);
-  });
-  
-  document.querySelectorAll('select').forEach(select => {
-    select.addEventListener('change', saveState);
-  });
+  tabs.forEach(tab => { tab.addEventListener('click', saveState); });
+  document.querySelectorAll('select').forEach(select => { select.addEventListener('change', saveState); });
 
-  // Initialize saved state
   loadSavedState();
 
-  // Add animation to results when they appear
   const observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
       if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
@@ -274,29 +240,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   observer.observe(resultsContainer, { attributes: true });
 
-  // Add loading state to share buttons
-  if (shareBtn) {
-    shareBtn.addEventListener('mousedown', function() {
-      this.style.transform = 'scale(0.95)';
-    });
-
-    shareBtn.addEventListener('mouseup', function() {
-      this.style.transform = '';
-    });
-
-    shareBtn.addEventListener('mouseleave', function() {
-      this.style.transform = '';
-    });
-  }
-
-  // Enhanced error handling for fetch
   const originalFetch = window.fetch;
   window.fetch = function(...args) {
     return originalFetch.apply(this, args)
       .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         return response;
       })
       .catch(error => {
