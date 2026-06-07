@@ -83,37 +83,25 @@ document.addEventListener('DOMContentLoaded', function() {
         throw new Error(data.error || 'Failed to generate product ideas');
       }
       
-      // Display the results
+      // --- FIXED OUTPUT DISPLAY LOGIC ---
+      // Update heading with target title
       resultTitle.textContent = data.targetGroup;
-      painPoint.textContent = `Pain point: ${data.painPoint}`;
       
-      // Clear previous ideas
+      // Clear out the old hardcoded header prefixes
+      painPoint.textContent = ''; 
       productIdeas.innerHTML = '';
       
-      // Add new product ideas
-      if (data.productIdeas && data.productIdeas.length > 0) {
-        data.productIdeas.forEach((idea, index) => {
-          const ideaElement = document.createElement('p');
-          ideaElement.className = 'product-idea';
-          ideaElement.textContent = idea;
-          productIdeas.appendChild(ideaElement);
-        });
-      } else {
-        // Fallback: parse from fullResponse if productIdeas array is empty
-        const ideasArray = data.fullResponse.split('\n').filter(line => 
-          line.trim() !== '' && /^\d+\./.test(line.trim())
-        );
-        
-        ideasArray.forEach(idea => {
-          const cleanedIdea = idea.replace(/^\d+\.\s*/, '').trim();
-          if (cleanedIdea) {
-            const ideaElement = document.createElement('p');
-            ideaElement.className = 'product-idea';
-            ideaElement.textContent = cleanedIdea;
-            productIdeas.appendChild(ideaElement);
-          }
-        });
-      }
+      // Format fullResponse with proper spacing to output the exact requested template layout
+      const formattedContent = data.fullResponse || '';
+      
+      // Inject the clean output layout dynamically into the main container block
+      const contentDisplay = document.createElement('div');
+      contentDisplay.style.whiteSpace = 'pre-wrap';
+      contentDisplay.style.lineHeight = '1.6';
+      contentDisplay.style.textAlign = 'left';
+      contentDisplay.textContent = formattedContent;
+      
+      productIdeas.appendChild(contentDisplay);
       
       resultsContainer.style.display = 'block';
       resultsContainer.scrollIntoView({ behavior: 'smooth' });
@@ -129,10 +117,10 @@ document.addEventListener('DOMContentLoaded', function() {
   
   function copyResults() {
     const title = resultTitle.textContent;
-    const painPointText = painPoint.textContent;
-    const ideas = Array.from(productIdeas.children).map(el => el.textContent).join('\n');
+    // Captures the complete generated 📦 OUTPUT FORMAT string layout directly
+    const completeOutput = productIdeas.textContent; 
     
-    const textToCopy = `${title}\n${painPointText}\n\nProduct Ideas:\n${ideas}`;
+    const textToCopy = `Target Audience Strategy for: ${title}\n\n${completeOutput}`;
     
     navigator.clipboard.writeText(textToCopy).then(() => {
       const originalText = copyBtn.textContent;
@@ -159,10 +147,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   function shareToPlatform(platform) {
     const title = resultTitle.textContent;
-    const painPointText = painPoint.textContent;
-    const ideas = Array.from(productIdeas.children).map(el => el.textContent).join('\n');
+    const completeOutput = productIdeas.textContent;
     
-    const shareText = `Check out these digital product ideas for ${title}:\n\n${painPointText}\n\nProduct Ideas:\n${ideas}`;
+    const shareText = `Check out this digital product strategy blueprint for ${title}:\n\n${completeOutput}`;
     const shareUrl = encodeURIComponent(window.location.href);
     const text = encodeURIComponent(shareText);
     
