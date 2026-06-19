@@ -76,7 +76,9 @@ p {
     height: auto;
     display: block;
     object-fit: cover;
-    max-height: 450px;
+    aspect-ratio: 820 / 460;
+    /* Fallback for browsers that don't support aspect-ratio */
+    max-height: 460px;
 }
 
 .image-caption {
@@ -304,6 +306,7 @@ li {
     }
     .image-wrapper img {
         max-height: 250px;
+        aspect-ratio: 820 / 460;
     }
 }
 
@@ -316,5 +319,6 @@ li {
     }
     .image-wrapper img {
         max-height: 180px;
+        aspect-ratio: 820 / 460;
     }
 }
