@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (ctaButton) {
         ctaButton.addEventListener('click', function(e) {
-            // Track the lead event
+            // Track the lead event when someone clicks the CTA
             if (typeof fbq !== 'undefined') {
                 fbq('track', 'Lead', {
                     content_name: 'View Complete Guide Click',
