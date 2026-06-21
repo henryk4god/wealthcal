@@ -459,7 +459,11 @@ Generate my personalized WAEC after-school timetable as a Markdown table with co
           btn.innerHTML = 'Generate & Open Gem';
           btn.disabled = false;
           status.innerText = "Tap chat input → Hold → Paste → Send";
-          tg.openLink(GEM_LINK);
+          tg.openLink(GEM_LINK, { try_instant_view: true });
+          setTimeout(() => {
+          status.innerHTML = `Tap this if Gem didn't open: <a href="${GEM_LINK}" target="_blank">Open Gem</a>`;
+          showModal();
+          }, 4000);
           setTimeout(showModal, 500); // Show instruction popup
         }
       }, 1000);
