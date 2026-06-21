@@ -5,7 +5,6 @@
   <title>WAEC Timetable Generator</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   
-  <!-- Google Fonts: DM Serif Display + Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -39,7 +38,6 @@
       animation: fadeIn 0.6s ease-out;
     }
 
-    /* HEADER with gradient + wave + decorative circles */
     .header {
       position: relative;
       width: 100%;
@@ -56,14 +54,8 @@
       border-radius: 50%;
       background: rgba(255,255,255,0.1);
     }
-    .header::before {
-      width: 200px; height: 200px;
-      top: -80px; left: -50px;
-    }
-    .header::after {
-      width: 150px; height: 150px;
-      bottom: -60px; right: -40px;
-    }
+    .header::before { width: 200px; height: 200px; top: -80px; left: -50px; }
+    .header::after { width: 150px; height: 150px; bottom: -60px; right: -40px; }
     .badge {
       display: inline-block;
       background: var(--accent);
@@ -87,7 +79,6 @@
       margin-top: 6px;
     }
 
-    /* CARD CONTAINER */
     .container {
       max-width: 520px;
       margin: -40px auto 40px;
@@ -101,6 +92,7 @@
       padding: 28px;
       box-shadow: var(--shadow);
       border: 1px solid var(--border);
+      margin-bottom: 20px;
     }
 
     label {
@@ -127,7 +119,48 @@
       border-color: var(--primary-light);
     }
 
-    /* DOWNLOAD CARD BUTTON */
+    .subject-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 8px;
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+    .subject-item {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .subject-item:hover {
+      border-color: var(--primary-light);
+    }
+    .subject-item.selected {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: white;
+      font-weight: 600;
+    }
+    .subject-item input { display: none; }
+    .subject-count {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .loading {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 20px;
+    }
+
     button {
       width: 100%;
       padding: 16px;
@@ -172,7 +205,6 @@
       height: 24px;
     }
 
-    /* ANIMATIONS */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -211,16 +243,21 @@
         <option selected>night_reader</option>
       </select>
 
-      <label>All Subjects [comma separated]</label>
-      <input type="text" id="subjects" placeholder="Math, English, Physics, Chemistry, Biology, Economics">
+      <label>Select All Subjects</label>
+      <div class="subject-grid" id="subjectsGrid">
+        <div class="loading">Loading subjects...</div>
+      </div>
+      <div class="subject-count" id="subjectCount">0 subjects selected</div>
 
-      <label>Weak Subjects [comma separated]</label>
-      <input type="text" id="weak" placeholder="Physics, Math">
+      <label>Weak Subjects</label>
+      <div class="subject-grid" id="weakGrid"></div>
+      <div class="subject-count">Tap subjects you struggle with</div>
 
-      <label>Strong Subjects [comma separated]</label>
-      <input type="text" id="strong" placeholder="Biology, English">
+      <label>Strong Subjects</label>
+      <div class="subject-grid" id="strongGrid"></div>
+      <div class="subject-count">Tap subjects you’re good at</div>
 
-      <button id="genBtn" onclick="generate()">
+      <button id="genBtn" onclick="generate()" disabled>
         Generate & Open Gem
       </button>
       <div id="status"></div>
@@ -228,13 +265,79 @@
   </div>
 
   <script>
-    const GEM_LINK = 'https://gemini.google.com/gem/1txG__ffFyU_1GpWm8J_YcROuHD_lzLPm?usp=sharing';
+    const GEM_LINK = 'https://gemini.google.com/gem/1txG__ffFyU_1GpWm8J_YcROuHD_lzLPm?usp=sharing'; // REPLACE THIS
     const tg = window.Telegram.WebApp;
     tg.expand();
+
+    let SUBJECTS = [];
+
+    async function loadSubjects() {
+      try {
+        const res = await fetch('subjects.json');
+        SUBJECTS = await res.json();
+        renderSubjectGrid('subjectsGrid');
+        document.getElementById('genBtn').disabled = false;
+      } catch (e) {
+        document.getElementById('subjectsGrid').innerHTML = 
+          '<div style="color:red">Error loading subjects.json. Check file exists in same folder.</div>';
+      }
+    }
+
+    function renderSubjectGrid(gridId) {
+      const grid = document.getElementById(gridId);
+      grid.innerHTML = '';
+      SUBJECTS.forEach(sub => {
+        const div = document.createElement('div');
+        div.className = 'subject-item';
+        div.innerHTML = `<input type="checkbox" value="${sub}"><span>${sub}</span>`;
+        div.onclick = () => toggleSubject(div, gridId);
+        grid.appendChild(div);
+      });
+    }
+
+    function toggleSubject(div, gridId) {
+      div.classList.toggle('selected');
+      const checkbox = div.querySelector('input');
+      checkbox.checked = !checkbox.checked;
+      
+      if (gridId === 'subjectsGrid') {
+        const selectedSubjects = getSelected('subjectsGrid');
+        updateWeakStrongOptions(selectedSubjects);
+        document.getElementById('subjectCount').innerText = `${selectedSubjects.length} subjects selected`;
+      }
+    }
+
+    function getSelected(gridId) {
+      const grid = document.getElementById(gridId);
+      return Array.from(grid.querySelectorAll('.subject-item.selected span')).map(s => s.innerText);
+    }
+
+    function updateWeakStrongOptions(selectedSubjects) {
+      ['weakGrid', 'strongGrid'].forEach(gridId => {
+        const grid = document.getElementById(gridId);
+        grid.innerHTML = '';
+        selectedSubjects.forEach(sub => {
+          const div = document.createElement('div');
+          div.className = 'subject-item';
+          div.innerHTML = `<input type="checkbox" value="${sub}"><span>${sub}</span>`;
+          div.onclick = () => div.classList.toggle('selected');
+          grid.appendChild(div);
+        });
+      });
+    }
+
+    loadSubjects();
 
     async function generate() {
       const btn = document.getElementById('genBtn');
       const status = document.getElementById('status');
+      
+      const subjects = getSelected('subjectsGrid');
+      if (subjects.length < 6) {
+        alert('Select at least 6 subjects');
+        return;
+      }
+
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span>Downloading...';
 
@@ -242,9 +345,9 @@
         class: document.getElementById('class').value,
         closes: document.getElementById('closes').value,
         studyTime: document.getElementById('studyTime').value,
-        subjects: document.getElementById('subjects').value,
-        weak: document.getElementById('weak').value,
-        strong: document.getElementById('strong').value
+        subjects: subjects.join(', '),
+        weak: getSelected('weakGrid').join(', '),
+        strong: getSelected('strongGrid').join(', ')
       };
 
       const prompt = `Class: ${data.class}
@@ -254,7 +357,7 @@ Subjects: ${data.subjects}
 Weak subjects: ${data.weak}
 Strong subjects: ${data.strong}
 
-Generate my personalized WAEC after-school timetable in JSON format. Follow your WAEC Timetable Generator rules.`;
+Generate my personalized WAEC after-school timetable as a Markdown table with columns: Day | Time | Subject | Focus | Type. Use emojis for subjects. After table add **💡 Motivation Tip:** one line.`;
 
       await navigator.clipboard.writeText(prompt);
       
