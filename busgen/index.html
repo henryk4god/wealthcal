@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Invoice & Receipt Generator · PDF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Disable double-tap zoom on buttons -->
+    <style>
+        .btn, .doc-type-btn, .btn-add-item, .remove-item {
+            touch-action: manipulation;
+        }
+        
+        /* Prevent text selection on buttons for better UX */
+        .btn, .doc-type-btn, .btn-add-item {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Share Modal Styles */
+        .share-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .share-modal.active {
+            display: flex;
+        }
+
+        .share-modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        .share-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .share-modal-header h3 {
+            font-size: 20px;
+            color: #0b1a33;
+        }
+
+        .share-close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #607080;
+            padding: 5px;
+            touch-action: manipulation;
+        }
+
+        .share-close-btn:hover {
+            color: #0b1a33;
+        }
+
+        .share-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .share-option {
+            padding: 16px;
+            border: 2px solid #e5ecf5;
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            touch-action: manipulation;
+        }
+
+        .share-option:hover {
+            border-color: #2a6fdb;
+            background: #f5f9ff;
+        }
+
+        .share-option:active {
+            transform: scale(0.95);
+        }
+
+        .share-option i {
+            font-size: 28px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .share-option span {
+            font-size: 13px;
+            font-weight: 500;
+            color: #1d2b42;
+        }
+
+        .share-option.email i { color: #ea4335; }
+        .share-option.whatsapp i { color: #25D366; }
+        .share-option.gmail i { color: #ea4335; }
+        .share-option.download i { color: #0f7b3a; }
+
+        .toast-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 14px;
+            z-index: 2000;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            .share-options {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            
+            .share-modal-content {
+                padding: 20px;
+                width: 95%;
+            }
+            
+            .share-option {
+                padding: 14px;
+            }
+            
+            .share-option i {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-wrapper">
+        <h1><i class="fas fa-receipt"></i> Invoice & Receipt Generator · PDF</h1>
+
+        <div class="row">
+            <!-- FORM panel -->
+            <div class="form-panel">
+                <h2><i class="fas fa-pen-fancy"></i> Document details</h2>
+
+                <!-- Document Type Selector -->
+                <div class="doc-type-selector">
+                    <button class="doc-type-btn active" data-type="invoice" id="docTypeInvoice">
+                        <i class="fas fa-file-invoice"></i> Invoice
+                    </button>
+                    <button class="doc-type-btn" data-type="receipt" id="docTypeReceipt">
+                        <i class="fas fa-check-circle"></i> Receipt
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label>Client name</label>
+                    <input type="text" id="clientName" value="SAMCHISKA" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Client Email</label>
+                    <input type="email" id="clientEmail" value="henryk4chosen@gmail.com" autocomplete="off">
+                </div>
+                <div class="inline-group">
+                    <div class="form-group">
+                        <label>Document date</label>
+                        <input type="date" id="docDate" value="2025-08-01">
+                    </div>
+                    <div class="form-group" id="dueDateGroup">
+                        <label>Due date</label>
+                        <input type="date" id="dueDate" value="2025-08-23">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Document #</label>
+                    <input type="text" id="docNumber" value="INV-000002" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Subject / Description</label>
+                    <input type="text" id="subjectLine" value="Hosting And Domain Subscription" autocomplete="off">
+                </div>
+
+                <!-- Items Section -->
+                <div class="form-group">
+                    <label>Line Items</label>
+                    <div class="items-container" id="itemsContainer">
+                        <!-- Items will be added here dynamically -->
+                    </div>
+                    <button class="btn-add-item" id="addItemBtn">
+                        <i class="fas fa-plus"></i> Add Item
+                    </button>
+                </div>
+
+                <div class="inline-group">
+                    <div class="form-group">
+                        <label>VAT (%)</label>
+                        <input type="number" id="vatRate" value="7.5" step="0.1">
+                    </div>
+                    <div class="form-group" id="paymentAmountGroup" style="display:none;">
+                        <label>Payment Amount (NGN)</label>
+                        <input type="number" id="paymentAmount" value="75250" step="0.01">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Bank / Account (for payment note)</label>
+                    <input type="text" id="bankDetails" value="Account No: 2023268027 · Bank: UBA · Henry Lucky" autocomplete="off">
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="generateBtn"><i class="fas fa-sync"></i> Generate Preview</button>
+                    <button class="btn btn-success" id="downloadPdfBtn"><i class="fas fa-file-pdf"></i> Download PDF</button>
+                    <button class="btn btn-outline" id="shareBtn"><i class="fas fa-share-alt"></i> Share</button>
+                </div>
+            </div>
+
+            <!-- PREVIEW panel -->
+            <div class="preview-panel">
+                <div class="preview-header">
+                    <span><i class="fas fa-eye"></i> Live preview</span>
+                    <span class="badge"><i class="far fa-file-pdf"></i> PDF ready</span>
+                </div>
+                <div class="pdf-preview-area" id="pdfPreviewArea">
+                    <div id="previewContent" class="invoice-preview">
+                        <p class="text-muted" style="text-align:center; padding: 40px 0;">
+                            <i class="fas fa-arrow-up" style="margin-right: 8px;"></i> 
+                            Add items and generate document
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="share-modal" id="shareModal">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3><i class="fas fa-share-alt" style="color: #2a6fdb;"></i> Share PDF Document</h3>
+                <button class="share-close-btn" id="shareCloseBtn">&times;</button>
+            </div>
+            
+            <p style="color: #607080; margin-bottom: 16px;">Share the PDF document via:</p>
+            
+            <div class="share-options">
+                <button class="share-option" id="shareEmail">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email</span>
+                </button>
+                <button class="share-option" id="shareGmail">
+                    <i class="fas fa-envelope-open-text"></i>
+                    <span>Gmail</span>
+                </button>
+                <button class="share-option" id="shareWhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </button>
+                <button class="share-option" id="shareDownload">
+                    <i class="fas fa-download"></i>
+                    <span>Download PDF</span>
+                </button>
+            </div>
+
+            <div style="margin-top: 16px; padding: 12px; background: #f5f9ff; border-radius: 12px;">
+                <p style="font-size: 13px; color: #607080; margin-bottom: 4px;">
+                    <i class="fas fa-info-circle"></i> 
+                    The PDF will be generated and shared automatically.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CDN Scripts - html2canvas and jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
