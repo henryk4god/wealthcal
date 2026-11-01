@@ -1,6 +1,4 @@
-from pathlib import Path
-
-html = r'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -8,147 +6,22 @@ html = r'''<!DOCTYPE html>
 <title>Your Free Guide Is Ready | The AI Opportunity Finder</title>
 <meta name="description" content="Thank you for requesting The AI Opportunity Finder. Get your free guide on Telegram.">
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>ðŸŽ‰</text></svg>">
+<link rel="stylesheet" href="style.css">
 
-<!-- Meta Pixel: browser-side PageView and Lead tracking -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
-s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
-(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
-fbq('init', '1517538563417489');
-fbq('track', 'PageView');
-
-// Fire Lead once per browser tab session to reduce duplicate events on refresh.
-// This is browser-side tracking only; it does not send a Conversions API event.
-try {
-  if (!sessionStorage.getItem('aiof_lead_tracked_v1')) {
-    fbq('track', 'Lead');
-    sessionStorage.setItem('aiof_lead_tracked_v1', '1');
-  }
-} catch (e) {
-  // If sessionStorage is unavailable, still send the Lead event.
-  fbq('track', 'Lead');
-}
-</script>
+<!-- Meta Pixel browser-side PageView and Lead tracking -->
+<script src="script.js" defer></script>
 <noscript>
   <img height="1" width="1" style="display:none"
        src="https://www.facebook.com/tr?id=1517538563417489&ev=PageView&noscript=1"
        alt="">
 </noscript>
-
-<style>
-  :root {
-    --bg: #f3f6fb;
-    --surface: #ffffff;
-    --ink: #14213d;
-    --muted: #55617a;
-    --line: #dbe3f0;
-    --brand: #1f4fd8;
-    --brand-dark: #1639a3;
-    --tg: #229ed9;
-    --tg-dark: #1a82b3;
-    --wa: #1faa59;
-    --wa-dark: #178a47;
-    --note-bg: #fff6dd;
-    --note-line: #f0cf74;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #0e1424;
-      --surface: #161f36;
-      --ink: #eef2fb;
-      --muted: #a7b2cc;
-      --line: #28345a;
-      --brand: #7ea2ff;
-      --brand-dark: #a6bfff;
-      --note-bg: #2b2616;
-      --note-line: #6b5a1f;
-    }
-  }
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 17px;
-    line-height: 1.65;
-  }
-  .wrap { max-width: 680px; margin: 0 auto; padding: 32px 18px 56px; }
-  header { text-align: center; padding: 12px 0 28px; }
-  header .emoji { font-size: 56px; line-height: 1; }
-  h1 { font-size: clamp(28px, 6vw, 40px); line-height: 1.2; margin: 14px 0 10px; letter-spacing: -0.5px; }
-  .lead { font-size: 18px; color: var(--muted); margin: 0 auto; max-width: 54ch; }
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 24px 22px;
-    margin-bottom: 20px;
-  }
-  .card p { margin: 0 0 12px; }
-  .card p:last-child { margin-bottom: 0; }
-  h2 { font-size: 22px; line-height: 1.3; margin: 0 0 14px; }
-  h3 { font-size: 19px; line-height: 1.3; margin: 0 0 8px; }
-  .badge {
-    display: inline-block;
-    background: var(--brand);
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 2px 10px;
-    border-radius: 999px;
-    margin-bottom: 10px;
-  }
-  @media (prefers-color-scheme: dark) { .badge { color: #0e1424; } }
-  .btn {
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    color: #fff;
-    font-weight: 700;
-    font-size: 17px;
-    padding: 16px 20px;
-    border-radius: 12px;
-    margin: 18px 0 6px;
-    transition: transform .12s ease, background-color .12s ease;
-  }
-  .btn:active { transform: scale(.98); }
-  .btn:focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; }
-  .btn-tg { background: var(--tg); }
-  .btn-tg:hover { background: var(--tg-dark); }
-  .btn-wa { background: var(--wa); }
-  .btn-wa:hover { background: var(--wa-dark); }
-  ol.steps { padding-left: 22px; margin: 16px 0 0; }
-  ol.steps li { margin-bottom: 10px; padding-left: 4px; }
-  ol.steps li::marker { font-weight: 700; color: var(--brand); }
-  ul.tasks { padding-left: 22px; margin: 0 0 14px; }
-  ul.tasks li { margin-bottom: 8px; }
-  .recommended { border: 2px solid var(--tg); }
-  .note {
-    background: var(--note-bg);
-    border: 1px solid var(--note-line);
-    border-radius: 12px;
-    padding: 14px 16px;
-    font-size: 16px;
-  }
-  .closing { text-align: center; padding: 8px 6px 0; }
-  .closing p { margin: 0 0 8px; }
-  .team { color: var(--muted); font-size: 15px; }
-  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
-</style>
 </head>
 <body>
 <main class="wrap">
 
   <header>
-    <div class="emoji" aria-hidden="true">🎉</div>
+    <div class="emoji" aria-hidden="true">ðŸŽ‰</div>
     <h1>Your Free Guide Is Ready!</h1>
     <p class="lead">Thank you for requesting <strong>The AI Opportunity Finder</strong>!</p>
   </header>
@@ -159,14 +32,14 @@ try {
   </section>
 
   <section class="card">
-    <h2>📥 How to get your free guide</h2>
+    <h2>ðŸ“¥ How to get your free guide</h2>
   </section>
 
   <section class="card recommended">
     <span class="badge">Recommended</span>
-    <h3>🤖 Option 1: Get it on Telegram</h3>
+    <h3>ðŸ¤– Option 1: Get it on Telegram</h3>
     <p>Your free guide is available in our Telegram bot through a pinned message.</p>
-    <a class="btn btn-tg" href="https://t.me/AIA_CSbot?start=facebook_guide" target="_blank" rel="noopener noreferrer">👉 Click here to open the Telegram bot</a>
+    <a class="btn btn-tg" href="https://t.me/AIA_CSbot?start=facebook_guide" target="_blank" rel="noopener noreferrer">ðŸ‘‰ Click here to open the Telegram bot</a>
     <p><strong>Follow these simple steps:</strong></p>
     <ol class="steps">
       <li>Open the Telegram bot.</li>
@@ -177,13 +50,13 @@ try {
   </section>
 
   <section class="card">
-    <h3>💬 Option 2: Get help on WhatsApp</h3>
+    <h3>ðŸ’¬ Option 2: Get help on WhatsApp</h3>
     <p>Having trouble accessing the guide on Telegram? Send us a WhatsApp message, and we'll help you.</p>
-    <a class="btn btn-wa" href="https://wa.me/2348033867642?text=Hello%2C%20I%20requested%20The%20AI%20Opportunity%20Finder%20free%20guide%20and%20need%20help%20accessing%20it." target="_blank" rel="noopener noreferrer">👉 Click here to contact us on WhatsApp</a>
+    <a class="btn btn-wa" href="https://wa.me/2348033867642?text=Hello%2C%20I%20requested%20The%20AI%20Opportunity%20Finder%20free%20guide%20and%20need%20help%20accessing%20it." target="_blank" rel="noopener noreferrer">ðŸ‘‰ Click here to contact us on WhatsApp</a>
   </section>
 
   <section class="card">
-    <h2>🚀 Your first task</h2>
+    <h2>ðŸš€ Your first task</h2>
     <p>After opening the guide:</p>
     <ul class="tasks">
       <li>Choose a niche you want to explore.</li>
@@ -197,14 +70,9 @@ try {
 
   <footer class="closing">
     <p>Enjoy your free guide, and start exploring what you could create with AI!</p>
-    <p class="team">— The AI Agent Creator System Team</p>
+    <p class="team">â€” The AI Agent Creator System Team</p>
   </footer>
 
 </main>
 </body>
 </html>
-'''
-
-path = Path("/mnt/data/ai_opportunity_finder_thankyou_pixel.html")
-path.write_text(html, encoding="utf-8")
-print(f"Created: {path}")
