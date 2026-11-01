@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,6 +9,38 @@
 <meta name="description" content="Thank you for requesting The AI Opportunity Finder. Get your free guide on Telegram.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
+
+<!-- Meta Pixel: browser-side PageView and Lead tracking -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
+s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '1517538563417489');
+fbq('track', 'PageView');
+
+// Fire Lead once per browser tab session to reduce duplicate events on refresh.
+// This is browser-side tracking only; it does not send a Conversions API event.
+try {
+  if (!sessionStorage.getItem('aiof_lead_tracked_v1')) {
+    fbq('track', 'Lead');
+    sessionStorage.setItem('aiof_lead_tracked_v1', '1');
+  }
+} catch (e) {
+  // If sessionStorage is unavailable, still send the Lead event.
+  fbq('track', 'Lead');
+}
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none"
+       src="https://www.facebook.com/tr?id=1517538563417489&ev=PageView&noscript=1"
+       alt="">
+</noscript>
+
 <style>
   :root {
     --bg: #f3f6fb;
@@ -169,3 +203,8 @@
 </main>
 </body>
 </html>
+'''
+
+path = Path("/mnt/data/ai_opportunity_finder_thankyou_pixel.html")
+path.write_text(html, encoding="utf-8")
+print(f"Created: {path}")
