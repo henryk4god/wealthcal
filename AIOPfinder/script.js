@@ -1,5 +1,7 @@
-// Meta Pixel: browser-side PageView and Lead tracking.
-// Preserves the original tracking behaviour.
+// Meta Pixel: browser-side PageView tracking only.
+// Lead tracking is handled separately by the Telegram bot
+// after successful /start processing.
+
 (function () {
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -11,4 +13,5 @@
 
   window.fbq('init', '1517538563417489');
   window.fbq('track', 'PageView');
+
 })();
