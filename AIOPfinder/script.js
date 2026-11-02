@@ -22,7 +22,7 @@
   // ==========================================
 
   // KEEP FALSE UNTIL THE TELEGRAM BOT IS UPDATED.
-  const ATTRIBUTION_BRIDGE_ENABLED = false;
+  const ATTRIBUTION_BRIDGE_ENABLED = true;
 
   if (!ATTRIBUTION_BRIDGE_ENABLED) {
     return;
