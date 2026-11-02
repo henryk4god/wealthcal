@@ -231,17 +231,18 @@
     formData.set('fbp', fbp);
     formData.set('fbc', fbc);
     formData.set('userAgent', navigator.userAgent);
+    
+// Submit attribution information to Apps Script.
+await fetch(ATTRIBUTION_ENDPOINT, {
+  method: 'POST',
+  mode: 'no-cors',
+  body: formData,
+  cache: 'no-store'
+});
 
-
-    // Form-encoded POST avoids a CORS preflight.
-    // The opaque response cannot confirm that the sheet
-    // was updated. We will verify the record separately.
-    await fetch(ATTRIBUTION_ENDPOINT, {
-      method: 'POST',
-      mode: 'no-cors',
-      body: formData,
-      cache: 'no-store'
-    });
+// Ask Apps Script to confirm that the record
+// was actually saved and is valid.
+await confirmAttributionRecord(token);
 
 
     // ==========================================
