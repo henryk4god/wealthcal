@@ -1,6 +1,6 @@
 // Meta Pixel: browser-side PageView tracking only.
-// Lead tracking is handled separately by the Telegram bot
-// after successful /start processing.
+// No Lead event is fired here. Lead tracking is handled separately
+// by the Telegram bot after successful /start processing.
 
 (function () {
   !function(f,b,e,v,n,t,s)
@@ -13,5 +13,4 @@
 
   window.fbq('init', '1517538563417489');
   window.fbq('track', 'PageView');
-
 })();
