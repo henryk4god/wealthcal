@@ -1,4 +1,4 @@
-```javascript
+<CodeBlock language="javascript" editable>
 // Meta Pixel: browser-side PageView tracking only.
 // Lead tracking is handled separately by the Telegram bot
 // after successful /start processing.
@@ -16,4 +16,4 @@
   window.fbq('track', 'PageView');
 
 })();
-```
+</CodeBlock>
