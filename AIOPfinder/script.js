@@ -1,5 +1,56 @@
 
-(function () {
+(function () {  
+  // Capture Selar details before cleaning the browser URL.
+  const landingParams = new URLSearchParams(
+    window.location.search
+  );
+
+  const selarFullName =
+    landingParams.get('fullname') || '';
+
+  const selarEmail =
+    landingParams.get('email') || '';
+
+  const landingFbclid =
+    landingParams.get('fbclid') || '';
+
+  // Preserve an existing Facebook click cookie.
+  const existingFbc = document.cookie
+    .split(';')
+    .some(function (cookie) {
+      return cookie.trim().startsWith('_fbc=');
+    });
+
+  // Create fbc only from a genuine fbclid parameter.
+  if (landingFbclid && !existingFbc) {
+    const fbcValue =
+      'fb.1.' + Date.now() + '.' + landingFbclid;
+
+    document.cookie =
+      '_fbc=' + encodeURIComponent(fbcValue) +
+      '; Path=/; Max-Age=7776000; SameSite=Lax; Secure';
+  }
+
+  // Remove personal information before Meta PageView fires.
+  if (
+    landingParams.has('fullname') ||
+    landingParams.has('email') ||
+    landingParams.has('fbclid')
+  ) {
+    const cleanUrl = new URL(window.location.href);
+
+    cleanUrl.searchParams.delete('fullname');
+    cleanUrl.searchParams.delete('email');
+    cleanUrl.searchParams.delete('fbclid');
+
+    window.history.replaceState(
+      {},
+      document.title,
+      cleanUrl.pathname +
+      cleanUrl.search +
+      cleanUrl.hash
+    );
+  }
 
   // ==========================================
   // 1. EXISTING META PIXEL: PRESERVE PAGEVIEW
@@ -228,13 +279,8 @@ function confirmAttributionRecord(token) {
       throw new Error('Secure browser encryption is unavailable.');
     }
 
-    const params = new URLSearchParams(
-      window.location.search
-    );
-
-    // Read Selar customer information.
-    const fullName = params.get('fullname') || '';
-    const email = params.get('email') || '';
+    const fullName = selarFullName;
+    const email = selarEmail;
 
     const normalizedEmail = email.trim().toLowerCase();
 
