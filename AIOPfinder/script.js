@@ -149,7 +149,75 @@
   // ==========================================
   // 8. PREPARE ATTRIBUTION RECORD
   // ==========================================
+  
+function confirmAttributionRecord(token) {
 
+  return new Promise(function(resolve, reject) {
+
+    const callbackName =
+      "aiofAttributionCallback_" + token;
+
+    const script = document.createElement("script");
+
+    let finished = false;
+
+    function cleanup() {
+      if (finished) return;
+
+      finished = true;
+
+      clearTimeout(timeout);
+
+      delete window[callbackName];
+
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    }
+
+    window[callbackName] = function(result) {
+
+      cleanup();
+
+      if (result && result.ok === true) {
+        resolve(true);
+      } else {
+        reject(
+          new Error("Apps Script did not confirm the attribution record.")
+        );
+      }
+    };
+
+    script.onerror = function() {
+      cleanup();
+
+      reject(
+        new Error("Could not contact the attribution confirmation endpoint.")
+      );
+    };
+
+    const endpoint =
+      ATTRIBUTION_ENDPOINT +
+      "?action=check_attribution" +
+      "&token=" + encodeURIComponent(token) +
+      "&callback=" + encodeURIComponent(callbackName);
+
+    script.src = endpoint;
+
+    const timeout = setTimeout(function() {
+      cleanup();
+
+      reject(
+        new Error("Attribution confirmation timed out.")
+      );
+
+    }, 15000);
+
+    document.head.appendChild(script);
+
+  });
+}
+  
   async function prepareAttribution() {
 
     if (
