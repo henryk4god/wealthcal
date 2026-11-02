@@ -1,5 +1,8 @@
-// Meta Pixel: browser-side PageView and Lead tracking.
-// Preserves the original tracking behaviour.
+```javascript
+// Meta Pixel: browser-side PageView tracking only.
+// Lead tracking is handled separately by the Telegram bot
+// after successful /start processing.
+
 (function () {
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -12,14 +15,5 @@
   window.fbq('init', '1517538563417489');
   window.fbq('track', 'PageView');
 
-  // Fire Lead once per browser tab session to reduce duplicate events on refresh.
-  // This is browser-side tracking only; it does not send a Conversions API event.
-  try {
-    if (!sessionStorage.getItem('aiof_lead_tracked_v1')) {
-      window.fbq('track', 'Lead');
-      sessionStorage.setItem('aiof_lead_tracked_v1', '1');
-    }
-  } catch (e) {
-    window.fbq('track', 'Lead');
-  }
 })();
+```
