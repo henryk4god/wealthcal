@@ -32,11 +32,11 @@
   }
 
   // Remove personal information before Meta PageView fires.
-  if (
-    landingParams.has('fullname') ||
-    landingParams.has('email') ||
-    landingParams.has('fbclid')
-  ) {
+if (
+  landingParams.has('fullname') ||
+  landingParams.has('email') ||
+  landingParams.has('fbclid')
+) {
 
   // ==========================================
   // 1. EXISTING META PIXEL: PRESERVE PAGEVIEW
@@ -284,7 +284,7 @@ function confirmAttributionRecord(token) {
     // Read genuine Facebook click information.
     let fbc = getCookie('_fbc');
 
-    const fbclid = params.get('fbclid');
+    const fbclid = landingFbclid;
 
     // Build fbc only when a genuine fbclid is present.
     if (!fbc && fbclid) {
@@ -300,23 +300,6 @@ function confirmAttributionRecord(token) {
 
     // Create a random attribution reference.
     const token = generateAttributionToken();
-
-    // Remove personal customer information from the address bar.
-    // Preserve unrelated campaign parameters.
-    const cleanUrl = new URL(window.location.href);
-
-    cleanUrl.searchParams.delete('fullname');
-    cleanUrl.searchParams.delete('email');
-    cleanUrl.searchParams.delete('fbclid');
-
-    window.history.replaceState(
-      {},
-      document.title,
-      cleanUrl.pathname +
-      cleanUrl.search +
-      cleanUrl.hash
-    );
-
 
     // ==========================================
     // 9. SUBMIT ATTRIBUTION TO GOOGLE APPS SCRIPT
