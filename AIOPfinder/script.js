@@ -37,7 +37,21 @@ if (
   landingParams.has('email') ||
   landingParams.has('fbclid')
 ) {
+  
+  const cleanUrl = new URL(window.location.href);
 
+  cleanUrl.searchParams.delete('fullname');
+  cleanUrl.searchParams.delete('email');
+  cleanUrl.searchParams.delete('fbclid');
+
+  window.history.replaceState(
+    {},
+    document.title,
+    cleanUrl.pathname +
+    cleanUrl.search +
+    cleanUrl.hash
+  );
+}
   // ==========================================
   // 1. EXISTING META PIXEL: PRESERVE PAGEVIEW
   // ==========================================
