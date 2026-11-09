@@ -11,11 +11,11 @@ window.CLASSROOM_CONFIG = {
 
   // 1. ATTRIBUTION ENDPOINT (Required for Meta CAPI)
   // Get this from Apps Script → Deploy → Manage Deployments → Copy the /exec URL
-  attributionEndpoint: "https://script.google.com/macros/s/AKfycbynVX4I8qKxsC_hj9Irb8I9izbcnq4yAHjg3taj3PmXJ8ECFkT3XYq8uo3GmyW5Qt7P/exec",
+  attributionEndpoint: "https://script.google.com/macros/s/AKfycbyUGsu0yGlotqr0DgvXgl9knsKrPney34ia9ZBGjdQmvTyx1ZGyuL6bVfxjQ-1lrg_T/exec",
 
   // 2. TELEGRAM BOT HANDLE (Required)
   // Your bot username from @BotFather, WITHOUT the @ symbol (e.g. "MyCourseBot").
-  telegramBotHandle: "AIA_CSbot",
+  telegramBotHandle: "psfvol1bot",
 
   // 3. META PIXEL ID (Optional)
   // From Meta Events Manager. Leave as "" if you aren't running Facebook ads.
@@ -29,5 +29,5 @@ window.CLASSROOM_CONFIG = {
 
   // 5. BRAND NAME
   // Your business name, appears in the page title and text.
-  brandName: "The AI Opportunity Finder"
+  brandName: "Michyrite digital academy"
 };
