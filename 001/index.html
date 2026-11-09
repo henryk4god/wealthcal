@@ -11,24 +11,19 @@
   <link rel="stylesheet" href="./style.css?v=2">
 
   <!-- config.js MUST load before script.js -->
-  <script src="./config.js?v=1"></script>
-  <script src="./script.js?v=7" defer></script>
-
-  <noscript>
-    <img height="1" width="1" style="display:none"
-         src="https://www.facebook.com/tr?id=PIXEL_ID&ev=PageView&noscript=1"/>
-  </noscript>
+  <script src="./config.js"></script>
+  <script src="./script.js" defer></script>
 </head>
 <body>
   <main class="wrap">
     <header>
       <div class="emoji" aria-hidden="true">🎉</div>
       <h1>Your Free Guide Is Ready!</h1>
-      <p class="lead">Thank you for requesting <strong class="js-brand-name">The Free Guide</strong>!</p>
+      <p class="lead">Thank you for requesting <strong class="js-brand-name">The AI Opportunity Finder</strong>!</p>
     </header>
 
     <section class="card">
-      <p>This free guide will help you get started quickly.</p>
+      <p>This free guide will help you use ChatGPT to explore problems people may need help solving, generate potential product opportunities, and investigate ideas before investing your time or money.</p>
       <p>Inside, you'll find practical copy-and-paste prompts and a worksheet to help you get started.</p>
     </section>
 
@@ -40,11 +35,12 @@
       <span class="badge">Recommended</span>
       <h3>🤖 Option 1: Get it on Telegram</h3>
       <p>Your free guide is available in our Telegram bot through a pinned message.</p>
-      <a class="btn btn-tg js-telegram-btn"
-         href="https://t.me/PLACEHOLDER_BOT?start=facebook_guide"
-         target="_blank" rel="noopener noreferrer">
+      
+      <!-- The href here is a fallback. script.js updates it. -->
+      <a class="btn btn-tg js-telegram-btn" href="https://t.me/PLACEHOLDER_BOT?start=facebook_guide" target="_blank" rel="noopener noreferrer">
         👉 Click here to open the Telegram bot
       </a>
+      
       <p><strong>Follow these simple steps:</strong></p>
       <ol class="steps">
         <li>Open the Telegram bot.</li>
@@ -54,12 +50,11 @@
       </ol>
     </section>
 
+    <!-- This section hides itself if no WhatsApp number is in config.js -->
     <section class="card js-whatsapp-section">
       <h3>💬 Option 2: Get help on WhatsApp</h3>
       <p>Having trouble accessing the guide on Telegram? Send us a WhatsApp message, and we'll help you.</p>
-      <a class="btn btn-wa js-whatsapp-btn"
-         href="#"
-         target="_blank" rel="noopener noreferrer">
+      <a class="btn btn-wa js-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">
         👉 Click here to contact us on WhatsApp
       </a>
     </section>
@@ -79,54 +74,38 @@
 
     <footer class="closing">
       <p>Enjoy your free guide, and start exploring what you could create with AI!</p>
-      <p class="team">— <span class="js-brand-name">Your Team</span></p>
+      <p class="team">— The <span class="js-brand-name">The AI Opportunity Finder</span> Team</p>
     </footer>
   </main>
 
-  <!-- Inject config values into the page after load -->
+  <!-- DYNAMIC CONFIG INJECTION -->
   <script>
     (function () {
       const cfg = window.CLASSROOM_CONFIG || {};
 
-      // Telegram button href is set by script.js once attribution is ready.
-      // But we set the initial fallback here so the button works even if
-      // attribution preparation fails.
+      // Telegram Button
       const botHandle = String(cfg.telegramBotHandle || "").trim().replace(/^@/, "");
       if (botHandle) {
         const tgBtn = document.querySelector(".js-telegram-btn");
-        if (tgBtn) {
-          tgBtn.href = "https://t.me/" + botHandle + "?start=facebook_guide";
-        }
+        if (tgBtn) tgBtn.href = "https://t.me/" + botHandle + "?start=facebook_guide";
       }
 
-      // WhatsApp button — hide the section if no number configured.
+      // WhatsApp Button & Section
       const waNumber = String(cfg.supportWhatsappNumber || "").trim();
       const waMessage = String(cfg.supportWhatsappMessage || "Hello, I need help.").trim();
       const waSection = document.querySelector(".js-whatsapp-section");
       const waBtn = document.querySelector(".js-whatsapp-btn");
 
       if (waNumber && waBtn) {
-        waBtn.href = "https://wa.me/" + waNumber +
-          "?text=" + encodeURIComponent(waMessage);
+        waBtn.href = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(waMessage);
       } else if (waSection) {
-        waSection.style.display = "none";
+        waSection.style.display = "none"; // Hide if not configured
       }
 
-      // Brand name (if configured).
+      // Brand Name
       const brandName = String(cfg.brandName || "").trim();
       if (brandName) {
-        document.querySelectorAll(".js-brand-name").forEach(function (el) {
-          el.textContent = brandName;
-        });
-      }
-
-      // Meta Pixel noscript image (only if pixel is configured).
-      const pixelId = String(cfg.metaPixelId || "").trim();
-      if (pixelId) {
-        const noscript = document.querySelector("noscript img");
-        if (noscript) {
-          noscript.src = "https://www.facebook.com/tr?id=" + pixelId + "&ev=PageView&noscript=1";
-        }
+        document.querySelectorAll(".js-brand-name").forEach(el => el.textContent = brandName);
       }
     })();
   </script>
