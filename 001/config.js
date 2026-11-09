@@ -24,11 +24,11 @@
  *   Your Google Apps Script Web App URL. Get it from:
  *   Apps Script → Deploy → Manage deployments → copy the
  *   /exec URL (not /dev). Example:
- *   "https://script.google.com/macros/s/AKfycb.../exec"
+ *   "https://script.google.com/macros/s/AKfycbyUGsu0yGlotqr0DgvXgl9knsKrPney34ia9ZBGjdQmvTyx1ZGyuL6bVfxjQ-1lrg_T/exec"
  *
  * telegramBotHandle:
  *   Your bot's username from @BotFather, WITHOUT the @ symbol.
- *   Example: if your bot is @MyCourseBot, use "MyCourseBot".
+ *   Example: if your bot is @MyCourseBot, use "psfvol1bot".
  *
  * metaPixelId:
  *   From Meta Events Manager → Data Sources → your Pixel →
@@ -37,7 +37,7 @@
  *
  * supportWhatsappNumber:
  *   WhatsApp number in international format WITHOUT "+" or spaces.
- *   Example: for +1 (555) 123-4567, use "15551234567".
+ *   Example: for +1 (555) 123-4567, use "2348033867642".
  *   Leave as "" to hide the WhatsApp button.
  *
  * supportWhatsappMessage:
@@ -55,18 +55,18 @@ window.CLASSROOM_CONFIG = {
   // If any is missing, attribution still falls through to
   // the plain bot link (no Meta tracking).
 
-  attributionEndpoint: "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec",
+  attributionEndpoint: "https://script.google.com/macros/s/AKfycbyUGsu0yGlotqr0DgvXgl9knsKrPney34ia9ZBGjdQmvTyx1ZGyuL6bVfxjQ-1lrg_T/exec",
 
-  telegramBotHandle: "YOUR_BOT_USERNAME",
+  telegramBotHandle: "psfvol1bot",
 
-  metaPixelId: "YOUR_PIXEL_ID",
+  metaPixelId: "1517538563417489",
 
   // ─── OPTIONAL ──────────────────────────────────────
   // Leave "" to hide the corresponding button.
 
-  supportWhatsappNumber: "YOUR_WHATSAPP_NUMBER",
+  supportWhatsappNumber: "2348033867642",
 
   supportWhatsappMessage: "Hello, I need help accessing my course.",
 
-  brandName: "Your Classroom"
+  brandName: "Michyrite Academy"
 };
