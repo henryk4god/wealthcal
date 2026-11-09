@@ -1,72 +1,33 @@
 /**
  * config.js — Landing Page Configuration
- * =======================================
- *
- * PART OF:  Telegram Classroom Product v1.0
- * FIX #:    11
- * CREATED:  Day 5 of product refactor
- *
- * ─────────────────────────────────────────────────────────────
- * BUYER SETUP — EDIT ONLY THIS FILE
- * ─────────────────────────────────────────────────────────────
- *
- * 1. Copy this file to your GitHub repo alongside index.html
- * 2. Replace the 6 values below with your own
- * 3. Save and deploy
- *
- * Do NOT edit script.js or index.html — they read from here.
- *
- * ─────────────────────────────────────────────────────────────
- * HOW TO GET EACH VALUE
- * ─────────────────────────────────────────────────────────────
- *
- * attributionEndpoint:
- *   Your Google Apps Script Web App URL. Get it from:
- *   Apps Script → Deploy → Manage deployments → copy the
- *   /exec URL (not /dev). Example:
- *   "https://script.google.com/macros/s/AKfycbyUGsu0yGlotqr0DgvXgl9knsKrPney34ia9ZBGjdQmvTyx1ZGyuL6bVfxjQ-1lrg_T/exec"
- *
- * telegramBotHandle:
- *   Your bot's username from @BotFather, WITHOUT the @ symbol.
- *   Example: if your bot is @MyCourseBot, use "psfvol1bot".
- *
- * metaPixelId:
- *   From Meta Events Manager → Data Sources → your Pixel →
- *   Settings → Pixel ID. Example: "1517538563417489".
- *   Leave as "" to skip Meta Pixel tracking entirely.
- *
- * supportWhatsappNumber:
- *   WhatsApp number in international format WITHOUT "+" or spaces.
- *   Example: for +1 (555) 123-4567, use "2348033867642".
- *   Leave as "" to hide the WhatsApp button.
- *
- * supportWhatsappMessage:
- *   The pre-filled message that appears when someone taps
- *   the WhatsApp button. Plain text — the page will URL-encode it.
- *
- * brandName:
- *   Your business or course name. Appears in the H1 and footer.
+ * 
+ * 🛑 EDIT THIS FILE TO SET UP YOUR LANDING PAGE 🛑
+ * 
+ * Do not edit script.js or index.html. All the buyer-customizable
+ * values are right here.
  */
 
 window.CLASSROOM_CONFIG = {
 
-  // ─── REQUIRED ──────────────────────────────────────
-  // The four required values for attribution to work.
-  // If any is missing, attribution still falls through to
-  // the plain bot link (no Meta tracking).
+  // 1. ATTRIBUTION ENDPOINT (Required for Meta CAPI)
+  // Get this from Apps Script → Deploy → Manage Deployments → Copy the /exec URL
+  attributionEndpoint: "https://script.google.com/macros/s/AKfycbynVX4I8qKxsC_hj9Irb8I9izbcnq4yAHjg3taj3PmXJ8ECFkT3XYq8uo3GmyW5Qt7P/exec",
 
-  attributionEndpoint: "https://script.google.com/macros/s/AKfycbyUGsu0yGlotqr0DgvXgl9knsKrPney34ia9ZBGjdQmvTyx1ZGyuL6bVfxjQ-1lrg_T/exec",
+  // 2. TELEGRAM BOT HANDLE (Required)
+  // Your bot username from @BotFather, WITHOUT the @ symbol (e.g. "MyCourseBot").
+  telegramBotHandle: "AIA_CSbot",
 
-  telegramBotHandle: "psfvol1bot",
-
+  // 3. META PIXEL ID (Optional)
+  // From Meta Events Manager. Leave as "" if you aren't running Facebook ads.
   metaPixelId: "1517538563417489",
 
-  // ─── OPTIONAL ──────────────────────────────────────
-  // Leave "" to hide the corresponding button.
-
+  // 4. WHATSAPP SUPPORT (Optional)
+  // International format, no spaces or plus signs (e.g. "15551234567").
+  // Leave as "" to hide the WhatsApp section entirely.
   supportWhatsappNumber: "2348033867642",
+  supportWhatsappMessage: "Hello, I need help with my course.",
 
-  supportWhatsappMessage: "Hello, I need help accessing my course.",
-
-  brandName: "Michyrite Academy"
+  // 5. BRAND NAME
+  // Your business name, appears in the page title and text.
+  brandName: "The AI Opportunity Finder"
 };
