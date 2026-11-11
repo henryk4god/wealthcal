@@ -179,31 +179,13 @@
     if (sharedSecret) formData.set('secret', sharedSecret);
 
     console.log("📤 Sending attribution POST...");
-// CRITICAL: Google Apps Script reads e.parameter from
-// application/x-www-form-urlencoded POSTs. This requires
-// mode: 'cors' (no-cors blocks Content-Type handling).
-try {
-  const postResponse = await fetch(ATTRIBUTION_ENDPOINT, {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: formData.toString(),
-    cache: 'no-store',
-    redirect: 'follow'
-  });
-
-  console.log("📤 POST HTTP status:", postResponse.status);
-
-  const postBody = await postResponse.text();
-  console.log("📤 POST response body:", postBody);
-} catch (postErr) {
-  console.error("📤 POST threw:", postErr);
-  throw new Error("Attribution POST failed: " + postErr.message);
-}
-
-console.log("📤 POST sent, waiting for confirmation...");
+    await fetch(ATTRIBUTION_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formData,
+      cache: 'no-store'
+    });
+    console.log("📤 POST sent, waiting for confirmation...");
 
     await confirmAttributionRecord(token);
 
