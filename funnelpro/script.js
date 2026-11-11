@@ -1,16 +1,6 @@
-/**
- * script.js — Landing Page Attribution (TIER 3)
- * ==============================================
- * Reads configuration from config.js.
- * DO NOT EDIT — edit config.js instead.
- */
-
 (function () {
   'use strict';
 
-  // ==========================================
-  // 0. READ CONFIG
-  // ==========================================
   const CFG = window.CLASSROOM_CONFIG || {};
 
   const ATTRIBUTION_ENDPOINT = String(CFG.attributionEndpoint || "").trim();
@@ -18,15 +8,12 @@
   const TELEGRAM_BASE = TELEGRAM_BOT_HANDLE ? "https://t.me/" + TELEGRAM_BOT_HANDLE + "?start=facebook_guide_" : "";
   const META_PIXEL_ID = String(CFG.metaPixelId || "").trim();
 
-  // ==========================================
-  // 1. SAVE SELAR PARAMS BEFORE CLEANING URL
-  // ==========================================
+  // Save Selar params before cleaning URL
   const landingParams = new URLSearchParams(window.location.search);
   const selarFullName = landingParams.get('fullname') || '';
   const selarEmail    = landingParams.get('email')    || '';
   const landingFbclid = landingParams.get('fbclid')   || '';
 
-  // Preserve existing _fbc cookie
   const existingFbc = document.cookie.split(';').some(function (cookie) {
     return cookie.trim().startsWith('_fbc=');
   });
@@ -36,7 +23,6 @@
     document.cookie = '_fbc=' + encodeURIComponent(fbcValue) + '; Path=/; Max-Age=7776000; SameSite=Lax; Secure';
   }
 
-  // Clean URL
   if (landingParams.has('fullname') || landingParams.has('email') || landingParams.has('fbclid')) {
     const cleanUrl = new URL(window.location.href);
     cleanUrl.searchParams.delete('fullname');
@@ -45,9 +31,7 @@
     window.history.replaceState({}, document.title, cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
   }
 
-  // ==========================================
-  // 2. META PIXEL (only if configured)
-  // ==========================================
+  // Meta Pixel
   if (META_PIXEL_ID) {
     !function(f,b,e,v,n,t,s) {
       if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -56,29 +40,19 @@
       n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
       s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)
     }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
     window.fbq('init', META_PIXEL_ID);
     window.fbq('track', 'PageView');
-  } else {
-    console.log('Meta Pixel ID not configured — skipping pixel.');
   }
 
-  // ==========================================
-  // 3. ATTRIBUTION BRIDGE
-  // ==========================================
   const ATTRIBUTION_BRIDGE_ENABLED = Boolean(ATTRIBUTION_ENDPOINT && TELEGRAM_BASE);
-
   if (!ATTRIBUTION_BRIDGE_ENABLED) {
     console.warn('Attribution bridge disabled: missing config values.');
     return;
   }
 
-  // ==========================================
-  // 4. FIND TELEGRAM BUTTON
-  // ==========================================
   const telegramButton = document.querySelector('a.btn-tg[href*="t.me/"]');
   if (!telegramButton) {
-    console.error('Telegram button not found on page.');
+    console.error('Telegram button not found.');
     return;
   }
 
@@ -93,9 +67,6 @@
     }
   });
 
-  // ==========================================
-  // 5. COOKIES + HASHING HELPERS
-  // ==========================================
   function getCookie(name) {
     const prefix = name + '=';
     const item = document.cookie.split(';').map(function (part) { return part.trim(); }).find(function (part) { return part.indexOf(prefix) === 0; });
@@ -118,44 +89,66 @@
   }
 
   // ==========================================
-  // 6. CONFIRM ATTRIBUTION RECORD
+  // CONFIRM ATTRIBUTION — WITH POLLING
   // ==========================================
   function confirmAttributionRecord(token) {
-    return new Promise(function (resolve, reject) {
-      const callbackName = "aiofAttributionCallback_" + token;
-      const script = document.createElement("script");
-      let finished = false;
-      let timeout = null;
+    const startTime = Date.now();
+    const maxWaitMs = 15000;
+    const pollIntervalMs = 1000;
 
-      function cleanup() {
-        if (finished) return;
-        finished = true;
-        if (timeout) clearTimeout(timeout);
-        delete window[callbackName];
-        if (script.parentNode) script.parentNode.removeChild(script);
+    function pollOnce() {
+      return new Promise(function (resolve, reject) {
+        const callbackName = "aiofAttributionCallback_" + token;
+        const script = document.createElement("script");
+        let finished = false;
+        let timeout = null;
+
+        function cleanup() {
+          if (finished) return;
+          finished = true;
+          if (timeout) clearTimeout(timeout);
+          delete window[callbackName];
+          if (script.parentNode) script.parentNode.removeChild(script);
+        }
+
+        window[callbackName] = function (result) {
+          cleanup();
+          resolve(result && result.ok === true);
+        };
+
+        script.onerror = function () {
+          cleanup();
+          reject(new Error("Network error contacting attribution endpoint."));
+        };
+
+        const endpoint = ATTRIBUTION_ENDPOINT + "?action=check_attribution&token=" + encodeURIComponent(token) + "&callback=" + encodeURIComponent(callbackName);
+        script.src = endpoint;
+        timeout = setTimeout(function () {
+          cleanup();
+          reject(new Error("Single poll timed out."));
+        }, 5000);
+        document.head.appendChild(script);
+      });
+    }
+
+    return new Promise(async function (resolve, reject) {
+      while (Date.now() - startTime < maxWaitMs) {
+        try {
+          const saved = await pollOnce();
+          if (saved) {
+            console.log("✅ Attribution confirmed after " + (Date.now() - startTime) + "ms");
+            resolve(true);
+            return;
+          }
+        } catch (err) {
+          console.warn("Poll attempt failed: " + err.message);
+        }
+        await new Promise(r => setTimeout(r, pollIntervalMs));
       }
-
-      window[callbackName] = function (result) {
-        cleanup();
-        if (result && result.ok === true) resolve(true);
-        else reject(new Error("Apps Script did not confirm the attribution record."));
-      };
-
-      script.onerror = function () {
-        cleanup();
-        reject(new Error("Could not contact the attribution confirmation endpoint."));
-      };
-
-      const endpoint = ATTRIBUTION_ENDPOINT + "?action=check_attribution&token=" + encodeURIComponent(token) + "&callback=" + encodeURIComponent(callbackName);
-      script.src = endpoint;
-      timeout = setTimeout(function () { cleanup(); reject(new Error("Attribution confirmation timed out.")); }, 15000);
-      document.head.appendChild(script);
+      reject(new Error("Attribution confirmation timed out after 15 seconds."));
     });
   }
 
-  // ==========================================
-  // 7. PREPARE AND SEND
-  // ==========================================
   async function prepareAttribution() {
     if (!window.crypto || !window.crypto.subtle) throw new Error('Browser encryption unavailable.');
 
@@ -165,7 +158,6 @@
     const firstName = selarFullName.trim().split(/\s+/)[0] || '';
     const fbp = getCookie('_fbp');
     let fbc = getCookie('_fbc');
-    
     if (!fbc && landingFbclid) {
       fbc = 'fb.1.' + Date.now() + '.' + landingFbclid;
     }
@@ -186,12 +178,14 @@
     const sharedSecret = String(CFG.attributionSharedSecret || '').trim();
     if (sharedSecret) formData.set('secret', sharedSecret);
 
+    console.log("📤 Sending attribution POST...");
     await fetch(ATTRIBUTION_ENDPOINT, {
       method: 'POST',
       mode: 'no-cors',
       body: formData,
       cache: 'no-store'
     });
+    console.log("📤 POST sent, waiting for confirmation...");
 
     await confirmAttributionRecord(token);
 
@@ -199,6 +193,7 @@
     telegramButton.href = TELEGRAM_BASE + token;
     telegramButton.textContent = originalText;
     attributionReady = true;
+    console.log("✅ Attribution ready. Button set to: " + telegramButton.href);
   }
 
   prepareAttribution().catch(function (err) {
