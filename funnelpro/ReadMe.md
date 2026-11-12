@@ -79,6 +79,25 @@ Open your browser to:
 https://your-github-page?fullname={name}&email={email}
 
 
+## 🛒 Enabling Purchase Tracking
+
+If you're running Meta ads optimized for **Purchases** (not Leads), enable
+Purchase tracking in 1 step:
+
+1. Open Project Settings → Script Properties
+2. Set:
+   - `PURCHASE_EVENT_ENABLED = YES`
+   - `PURCHASE_EVENT_VALUE = 47` (or your course price)
+   - `PURCHASE_EVENT_CURRENCY = NGN` (or USD, EUR, GBP)
+
+Every time a student redeems an access code, Meta will receive a
+`Purchase` event with that value + currency, deduplicated by the code.
+
+**Warning:** Only enable this if you're NOT using Selar's pixel to track
+Purchases separately. Two Purchase events for the same sale will
+double-count in Meta Events Manager.
+
+
 Facebook will automatically append `&fbclid=` when the click comes from an ad.
 
 That's it. **The full funnel now works:**
@@ -111,14 +130,5 @@ Ad → Landing Page → Apps Script → Telegram → Meta CAPI Lead event
 
 ## 📞 2348033867642 Support
 
-For setup help, contact [henryk4god@gmail.com].
+For setup help, contact henryk4god@gmail.com.
 
----
-
-## 📜 License
-
-[Your license terms]
-
-
-
-****
