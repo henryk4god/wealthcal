@@ -166,7 +166,7 @@ Any disputes will be resolved through **[arbitration / local courts]**.
 
 **Support:** henryk4god@gmail.com
 **Business:** Michyrite Digital agency
-**Website:** https://michyhubcom.ng
+**Website:** https://michyhub.com.ng
 
 ---
 
