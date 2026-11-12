@@ -11,11 +11,11 @@ window.CLASSROOM_CONFIG = {
 
   // 1. ATTRIBUTION ENDPOINT (Required for Meta CAPI)
   // Get this from Apps Script → Deploy → Manage Deployments → Copy the /exec URL
-  attributionEndpoint: "https://script.google.com/macros/s/AKfycbyUGsu0yGlotqr0DgvXgl9knsKrPney34ia9ZBGjdQmvTyx1ZGyuL6bVfxjQ-1lrg_T/exec",
+  attributionEndpoint: "https://script.google.com/macros/s/AKfycbw-em9ltJjUreqZIY0bgvBcy9QkQhwNiV2PxRAHjHU7SzjbEEpshIcWd07NgnlOS885/exec",
 
   // 2. TELEGRAM BOT HANDLE (Required)
   // Your bot username from @BotFather, WITHOUT the @ symbol (e.g. "MyCourseBot").
-  telegramBotHandle: "psfvol1bot",
+  telegramBotHandle: "CRTtiers2bot",
 
   // 3. META PIXEL ID (Optional)
   // From Meta Events Manager. Leave as "" if you aren't running Facebook ads.
