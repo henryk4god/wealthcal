@@ -13,7 +13,7 @@ window.CLASSROOM_CONFIG = {
   // 1. ATTRIBUTION ENDPOINT (Required)
   // Apps Script → Deploy → Manage Deployments → /exec URL
   // ─────────────────────────────────────────────
-  attributionEndpoint: "https://script.google.com/macros/s/AKfycbwkQwGH_7TRVJ3XOwnV6e-byIinQLlSp1ZmL4WliID0AWMHg4v7uK9YJL7PxS4QmIcHTA/exec",
+  Endpoint: "https://script.google.com/macros/s/AKfycbwkQwGH_7TRVJ3XOwnV6e-byIinQLlSp1ZmL4WliID0AWMHg4v7uK9YJL7PxS4QmIcHTA/exec",
 
   // ─────────────────────────────────────────────
   // 2. TELEGRAM BOT HANDLE (Required)
@@ -32,7 +32,7 @@ window.CLASSROOM_CONFIG = {
   // Must match ATTRIBUTION_SHARED_SECRET in Script Properties.
   // Leave "" to skip the gate (only for local testing).
   // ─────────────────────────────────────────────
-  attributionSharedSecret: "",
+  attributionSharedSecret: "VVoR^A,6Q#UGZ2>TO|$cxq9P.)+fV?jy",
 
   // ─────────────────────────────────────────────
   // 5. WHATSAPP SUPPORT (Optional)
@@ -77,7 +77,7 @@ window.CLASSROOM_CONFIG = {
   //     productSource:     "Paystack"
   //
   productTier: "tier3",         // current product tier
-  productAmount: 0,             // ⚠️ UPDATE to actual price
+  productAmount: 4999,             // ⚠️ UPDATE to actual price
   productCurrency: "NGN",       // ⚠️ UPDATE if not NGN
   productSource: "Selar",
   isFreeProduct: false,
