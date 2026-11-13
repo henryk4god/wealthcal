@@ -13,19 +13,19 @@
  *
  *    <script>
  *      window.CLASSROOM_CONFIG = {
- *        // ─── Attribution (required) ───
- *        attributionEndpoint: "YOUR_APPS_SCRIPT_EXEC_URL",
- *        telegramBotHandle: "YOUR_BOT_USERNAME",
- *        metaPixelId: "YOUR_PIXEL_ID",
- *        attributionSharedSecret: "YOUR_SECRET",
+ *        // ───  (required) ───
+ *        attributionEndpoint: "https://script.google.com/macros/s/AKfycbwkQwGH_7TRVJ3XOwnV6e-byIinQLlSp1ZmL4WliID0AWMHg4v7uK9YJL7PxS4QmIcHTA/exec",
+ *        telegramBotHandle: "CRTtiers3bot",
+ *        metaPixelId: "1517538563417489",
+ *        attributionSharedSecret: "VVoR^A,6Q#UGZ2>TO|$cxq9P.)+fV?jy",
  *        brandName: "Your Classroom",
  *        supportWhatsappNumber: "",
  *        supportWhatsappMessage: "Hello, I need help.",
  *
  *        // ─── Fix #16b: Product config ───
  *        productTier: "tier3",           // tier1 / tier2 / tier3 / free
- *        productAmount: 147,
- *        productCurrency: "USD",
+ *        productAmount: 4999,
+ *        productCurrency: "NGN",
  *        productSource: "Selar",         // Selar / Paystack / Manual / Landing
  *        isFreeProduct: false,           // true → Lead only, no Purchase
  *        fireLeadEvent: false,           // true → browser Lead pixel
@@ -36,7 +36,7 @@
  *
  * 2. Any link to your Telegram bot should have:
  *    - class="btn-tg" (or auto-detected if href contains t.me/)
- *    - href="https://t.me/YOUR_BOT" (will be rewritten with token)
+ *    - href="https://t.me/CRTtiers3bot" (will be rewritten with token)
  *
  * EVENT FIRING RULES (Fix #16b):
  *
