@@ -17,6 +17,13 @@
  *        attributionSharedSecret: "",
  *        brandName: "Your Classroom",
  *        supportWhatsappNumber: "",
+          productTier: "tier3",           // tier1/tier2/tier3/free
+          productAmount: 147,
+          productCurrency: "USD",
+          productSource: "Selar",          // Selar/Paystack/Manual/Landing
+          isFreeProduct: false,
+          fireLeadEvent: false,            // true only if non-Selar free
+          firePurchaseEvent: false,        // true only if non-Selar paid
  *        supportWhatsappMessage: "Hello, I need help."
  *      };
  *    </script>
