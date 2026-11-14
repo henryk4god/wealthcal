@@ -287,24 +287,6 @@ No action needed from you for any of these. They'll roll out automatically.
 | **A — Fix #18** | Code | Low (with backup) | Create `PurchaseTrackingCleanup.gs` → run 3 functions → run regression → confirm 24/24 |
 | **B — Buyer docs** | Text | None | Paste into your buyer setup guide |
 | **C — Release notes** | Text | None | Send to customers (email / changelog) |
-
----
-
-## ⏸️ What I need from you
-
-**For Fix #18:**
-
-1. Run `FIX18_INSPECT()` → paste output (I verify it detects old schema correctly)
-2. Run `FIX18_MIGRATE()` → paste output (I verify backup name + migration success)
-3. Run `FIX18_VERIFY()` → paste output (I verify headers match + sanity checks)
-4. Run `runFullRegression()` → confirm 24/24
-
-**For Buyer docs + Release notes:**
-
-- Read them
-- Ask any questions if sections are unclear
-- Then send them to your customers
-
 **Once Fix #18's 4 outputs are pasted and green, we close out all remaining work.**
 
 **Go run FIX18_INSPECT first — paste output.**
