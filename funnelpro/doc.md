@@ -264,13 +264,32 @@ If anything in the setup fails:
 
 Response time: within 24 hours.
 
----
+## ✅ Payment Processor Compatibility
 
-## What's coming next
+Not all payment processors are equal. Some pass the buyer's email in the redirect URL (which the bot needs to auto-approve them), some don't.
 
-- **Fix #18** — PurchaseTracking column clean-up (non-breaking)
-- **Fix #19** — Multi-tier upgrade tracking
-- **Fix #20** — Optional IP-based rate limiting on attribution endpoints
+### Supported today (auto-approve works)
+
+| Processor | Auto-approve | Redirect URL to configure |
+|---|---|---|
+| **Selar** | ✅ | `https://your-domain.com/index-paid.html` |
+| **Gumroad** | ✅ | `https://your-domain.com/index-paid.html` |
+| **Lemon Squeezy** | ✅ | `https://your-domain.com/index-paid.html` |
+| **Payhip** | ✅ | `https://your-domain.com/index-paid.html` |
+| **Any processor that passes `?email=` in redirect** | ✅ | `https://your-domain.com/index-paid.html` |
+
+### Coming soon (Phase 1.5 — email entry form)
+
+| Processor | Auto-approve | Workaround |
+|---|---|---|
+| **Paystack** | ⚠️ | Use manual access code flow until Phase 1.5 |
+| **Stripe** | ⚠️ | Use manual access code flow until Phase 1.5 |
+| **Flutterwave** | ⚠️ | Use manual access code flow until Phase 1.5 |
+| **Manual / bank transfer** | ⚠️ | Use manual access code flow until Phase 1.5 |
+
+**Why?** These processors don't pass the buyer's email in the redirect URL. Phase 1 can't auto-approve without it. Phase 1.5 adds a page where buyers enter their email manually — then auto-approve works.
+
+**If you're using one of these processors**, set `paymentProcessor: "paystack"` (or `"stripe"` / `"flutterwave"` / `"manual"`) in `config.js` so you get notified when Phase 1.5 ships.
 
 No action needed from you for any of these. They'll roll out automatically.
 
