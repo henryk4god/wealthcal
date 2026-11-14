@@ -1,19 +1,20 @@
 /**
  * config.js — Landing Page Configuration (TIER 3)
- * Fix #16b Part 3
+ * Fix #16b Part 3 + Part 5
  * ================================================
  *
  * BUYER: EDIT ONLY THIS FILE.
- * Do NOT edit attribution-snippet.js or index.html.
+ * Do NOT edit script.js or index.html.
  */
 
 window.CLASSROOM_CONFIG = {
 
   // ─────────────────────────────────────────────
   // 1. ATTRIBUTION ENDPOINT (Required)
+  // ⚠️ KEY NAME IS EXACTLY 'attributionEndpoint' — case-sensitive
   // Apps Script → Deploy → Manage Deployments → /exec URL
   // ─────────────────────────────────────────────
-  Endpoint: "https://script.google.com/macros/s/AKfycbwkQwGH_7TRVJ3XOwnV6e-byIinQLlSp1ZmL4WliID0AWMHg4v7uK9YJL7PxS4QmIcHTA/exec",
+  attributionEndpoint: "https://script.google.com/macros/s/AKfycbwkQwGH_7TRVJ3XOwnV6e-byIinQLlSp1ZmL4WliID0AWMHg4v7uK9YJL7PxS4QmIcHTA/exec",
 
   // ─────────────────────────────────────────────
   // 2. TELEGRAM BOT HANDLE (Required)
@@ -23,20 +24,17 @@ window.CLASSROOM_CONFIG = {
 
   // ─────────────────────────────────────────────
   // 3. META PIXEL ID (Required for CAPI)
-  // From Meta Events Manager. Leave "" to skip.
   // ─────────────────────────────────────────────
   metaPixelId: "1517538563417489",
 
   // ─────────────────────────────────────────────
-  // 4. SHARED SECRET (Optional, recommended)
-  // Must match ATTRIBUTION_SHARED_SECRET in Script Properties.
-  // Leave "" to skip the gate (only for local testing).
+  // 4. SHARED SECRET (Required — must match Script Properties)
+  // ⚠️ Your value below MUST equal ATTRIBUTION_SHARED_SECRET in Apps Script
   // ─────────────────────────────────────────────
   attributionSharedSecret: "VVoR^A,6Q#UGZ2>TO|$cxq9P.)+fV?jy",
 
   // ─────────────────────────────────────────────
   // 5. WHATSAPP SUPPORT (Optional)
-  // International format, no + or spaces. Leave "" to hide.
   // ─────────────────────────────────────────────
   supportWhatsappNumber: "2348033867642",
   supportWhatsappMessage: "Hello, I need help with my course.",
@@ -47,40 +45,15 @@ window.CLASSROOM_CONFIG = {
   brandName: "Classroom Funnel Pro",
 
   // ─────────────────────────────────────────────
-  // 7. FIX #16b — PRODUCT CONFIG (NEW, required for auto-approve)
+  // 7. FIX #16b — PRODUCT CONFIG
+  // ⚠️ BUYERS: These defaults are for YOUR TESTING.
+  // Each buyer's config.js must be edited with their real tier + price.
   // ─────────────────────────────────────────────
-  //
-  // ⚠️ Read these rules before setting:
-  //
-  //   Tier 1 / 2 / 3 (paid):
-  //     isFreeProduct:     false
-  //     fireLeadEvent:     false
-  //     firePurchaseEvent: false  ← Selar already fires Purchase
-  //     productTier:       "tier1" | "tier2" | "tier3"
-  //     productAmount:     actual price as a number
-  //     productCurrency:   "NGN" | "USD" | etc.
-  //     productSource:     "Selar"
-  //
-  //   Free product on Selar:
-  //     isFreeProduct:     true
-  //     fireLeadEvent:     false  ← Selar fires Lead server-side
-  //     firePurchaseEvent: false
-  //     productTier:       "free"
-  //
-  //   Paid product on Paystack/Flutterwave/manual:
-  //     isFreeProduct:     false
-  //     fireLeadEvent:     false
-  //     firePurchaseEvent: true  ← browser pixel is sole source
-  //     productTier:       "tier1" | "tier2" | "tier3"
-  //     productAmount:     actual price
-  //     productCurrency:   "NGN" | "USD" | etc.
-  //     productSource:     "Paystack"
-  //
-  productTier: "tier3",         // current product tier
-  productAmount: 4999,             // ⚠️ UPDATE to actual price
-  productCurrency: "NGN",       // ⚠️ UPDATE if not NGN
+  productTier: "tier3",         // tier1 / tier2 / tier3
+  productAmount: 0,             // ⚠️ SET TO REAL PRICE (e.g. 1090)
+  productCurrency: "NGN",       // ⚠️ SET TO REAL CURRENCY (NGN / USD / etc)
   productSource: "Selar",
   isFreeProduct: false,
-  fireLeadEvent: false,
+  fireLeadEvent: false,         // Selar fires Lead — leave false
   firePurchaseEvent: false      // Selar fires Purchase — leave false
 };
