@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thank You For Your Purchase</title>
+  <meta name="description" content="Your purchase is confirmed. Open Telegram to start learning.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
+
+  <link rel="stylesheet" href="./style.css?v=3">
+
+  <!-- config.js MUST load first -->
+  <script src="./config.js?v=3"></script>
+  <script src="./script.js?v=8" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="emoji" aria-hidden="true">🎉</div>
+      <h1 class="js-headline">Thank You For Your Purchase!</h1>
+      <p class="lead js-subheadline">You now have access to <strong class="js-tier-name">your course</strong>.</p>
+    </header>
+
+    <section class="card">
+      <p class="js-body-copy">Open Telegram to start learning immediately.</p>
+    </section>
+
+    <section class="card recommended">
+      <span class="badge">Next Step</span>
+      <h3>🤖 Open Your Classroom</h3>
+      <p>Your access is ready. Tap below to open your private classroom on Telegram.</p>
+      <a class="btn btn-tg js-telegram-btn" href="https://t.me/PLACEHOLDER_BOT?start=facebook_guide" target="_blank" rel="noopener noreferrer">
+        <span class="js-cta-text">👉 Open Your Classroom</span>
+      </a>
+      <p><strong>What happens next:</strong></p>
+      <ol class="steps">
+        <li>Tap the button above.</li>
+        <li>Tap <strong>START</strong> if Telegram asks.</li>
+        <li>Your access is confirmed automatically in seconds.</li>
+        <li>Use <strong>/menu</strong> to browse your lessons.</li>
+      </ol>
+    </section>
+
+    <section class="card js-whatsapp-section">
+      <h3>💬 Need help?</h3>
+      <p>If you have any questions about your purchase, contact us on WhatsApp.</p>
+      <a class="btn btn-wa js-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">
+        👉 Contact Support on WhatsApp
+      </a>
+    </section>
+
+    <section class="card js-crosssell-section" style="display: none;">
+      <h3>🚀 Want more?</h3>
+      <p class="js-crosssell-copy">Explore our other plans.</p>
+      <a class="btn js-crosssell-btn" href="#" target="_blank" rel="noopener noreferrer">
+        <span class="js-crosssell-cta">See All Plans</span>
+      </a>
+    </section>
+
+    <footer class="closing">
+      <p>We're excited to have you here.</p>
+      <p class="team">— <span class="js-brand-name">Your Team</span></p>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var cfg = window.CLASSROOM_CONFIG || {};
+
+      // ─── Tier display name mapping (buyer can override) ───
+      var tierDisplayMap = (cfg.tierDisplayNames || {});
+      function tierLabel(tier) {
+        var key = String(tier || "").trim().toLowerCase();
+        if (!key) return "your course";
+        if (tierDisplayMap[key]) return tierDisplayMap[key];
+        // Fallback: prettify tier1 → Tier 1, pro → Pro, default → Full Access
+        if (key === "default") return "Full Access";
+        return key.charAt(0).toUpperCase() + key.slice(1).replace(/^tier(\d)$/i, "Tier $1");
+      }
+
+      // ─── Thank-you page config with defaults ───
+      var typ = cfg.thankYouPage || {};
+      var defaults = {
+        headline: "Thank You For Your Purchase!",
+        subheadline: "You now have access to {{tierName}}.",
+        bodyCopy: "Open Telegram to start learning immediately.",
+        ctaText: "👉 Open Your Classroom",
+        showWhatsapp: true,
+        showCrossSell: false,
+        crossSellCopy: "Explore our other plans.",
+        crossSellCta: "See All Plans",
+        crossSellUrl: ""
+      };
+
+      function val(key) {
+        var v = typ[key];
+        if (v === undefined || v === null || v === "") return defaults[key];
+        return v;
+      }
+
+      // ─── Template rendering: replace {{placeholders}} ───
+      var tierName = tierLabel(cfg.productTier);
+      var brandName = String(cfg.brandName || "Your Team").trim();
+
+      function render(str) {
+        return String(str || "")
+          .replace(/\{\{tierName\}\}/g, tierName)
+          .replace(/\{\{brandName\}\}/g, brandName);
+      }
+
+      // ─── Apply content ───
+      document.querySelector(".js-headline").textContent = render(val("headline"));
+      document.querySelector(".js-subheadline").innerHTML =
+        render(val("subheadline")).replace(tierName, '<strong class="js-tier-name">' + tierName + '</strong>');
+      document.querySelector(".js-body-copy").textContent = render(val("bodyCopy"));
+      document.querySelector(".js-cta-text").textContent = render(val("ctaText"));
+
+      // ─── Telegram button ───
+      var botHandle = String(cfg.telegramBotHandle || "").trim().replace(/^@/, "");
+      if (botHandle) {
+        var tgBtn = document.querySelector(".js-telegram-btn");
+        if (tgBtn) tgBtn.href = "https://t.me/" + botHandle + "?start=facebook_guide";
+      }
+
+      // ─── WhatsApp section ───
+      var waNumber = String(cfg.supportWhatsappNumber || "").trim();
+      var waMessage = String(cfg.supportWhatsappMessage || "Hello, I need help.").trim();
+      var waSection = document.querySelector(".js-whatsapp-section");
+      var waBtn = document.querySelector(".js-whatsapp-btn");
+      if (val("showWhatsapp") && waNumber && waBtn) {
+        waBtn.href = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(waMessage);
+      } else if (waSection) {
+        waSection.style.display = "none";
+      }
+
+      // ─── Cross-sell section ───
+      var crossSellSection = document.querySelector(".js-crosssell-section");
+      var crossSellUrl = String(val("crossSellUrl") || "").trim();
+      if (val("showCrossSell") && crossSellUrl && crossSellSection) {
+        document.querySelector(".js-crosssell-copy").textContent = render(val("crossSellCopy"));
+        document.querySelector(".js-crosssell-cta").textContent = render(val("crossSellCta"));
+        document.querySelector(".js-crosssell-btn").href = crossSellUrl;
+        crossSellSection.style.display = "";
+      } else if (crossSellSection) {
+        crossSellSection.style.display = "none";
+      }
+
+      // ─── Brand name ───
+      document.querySelectorAll(".js-brand-name").forEach(function (el) {
+        el.textContent = brandName;
+      });
+    })();
+  </script>
+</body>
+</html>
