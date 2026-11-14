@@ -45,16 +45,40 @@ window.CLASSROOM_CONFIG = {
   productTier: "tier3",         // tier1 / tier2 / tier3 (or buyer's custom)
   productAmount: 0,             // ⚠️ SET TO REAL PRICE
   productCurrency: "NGN",       // ⚠️ SET TO REAL CURRENCY
-  productSource: "Selar",
   isFreeProduct: false,
   fireLeadEvent: false,
   firePurchaseEvent: false,
 
   // ─────────────────────────────────────────────
-  // 8. TIER DISPLAY NAMES (Optional — Fix #18.5)
+  // 8. PAYMENT PROCESSOR (Fix #18.4)
   // ─────────────────────────────────────────────
-  // Buyers with non-standard tier names can map them to
-  // friendly display names. If not set, "tier1" → "Tier 1".
+  // Which processor do you use to sell this product?
+  //
+  // - "selar"          → passes ?email=&fullname=&order_id= in redirect ✅
+  // - "gumroad"        → passes ?email=&sale_id= ✅
+  // - "lemonsqueezy"   → passes ?email=&order_id= ✅
+  // - "payhip"         → passes ?email=&sale_id= ✅
+  // - "paystack"       → passes only ?reference= ⚠️ (Phase 1.5 will add email form)
+  // - "flutterwave"    → passes ?tx_ref= ⚠️ (Phase 1.5)
+  // - "stripe"         → passes ?session_id= ⚠️ (Phase 1.5)
+  // - "manual"         → no params, will need email form (Phase 1.5)
+  // - "auto"           → Phase 1: assumes email is in URL (like Selar/Gumroad)
+  //                      Phase 1.5: will auto-detect and fall back to email form
+  //
+  // PHASE 1 STATUS:
+  //   ✅ Supported today: selar, gumroad, lemonsqueezy, payhip, auto
+  //   ⚠️ Coming in Phase 1.5: paystack, flutterwave, stripe, manual
+  //      (these processors don't pass email in redirect — Phase 1.5 adds
+  //       a buyer-entered email form to work around this)
+  //
+  paymentProcessor: "selar",
+
+  // Legacy alias for backwards compatibility
+  // (Phase 1 code reads this as a fallback if paymentProcessor is not set)
+  productSource: "Selar",
+
+  // ─────────────────────────────────────────────
+  // 9. TIER DISPLAY NAMES (Optional)
   // ─────────────────────────────────────────────
   tierDisplayNames: {
     // "tier1": "Starter",
@@ -66,7 +90,7 @@ window.CLASSROOM_CONFIG = {
   },
 
   // ─────────────────────────────────────────────
-  // 9. PAID THANK-YOU PAGE (Fix #18.4)
+  // 10. PAID THANK-YOU PAGE (Fix #18.4)
   // ─────────────────────────────────────────────
   // All fields optional. Defaults shown below.
   // Supported placeholders: {{tierName}}, {{brandName}}
