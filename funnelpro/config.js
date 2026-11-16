@@ -77,6 +77,38 @@ window.CLASSROOM_CONFIG = {
   // (Phase 1 code reads this as a fallback if paymentProcessor is not set)
   productSource: "Selar",
 
+    // ─────────────────────────────────────────────
+  // 11. TIER CONFIGURATION (Phase 2 — Optional)
+  // ─────────────────────────────────────────────
+  // ⚠️ IMPORTANT: Tier config lives in Apps Script, NOT here.
+  //
+  // To configure tiers:
+  //   1. Open Apps Script → Project Settings → Script Properties
+  //   2. Add new property:
+  //      Key:   TIER_CONFIG_JSON
+  //      Value: <JSON string from below>
+  //
+  // Example for 3 cumulative tiers:
+  //   {"accessModel":"cumulative","tiers":[
+  //     {"id":"tier1","name":"Starter","rank":1},
+  //     {"id":"tier2","name":"Pro","rank":2},
+  //     {"id":"tier3","name":"Premium","rank":3}
+  //   ]}
+  //
+  // Example for 3 siloed tiers:
+  //   {"accessModel":"siloed","tiers":[
+  //     {"id":"starter","name":"Starter","rank":1},
+  //     {"id":"pro","name":"Pro","rank":2},
+  //     {"id":"premium","name":"Premium","rank":3}
+  //   ]}
+  //
+  // For single-product buyers (no tiers), leave TIER_CONFIG_JSON unset.
+  // Default single-tier kicks in automatically.
+  //
+  // lessonTierFallback: what tier to use for lessons marked "all" or empty
+  // (currently always "all" — universal visibility)
+  // ─────────────────────────────────────────────
+
   // ─────────────────────────────────────────────
   // 9. TIER DISPLAY NAMES (Optional)
   // ─────────────────────────────────────────────
