@@ -1,134 +1,98 @@
-# 🎓 Telegram Classroom — [TIER NAME]
+# Classroom Funnel Pro — Buyer Setup Guide
 
-Welcome! You now own a serverless Telegram course platform.
-No servers. No monthly hosting. Runs on Google's free infrastructure.
-
----
-
-## What's Included
-
-[TIER 1 — STARTER]
-- Telegram bot that delivers protected video lessons
-- Single-use access codes (sellable student access)
-- Student database with approval workflow
-- **Files:** 4 Google Apps Script files
-
-[TIER 2 — PROFESSIONAL]
-- Everything in Starter
-- Progress tracking per student + class-wide report
-- Bonuses library (PDFs, videos, external links)
-- Broadcast engine (safe for 500+ students, rate-limit protected)
-- **Files:** 5 Google Apps Script files
-
-[TIER 3 — FUNNEL PRO]
-- Everything in Professional
-- Meta CAPI attribution (Facebook ads → Telegram conversion tracking)
-- Attribution bridge (website → Telegram lead capture)
-- Landing page template with config.js
-- **Files:** 6 Google Apps Script files + 4 landing page files
+Complete setup walkthrough from zero to live classroom.
 
 ---
 
-## ⏱️ Setup Time: ~10 Minutes
+## 📋 Prerequisites
 
-### Step 1: Create your Google Sheet (1 min)
+Before you start, you'll need:
 
-1. Go to [sheets.new](https://sheets.new)
-2. Name it "My Classroom Database"
-3. Copy the **Spreadsheet ID** from the URL (the long random string between `/d/` and `/edit`)
+- [ ] A **Google account** (for Apps Script + Google Sheets)
+- [ ] A **Telegram bot** (create via [@BotFather](https://t.me/BotFather))
+- [ ] A **landing page** (GitHub Pages, WordPress, Webflow, or any HTML host)
+- [ ] A **payment processor** (Selar, Gumroad, Lemon Squeezy, Payhip, Paystack, Stripe, etc.)
+- [ ] (Optional) A **Meta Pixel** for Facebook/Instagram ads
 
-### Step 2: Create your Apps Script project (2 min)
+---
 
-1. Go to [script.new](https://script.new)
-2. Delete the default `Code.gs` contents
-3. Create these files (one at a time) and paste the matching code:
-   - `codeupdatedworking3.gs`
-   - `Config.gs`
-   - `Setup.gs`
-   - `AccessCodeGenerator.gs`
-   - `BroadcastEngine.gs` (Tier 2 and 3 only)
-   - `MetaAttribution.gs` (Tier 3 only)
-4. Save (Ctrl+S)
+## 🚀 Phase 1 — Initial Setup (30 minutes)
 
-### Step 3: Set 4 mandatory properties (1 min)
+### Step 1.1 — Deploy Apps Script
 
-In Apps Script: **Project Settings** (gear icon) → **Script Properties** → Add:
+1. Go to [script.google.com](https://script.google.com) → New Project
+2. Copy all `.gs` files from your purchase into the project
+3. **Set Script Properties** (Project Settings → Script Properties):
 
 | Key | Value |
-|-----|-------|
-| `BOT_TOKEN` | your token from @BotFather |
-| `SPREADSHEET_ID` | from Step 1 |
-| `ADMIN_ID` | your Telegram numeric ID (from @userinfobot) |
-| `WEB_APP_URL` | leave blank for now (Step 4) |
+|---|---|
+| `BOT_TOKEN` | From @BotFather |
+| `SPREADSHEET_ID` | From your Google Sheet URL |
+| `ADMIN_ID` | Your Telegram user ID (get from @userinfobot) |
+| `WEB_APP_URL` | Leave blank for now — will set after deploy |
+| `ATTRIBUTION_SHARED_SECRET` | Random 32+ character string (e.g. from [random.org](https://www.random.org/strings/)) |
 
-### Step 4: Deploy the Web App (2 min)
+4. **Deploy as web app:** Deploy → New deployment → Web app → Execute as "Me" → Access "Anyone" → Deploy
+5. Copy the `/exec` URL → paste into `WEB_APP_URL` Script Property
+6. Run `setupAll()` once → creates all sheets
+7. Run `boot` function (or open your `/exec?action=boot` URL) to register the webhook
 
-1. Click **Deploy** → **New deployment**
-2. Type: **Web app**
-3. Description: "Classroom v1.0"
-4. **Execute as:** Me
-5. **Who has access:** Anyone
-6. Click **Deploy**, authorize permissions
-7. **Copy the `/exec` URL**
-8. Go back to **Script Properties** → paste URL into `WEB_APP_URL`
+### Step 1.2 — Configure Your Landing Page
 
-### Step 5: Run the Boot URL (2 min)
+1. Upload these files to your landing page host:
+   - `index.html` — free guide page (or skip if no free product)
+   - `index-paid.html` — paid thank-you page
+   - `config.js` — configuration
+   - `script.js` — attribution + auto-approve logic
+   - `style.css` — your styling
 
-Open your browser to:
+2. **Edit `config.js`** — see the `config.js` file itself for inline docs. Minimum required:
+   - `attributionEndpoint` → your Apps Script `/exec` URL
+   - `telegramBotHandle` → your bot's username (no @)
+   - `attributionSharedSecret` → matches Script Property
+   - `productTier`, `productAmount`, `productCurrency` → your product details
+   - `paymentProcessor` → the processor you use
 
-https://your-github-page?fullname={name}&email={email}
+3. **Configure your payment processor's redirect URL:**
+   - Free product → `https://your-domain.com/index.html`
+   - Paid product → `https://your-domain.com/index-paid.html`
 
-
-## 🛒 Enabling Purchase Tracking
-
-If you're running Meta ads optimized for **Purchases** (not Leads), enable
-Purchase tracking in 1 step:
-
-1. Open Project Settings → Script Properties
-2. Set:
-   - `PURCHASE_EVENT_ENABLED = YES`
-   - `PURCHASE_EVENT_VALUE = 47` (or your course price)
-   - `PURCHASE_EVENT_CURRENCY = NGN` (or USD, EUR, GBP)
-
-Every time a student redeems an access code, Meta will receive a
-`Purchase` event with that value + currency, deduplicated by the code.
-
-**Warning:** Only enable this if you're NOT using Selar's pixel to track
-Purchases separately. Two Purchase events for the same sale will
-double-count in Meta Events Manager.
-
-
-Facebook will automatically append `&fbclid=` when the click comes from an ad.
-
-That's it. **The full funnel now works:**
-Ad → Landing Page → Apps Script → Telegram → Meta CAPI Lead event
+4. **Test the flow** — visit `/index-paid.html?email=test@example.com&fullname=Test` and confirm:
+   - Console shows `[attribution] Ready. Token: XXXXXXXX...`
+   - Check `PurchaseRedirects` sheet for the test row
+   - Tap Telegram link → bot auto-approves
 
 ---
 
-## 🆘 Troubleshooting
+## 🎯 Phase 2 — Optional: Configure Tiers
 
-### Bot doesn't respond to `/start`
-1. Open `[YOUR_URL]?action=boot` in a browser
-2. Check that "Webhook registered" appears
-3. If not, run `setWebhook()` from the Apps Script editor manually
+**Skip this section if you sell a single product.**
 
-### "Bad Request: chat not found"
-- The student's Telegram ID is wrong in the sheet
-- Or the student hasn't started the bot yet
+### When to configure tiers
 
-### Broadcasts get stuck
-- Telegram rate limit kicked in (normal for 30+/minute)
-- The system pauses automatically
-- Click **Continue Broadcast** after 60 seconds
+Configure tiers if you:
+- Sell **multiple products** at different price points
+- Want different lessons/bonuses for different buyers
+- Want automatic access control (tier3 buyers see more than tier1 buyers)
 
-### Meta CAPI shows errors
-- Verify `META_PIXEL_ID` and `META_CAPI_ACCESS_TOKEN` in Script Properties
-- Check that `META_TEST_EVENT_CODE` is empty (it's only for testing)
-- Look at the diagnostic message the bot sends you after each Lead
+### Step 2.1 — Decide your access model
 
----
+**Cumulative** (recommended):
+- A tier2 buyer sees tier1 + tier2 content
+- A tier3 buyer sees tier1 + tier2 + tier3 content
+- Natural upgrade path — buyers unlock more as they pay more
 
-## 📞 2348033867642 Support
+**Siloed:**
+- A tier2 buyer sees ONLY tier2 content
+- A tier3 buyer sees ONLY tier3 content
+- Use when each tier is a distinct, independent product
 
-For setup help, contact henryk4god@gmail.com.
+### Step 2.2 — Add `TIER_CONFIG_JSON` Script Property
 
+1. Apps Script → Project Settings → Script Properties → Add property
+2. Key: `TIER_CONFIG_JSON`
+3. Value: your JSON config (one line, no formatting)
+
+**Example for 3 cumulative tiers:**
+```json
+{"accessModel":"cumulative","tiers":[{"id":"tier1","name":"Starter","rank":1},{"id":"tier2","name":"Pro","rank":2},{"id":"tier3","name":"Premium","rank":3}]}
