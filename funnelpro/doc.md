@@ -189,10 +189,10 @@ firePurchaseEvent: false       // see table below
 
 | Your setup | `fireLeadEvent` | `firePurchaseEvent` |
 |---|---|---|
-| Free product on Selar (CAPI enabled) | `false` | `false` |
-| Free product on Paystack/Stripe/custom | `true` | `false` |
-| Paid product on Selar (CAPI enabled) | `false` | `false` |
-| Paid product on Paystack/Flutterwave/manual | `false` | `true` |
+| Free product on Selar (CAPI enabled) | `false`or No | `false` or No |
+| Free product on Paystack/Stripe/custom | `true`or Yes | `false` No |
+| Paid product on Selar (CAPI enabled) | `false` No | `false` No |
+| Paid product on Paystack/Flutterwave/manual | `false` No | `true` Yes |
 
 **Rule:** if your processor already fires server-side (Selar with CAPI enabled), leave both `false`.
 
