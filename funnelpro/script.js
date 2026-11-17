@@ -80,13 +80,11 @@
 
   telegramLinks.forEach(function (link) {
     link.setAttribute('data-original-text', link.textContent);
-    // Change the text immediately to let them know it's loading
     link.textContent = '⏳ Preparing secure link... Please wait';
     
     link.addEventListener('click', function (event) {
       if (!attributionReady) {
         event.preventDefault();
-        // If they click too early, show an alert instead of doing nothing
         alert('Please wait a moment while we secure your access link.');
       }
     });
@@ -166,7 +164,6 @@
         try {
           var saved = await pollOnce();
           if (saved) {
-            console.log('[attribution] Confirmed after ' + (Date.now() - startTime) + 'ms');
             resolve(true);
             return;
           }
@@ -177,49 +174,6 @@
       }
       reject(new Error("Attribution confirmation timed out after 15 seconds."));
     });
-  }
-
-  async function savePurchaseRecord(token, emailHash) {
-    if (IS_FREE_PRODUCT || !PRODUCT_TIER || PRODUCT_TIER === 'free') {
-      console.log('[purchase] Skipping save: Free product or no tier.');
-      return;
-    }
-
-    try {
-      var formData = new URLSearchParams();
-      formData.set('action', 'save_purchase');
-      formData.set('token', token);
-      formData.set('emailHash', emailHash);
-      formData.set('productTier', PRODUCT_TIER);
-      formData.set('amount', String(PRODUCT_AMOUNT));
-      formData.set('currency', PRODUCT_CURRENCY);
-      formData.set('source', PRODUCT_SOURCE);
-      if (landingOrderId) formData.set('orderId', landingOrderId);
-
-      var sharedSecret = String(CFG.attributionSharedSecret || '').trim();
-      if (sharedSecret) formData.set('secret', sharedSecret);
-
-      console.log('[purchase] Queuing save_purchase via sendBeacon...');
-      
-      // Use sendBeacon: It guarantees the request finishes even if the user navigates away
-      var blob = new Blob([formData.toString()], { type: 'application/x-www-form-urlencoded' });
-      var success = navigator.sendBeacon(ATTRIBUTION_ENDPOINT, blob);
-      
-      if (success) {
-        console.log('✅ [purchase] Beacon queued successfully.');
-      } else {
-        console.warn('❌ [purchase] sendBeacon failed, falling back to fetch...');
-        await fetch(ATTRIBUTION_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: formData.toString(),
-          cache: 'no-store'
-        });
-        console.log('✅ [purchase] POST sent successfully via fetch fallback.');
-      }
-    } catch (err) {
-      console.error('[purchase] Save failed:', err);
-    }
   }
 
   async function prepareAttribution() {
@@ -243,7 +197,7 @@
     var firstNameHash = firstName ? await sha256Hex(firstName) : '';
     var token = generateAttributionToken();
 
-    // 8a. Save attribution
+    // 8a. Save attribution using sendBeacon
     var formData = new URLSearchParams();
     formData.set('action', 'save_attribution');
     formData.set('token', token);
@@ -256,28 +210,32 @@
     var sharedSecret = String(CFG.attributionSharedSecret || '').trim();
     if (sharedSecret) formData.set('secret', sharedSecret);
 
-    console.log('[attribution] Sending save_attribution POST...');
-    await fetch(ATTRIBUTION_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: formData.toString(),
-      cache: 'no-store'
-    });
+    var blob = new Blob([formData.toString()], { type: 'application/x-www-form-urlencoded' });
+    navigator.sendBeacon(ATTRIBUTION_ENDPOINT, blob);
     
-    console.log('[attribution] Waiting for confirmation...');
+    // Poll to ensure it saved
     await confirmAttributionRecord(token);
 
     // 8b. Fix #16b: save purchase record (paid only)
-    await savePurchaseRecord(token, emailHash);
+    if (!IS_FREE_PRODUCT && PRODUCT_TIER && PRODUCT_TIER !== 'free') {
+      var purchaseData = new URLSearchParams();
+      purchaseData.set('action', 'save_purchase');
+      purchaseData.set('token', token);
+      purchaseData.set('emailHash', emailHash);
+      purchaseData.set('productTier', PRODUCT_TIER);
+      purchaseData.set('amount', String(PRODUCT_AMOUNT));
+      purchaseData.set('currency', PRODUCT_CURRENCY);
+      purchaseData.set('source', PRODUCT_SOURCE);
+      if (landingOrderId) purchaseData.set('orderId', landingOrderId);
+      if (sharedSecret) purchaseData.set('secret', sharedSecret);
+
+      var purchaseBlob = new Blob([purchaseData.toString()], { type: 'application/x-www-form-urlencoded' });
+      navigator.sendBeacon(ATTRIBUTION_ENDPOINT, purchaseBlob);
+    }
 
     // 8c. Lead event
     if (FIRE_LEAD_EVENT && window.fbq) {
-      try {
-        window.fbq('track', 'Lead', {}, { eventID: token });
-        console.log('[pixel] Lead fired');
-      } catch (err) {
-        console.warn('[pixel] Lead fire failed:', err);
-      }
+      try { window.fbq('track', 'Lead', {}, { eventID: token }); } catch (err) {}
     }
 
     // 8d. Purchase event
@@ -289,10 +247,7 @@
           content_name: PRODUCT_TIER,
           content_type: 'product'
         }, { eventID: 'PURCHASE_' + token });
-        console.log('[pixel] Purchase fired');
-      } catch (err) {
-        console.warn('[pixel] Purchase fire failed:', err);
-      }
+      } catch (err) {}
     }
 
     // 8e. Rewrite Telegram links
@@ -303,7 +258,6 @@
     });
 
     attributionReady = true;
-    console.log('[attribution] Ready. Token: ' + token.slice(0, 8) + '...');
   }
 
   prepareAttribution().catch(function (err) {
