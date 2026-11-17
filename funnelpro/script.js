@@ -174,8 +174,9 @@
     });
   }
 
-    async function savePurchaseRecord(token, emailHash) {
+      async function savePurchaseRecord(token, emailHash) {
     if (IS_FREE_PRODUCT || !PRODUCT_TIER || PRODUCT_TIER === 'free') {
+      console.log('[purchase] Skipping save: Free product or no tier.');
       return;
     }
 
@@ -193,29 +194,38 @@
       var sharedSecret = String(CFG.attributionSharedSecret || '').trim();
       if (sharedSecret) formData.set('secret', sharedSecret);
 
-      console.log('[purchase] Saving purchase record for ' + PRODUCT_TIER + '...');
+      console.log('[purchase] Sending save_purchase payload:', {
+        tier: PRODUCT_TIER,
+        amount: PRODUCT_AMOUNT,
+        currency: PRODUCT_CURRENCY,
+        secretSet: Boolean(sharedSecret)
+      });
+
+      var resp = await fetch(ATTRIBUTION_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString(),
+        cache: 'no-store'
+      });
+
+      var resultText = await resp.text();
+      console.log('[purchase] RAW RESPONSE FROM APPS SCRIPT:', resultText);
       
-      // Use sendBeacon to guarantee delivery even if the user navigates away immediately
-      var blob = new Blob([formData.toString()], { type: 'application/x-www-form-urlencoded' });
-      var success = navigator.sendBeacon(ATTRIBUTION_ENDPOINT, blob);
-      
-      if (success) {
-        console.log('[purchase] POST queued successfully via sendBeacon.');
-      } else {
-        console.warn('[purchase] sendBeacon failed, falling back to fetch...');
-        await fetch(ATTRIBUTION_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: formData.toString(),
-          cache: 'no-store'
-        });
-        console.log('[purchase] POST sent successfully via fetch fallback.');
+      try {
+        var resultJson = JSON.parse(resultText);
+        if (resultJson.ok) {
+           console.log('✅ [purchase] Apps Script accepted the purchase record.');
+        } else {
+           console.error('❌ [purchase] Apps Script rejected the purchase:', resultJson.error);
+        }
+      } catch (e) {
+        console.error('❌ [purchase] Could not parse response. Is it an HTML error page?');
       }
+
     } catch (err) {
-      console.error('[purchase] Save failed:', err);
+      console.error('[purchase] Network or fetch failed:', err);
     }
   }
-
   async function prepareAttribution() {
     if (!window.crypto || !window.crypto.subtle) {
       throw new Error('Browser encryption unavailable.');
