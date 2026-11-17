@@ -176,34 +176,24 @@
     });
   }
 
-    async function prepareAttribution() {
-    if (!window.crypto || !window.crypto.subtle) {
-      throw new Error('Browser encryption unavailable.');
-    }
-
+     async function prepareAttribution() {
+    if (!window.crypto || !window.crypto.subtle) throw new Error('Browser encryption unavailable.');
     var normalizedEmail = selarEmail.trim().toLowerCase();
-    if (!normalizedEmail) {
-      throw new Error('No email found in URL. Add ?email=xxx@example.com to the redirect.');
-    }
+    if (!normalizedEmail) throw new Error('No email found in URL. Add ?email=xxx@example.com to the redirect.');
 
     var firstName = selarFullName.trim().split(/\s+/)[0] || '';
     var fbp = getCookie('_fbp');
     var fbc = getCookie('_fbc');
-    if (!fbc && landingFbclid) {
-      fbc = 'fb.1.' + Date.now() + '.' + landingFbclid;
-    }
+    if (!fbc && landingFbclid) fbc = 'fb.1.' + Date.now() + '.' + landingFbclid;
 
     var emailHash = await sha256Hex(normalizedEmail);
     var firstNameHash = firstName ? await sha256Hex(firstName) : '';
     var token = generateAttributionToken();
-
     var sharedSecret = String(CFG.attributionSharedSecret || '').trim();
 
-    // ──────────────────────────────────────────────
-    // 1. SAVE ATTRIBUTION (Wait for it to finish)
-    // ──────────────────────────────────────────────
+    // Create ONE combined payload
     var formData = new URLSearchParams();
-    formData.set('action', 'save_attribution');
+    formData.set('action', 'save_attribution_and_purchase');
     formData.set('token', token);
     formData.set('emailHash', emailHash);
     formData.set('firstNameHash', firstNameHash);
@@ -211,64 +201,43 @@
     formData.set('fbc', fbc);
     formData.set('userAgent', navigator.userAgent);
     if (sharedSecret) formData.set('secret', sharedSecret);
+    
+    // Add Purchase Data to the SAME payload
+    if (!IS_FREE_PRODUCT && PRODUCT_TIER && PRODUCT_TIER !== 'free') {
+      formData.set('productTier', PRODUCT_TIER);
+      formData.set('amount', String(PRODUCT_AMOUNT));
+      formData.set('currency', PRODUCT_CURRENCY);
+      formData.set('source', PRODUCT_SOURCE);
+      if (landingOrderId) formData.set('orderId', landingOrderId);
+    }
 
-    console.log('[attribution] Sending save_attribution POST...');
+    console.log('[attribution] Sending combined POST...');
+    
+    // Send it ONCE
     await fetch(ATTRIBUTION_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString(),
-      keepalive: true // Tells the mobile browser not to kill this
+      keepalive: true
     });
-    
+
     console.log('[attribution] Waiting for confirmation...');
     await confirmAttributionRecord(token);
 
-    // ──────────────────────────────────────────────
-    // 2. SAVE PURCHASE (Only if paid)
-    // ──────────────────────────────────────────────
-    if (!IS_FREE_PRODUCT && PRODUCT_TIER && PRODUCT_TIER !== 'free') {
-      var purchaseData = new URLSearchParams();
-      purchaseData.set('action', 'save_purchase');
-      purchaseData.set('token', token);
-      purchaseData.set('emailHash', emailHash);
-      purchaseData.set('productTier', PRODUCT_TIER);
-      purchaseData.set('amount', String(PRODUCT_AMOUNT));
-      purchaseData.set('currency', PRODUCT_CURRENCY);
-      purchaseData.set('source', PRODUCT_SOURCE);
-      if (landingOrderId) purchaseData.set('orderId', landingOrderId);
-      if (sharedSecret) purchaseData.set('secret', sharedSecret);
-
-      console.log('[purchase] Sending save_purchase POST...');
-      await fetch(ATTRIBUTION_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: purchaseData.toString(),
-        keepalive: true // Tells the mobile browser not to kill this
-      });
-      console.log('✅ [purchase] POST sent successfully.');
-    }
-
-    // ──────────────────────────────────────────────
-    // 3. PIXEL EVENTS
-    // ──────────────────────────────────────────────
+    // Pixel Events
     if (FIRE_LEAD_EVENT && window.fbq) {
       try { window.fbq('track', 'Lead', {}, { eventID: token }); } catch (err) {}
     }
-
     if (FIRE_PURCHASE_EVENT && window.fbq && !IS_FREE_PRODUCT) {
       try {
         window.fbq('track', 'Purchase', {
-          value: PRODUCT_AMOUNT,
-          currency: PRODUCT_CURRENCY,
-          content_name: PRODUCT_TIER,
-          content_type: 'product'
+          value: PRODUCT_AMOUNT, currency: PRODUCT_CURRENCY,
+          content_name: PRODUCT_TIER, content_type: 'product'
         }, { eventID: 'PURCHASE_' + token });
       } catch (err) {}
     }
 
-    // ──────────────────────────────────────────────
-    // 4. UNLOCK TELEGRAM BUTTON
-    // ──────────────────────────────────────────────
+    // Unlock Button
     telegramLinks.forEach(function (link) {
       link.href = TELEGRAM_BASE + token;
       var originalText = link.getAttribute('data-original-text');
