@@ -250,12 +250,14 @@
   
   prepareAttribution().catch(function (err) {
     console.error('[attribution] Preparation failed:', err);
-    telegramLinks.forEach(function (link, i) {
-      link.href = originalHrefs[i];
-      var originalText = link.getAttribute('data-original-text');
-      if (originalText) link.textContent = originalText;
+    telegramLinks.forEach(function (link) {
+      link.href = TELEGRAM_BASE + token;
+      // Keep it locked for 3 more seconds to ensure data is saved
+      setTimeout(function() {
+        var originalText = link.getAttribute('data-original-text');
+        if (originalText) link.textContent = originalText;
+        attributionReady = true;
+      }, 3000);
     });
-    attributionReady = true;
-  });
-
+    
 })();
