@@ -174,7 +174,7 @@
     });
   }
 
-  async function savePurchaseRecord(token, emailHash) {
+    async function savePurchaseRecord(token, emailHash) {
     if (IS_FREE_PRODUCT || !PRODUCT_TIER || PRODUCT_TIER === 'free') {
       return;
     }
@@ -194,13 +194,23 @@
       if (sharedSecret) formData.set('secret', sharedSecret);
 
       console.log('[purchase] Saving purchase record for ' + PRODUCT_TIER + '...');
-      var resp = await fetch(ATTRIBUTION_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData.toString(),
-        cache: 'no-store'
-      });
-      console.log('[purchase] POST sent successfully.');
+      
+      // Use sendBeacon to guarantee delivery even if the user navigates away immediately
+      var blob = new Blob([formData.toString()], { type: 'application/x-www-form-urlencoded' });
+      var success = navigator.sendBeacon(ATTRIBUTION_ENDPOINT, blob);
+      
+      if (success) {
+        console.log('[purchase] POST queued successfully via sendBeacon.');
+      } else {
+        console.warn('[purchase] sendBeacon failed, falling back to fetch...');
+        await fetch(ATTRIBUTION_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData.toString(),
+          cache: 'no-store'
+        });
+        console.log('[purchase] POST sent successfully via fetch fallback.');
+      }
     } catch (err) {
       console.error('[purchase] Save failed:', err);
     }
