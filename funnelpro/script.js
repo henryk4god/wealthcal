@@ -80,10 +80,14 @@
 
   telegramLinks.forEach(function (link) {
     link.setAttribute('data-original-text', link.textContent);
+    // Change the text immediately to let them know it's loading
+    link.textContent = '⏳ Preparing secure link... Please wait';
+    
     link.addEventListener('click', function (event) {
       if (!attributionReady) {
         event.preventDefault();
-        link.textContent = 'Preparing your secure Telegram link...';
+        // If they click too early, show an alert instead of doing nothing
+        alert('Please wait a moment while we secure your access link.');
       }
     });
   });
@@ -265,9 +269,6 @@
 
     // 8b. Fix #16b: save purchase record (paid only)
     await savePurchaseRecord(token, emailHash);
-    
-    // Give the server 2 seconds to write the sheet before letting the user click Telegram
-    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // 8c. Lead event
     if (FIRE_LEAD_EVENT && window.fbq) {
