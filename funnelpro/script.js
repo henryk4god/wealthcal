@@ -1,8 +1,3 @@
-/**
- * script.js — Attribution Bridge + Fix #16b Auto-Approve (TIER 3)
- * ===============================================================
- */
-
 (function () {
   'use strict';
 
@@ -35,7 +30,7 @@
     document.cookie = '_fbc=' + encodeURIComponent(fbcValue) + '; Path=/; Max-Age=7776000; SameSite=Lax; Secure';
   }
 
-  // Clean URL (so refresh doesn't re-fire)
+  // Clean URL
   if (landingParams.has('fullname') || landingParams.has('email') ||
       landingParams.has('fbclid') || landingParams.has('name') ||
       landingParams.has('order_id') || landingParams.has('orderId')) {
@@ -62,7 +57,7 @@
   }
 
   if (!ATTRIBUTION_ENDPOINT || !TELEGRAM_BASE) {
-    console.warn('Attribution bridge disabled: missing attributionEndpoint or telegramBotHandle in CLASSROOM_CONFIG.');
+    console.warn('Attribution bridge disabled: missing config.');
     return;
   }
 
@@ -71,7 +66,6 @@
   );
 
   if (telegramLinks.length === 0) {
-    console.warn('No Telegram links found on page.');
     return;
   }
 
@@ -145,7 +139,7 @@
 
         script.onerror = function () {
           cleanup();
-          reject(new Error("Network error contacting attribution endpoint."));
+          reject(new Error("Network error."));
         };
 
         var endpoint = ATTRIBUTION_ENDPOINT + "?action=check_attribution&token=" +
@@ -153,7 +147,7 @@
         script.src = endpoint;
         timeout = setTimeout(function () {
           cleanup();
-          reject(new Error("Single poll timed out."));
+          reject(new Error("Timeout."));
         }, 5000);
         document.head.appendChild(script);
       });
@@ -168,18 +162,19 @@
             return;
           }
         } catch (err) {
-          console.warn('[attribution] Poll attempt failed: ' + err.message);
+          console.warn('Poll failed: ' + err.message);
         }
         await new Promise(function (r) { setTimeout(r, pollIntervalMs); });
       }
-      reject(new Error("Attribution confirmation timed out after 15 seconds."));
+      reject(new Error("Timed out."));
     });
   }
 
   async function prepareAttribution() {
-    if (!window.crypto || !window.crypto.subtle) throw new Error('Browser encryption unavailable.');
+    if (!window.crypto || !window.crypto.subtle) throw new Error('Encryption unavailable.');
+    
     var normalizedEmail = selarEmail.trim().toLowerCase();
-    if (!normalizedEmail) throw new Error('No email found in URL. Add ?email=xxx@example.com to the redirect.');
+    if (!normalizedEmail) throw new Error('No email found in URL.');
 
     var firstName = selarFullName.trim().split(/\s+/)[0] || '';
     var fbp = getCookie('_fbp');
@@ -191,7 +186,6 @@
     var token = generateAttributionToken();
     var sharedSecret = String(CFG.attributionSharedSecret || '').trim();
 
-    // Create ONE combined payload
     var formData = new URLSearchParams();
     formData.set('action', 'save_attribution_and_purchase');
     formData.set('token', token);
@@ -202,7 +196,6 @@
     formData.set('userAgent', navigator.userAgent);
     if (sharedSecret) formData.set('secret', sharedSecret);
     
-    // Add Purchase Data to the SAME payload
     if (!IS_FREE_PRODUCT && PRODUCT_TIER && PRODUCT_TIER !== 'free') {
       formData.set('productTier', PRODUCT_TIER);
       formData.set('amount', String(PRODUCT_AMOUNT));
@@ -211,9 +204,6 @@
       if (landingOrderId) formData.set('orderId', landingOrderId);
     }
 
-    console.log('[attribution] Sending combined POST...');
-    
-    // Send it ONCE
     await fetch(ATTRIBUTION_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -221,10 +211,8 @@
       keepalive: true
     });
 
-    console.log('[attribution] Waiting for confirmation...');
     await confirmAttributionRecord(token);
 
-    // Pixel Events
     if (FIRE_LEAD_EVENT && window.fbq) {
       try { window.fbq('track', 'Lead', {}, { eventID: token }); } catch (err) {}
     }
@@ -237,23 +225,20 @@
       } catch (err) {}
     }
 
-    // Unlock Button
     telegramLinks.forEach(function (link) {
       link.href = TELEGRAM_BASE + token;
       
-      // Keep it locked for 3 more seconds to ensure data is saved safely
+      // 3-second lock
       setTimeout(function() {
         var originalText = link.getAttribute('data-original-text');
         if (originalText) link.textContent = originalText;
         attributionReady = true;
       }, 3000);
     });
-
-    console.log('[attribution] Ready. Token: ' + token.slice(0, 8) + '...');
   }
 
   prepareAttribution().catch(function (err) {
-    console.error('[attribution] Preparation failed:', err);
+    console.error('[attribution] Failed:', err);
     telegramLinks.forEach(function (link, i) {
       link.href = originalHrefs[i];
       var originalText = link.getAttribute('data-original-text');
