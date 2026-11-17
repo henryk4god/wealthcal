@@ -58,7 +58,7 @@ window.CLASSROOM_CONFIG = {
   productCurrency: "NGN",       // ⚠️ SET TO REAL CURRENCY (NGN / USD / EUR / GBP)
   isFreeProduct: false,         // true for free products, false for paid
   fireLeadEvent: false,         // See matrix below
-  firePurchaseEvent: false,     // See matrix below
+  firePurchaseEvent: true,     // See matrix below
 
   // EVENT-FIRING MATRIX:
   //   Free product + Selar CAPI:  fireLeadEvent=false, firePurchaseEvent=false
@@ -102,10 +102,10 @@ window.CLASSROOM_CONFIG = {
     bodyCopy: "Open Telegram to start learning immediately.",
     ctaText: "👉 Open Your Classroom",
     showWhatsapp: true,
-    showCrossSell: false,
+    showCrossSell: true,
     crossSellCopy: "Explore our other plans.",
     crossSellCta: "See All Plans",
-    crossSellUrl: ""
+    crossSellUrl: "https://google.com"
   },
 
   // ═════════════════════════════════════════════
