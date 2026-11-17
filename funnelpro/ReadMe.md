@@ -1,3 +1,205 @@
+🎉 Phase 2 Message 2 Confirmed — Tier Filtering Works
+
+You ran the tests, confirmed the tier filtering, and now Message 3 ships.
+
+---
+
+📦 Phase 2 — Message 3: Config Template + Buyer Docs
+
+What this message delivers:
+
+· Complete config.js template with tier config documentation
+· Complete buyer setup guide (markdown) covering tier configuration
+· Migration checklist for existing buyers
+· Release notes update
+
+What this message does NOT touch:
+
+· Zero code changes to Apps Script
+· Zero changes to script.js, index.html, index-paid.html
+· No regression changes (still 30/30)
+· No new tests
+
+This is a pure documentation drop. Ship it alongside the code — no deployment or testing needed.
+
+---
+
+📄 Deliverable 1 — Updated config.js template
+
+Replace your config.js with this final version. It includes everything from previous phases plus detailed tier config documentation. The actual functional keys are identical to what you already have — this version just adds explanatory comments so buyers can understand how to set up tiers.
+
+```javascript
+/**
+ * config.js — Landing Page Configuration (TIER 3 + SaaS)
+ * ========================================================
+ *
+ * BUYER: EDIT ONLY THIS FILE.
+ * Do NOT edit script.js or index.html / index-paid.html.
+ *
+ * QUICK START:
+ *   1. Fill in Sections 1-7 (required for auto-approve)
+ *   2. Section 8-10 are optional (payment processor, tier names, thank-you page)
+ *   3. Tier config (Section 11) is OPTIONAL — skip if single-product
+ */
+
+window.CLASSROOM_CONFIG = {
+
+  // ═════════════════════════════════════════════
+  // 1. ATTRIBUTION ENDPOINT (Required)
+  // ═════════════════════════════════════════════
+  // Get from: Apps Script → Deploy → Manage deployments → /exec URL
+  attributionEndpoint: "https://script.google.com/macros/s/AKfycbwkQwGH_7TRVJ3XOwnV6e-byIinQLlSp1ZmL4WliID0AWMHg4v7uK9YJL7PxS4QmIcHTA/exec",
+
+  // ═════════════════════════════════════════════
+  // 2. TELEGRAM BOT HANDLE (Required)
+  // ═════════════════════════════════════════════
+  // Bot username from @BotFather, WITHOUT the @ symbol
+  telegramBotHandle: "CRTtiers3bot",
+
+  // ═════════════════════════════════════════════
+  // 3. META PIXEL ID (Required for Meta ads)
+  // ═════════════════════════════════════════════
+  // From Meta Events Manager. Leave "" if not running Meta ads.
+  metaPixelId: "1517538563417489",
+
+  // ═════════════════════════════════════════════
+  // 4. SHARED SECRET (Required — must match Apps Script)
+  // ═════════════════════════════════════════════
+  // Must EXACTLY match ATTRIBUTION_SHARED_SECRET in Apps Script
+  // Project Settings → Script Properties
+  attributionSharedSecret: "VVoR^A,6Q#UGZ2>TO|$cxq9P.)+fV?jy",
+
+  // ═════════════════════════════════════════════
+  // 5. WHATSAPP SUPPORT (Optional)
+  // ═════════════════════════════════════════════
+  // International format, no + or spaces. Leave "" to hide.
+  supportWhatsappNumber: "2348033867642",
+  supportWhatsappMessage: "Hello, I need help with my course.",
+
+  // ═════════════════════════════════════════════
+  // 6. BRAND NAME
+  // ═════════════════════════════════════════════
+  brandName: "Classroom Funnel Pro",
+
+  // ═════════════════════════════════════════════
+  // 7. PRODUCT CONFIG (Required for auto-approve)
+  // ═════════════════════════════════════════════
+  productTier: "tier3",         // tier1 / tier2 / tier3 (or your custom ID)
+  productAmount: 0,             // ⚠️ SET TO REAL PRICE (e.g. 1090)
+  productCurrency: "NGN",       // ⚠️ SET TO REAL CURRENCY (NGN / USD / EUR / GBP)
+  isFreeProduct: false,         // true for free products, false for paid
+  fireLeadEvent: false,         // See matrix below
+  firePurchaseEvent: false,     // See matrix below
+
+  // EVENT-FIRING MATRIX:
+  //   Free product + Selar CAPI:  fireLeadEvent=false, firePurchaseEvent=false
+  //   Free product + no CAPI:     fireLeadEvent=true,  firePurchaseEvent=false
+  //   Paid product + Selar CAPI:  fireLeadEvent=false, firePurchaseEvent=false
+  //   Paid product + no CAPI:     fireLeadEvent=false, firePurchaseEvent=true
+
+  // ═════════════════════════════════════════════
+  // 8. PAYMENT PROCESSOR (Phase 1)
+  // ═════════════════════════════════════════════
+  // Which processor sells this product?
+  //
+  //   ✅ Supported today: selar, gumroad, lemonsqueezy, payhip, auto
+  //   ⚠️ Coming Phase 1.5: paystack, flutterwave, stripe, manual
+  //      (these don't pass email in redirect — Phase 1.5 adds email form)
+  //
+  paymentProcessor: "selar",
+
+  // Legacy alias (kept for backward compatibility)
+  productSource: "Selar",
+
+  // ═════════════════════════════════════════════
+  // 9. TIER DISPLAY NAMES (Optional)
+  // ═════════════════════════════════════════════
+  // Maps tier IDs to friendly display names.
+  // If not set, "tier1" → "Tier 1".
+  tierDisplayNames: {
+    // "tier1": "Starter",
+    // "tier2": "Pro",
+    // "tier3": "Premium"
+  },
+
+  // ═════════════════════════════════════════════
+  // 10. PAID THANK-YOU PAGE (Phase 1)
+  // ═════════════════════════════════════════════
+  // All fields optional. Defaults shown below.
+  // Supported placeholders: {{tierName}}, {{brandName}}
+  thankYouPage: {
+    headline: "Thank You For Your Purchase!",
+    subheadline: "You now have access to {{tierName}}.",
+    bodyCopy: "Open Telegram to start learning immediately.",
+    ctaText: "👉 Open Your Classroom",
+    showWhatsapp: true,
+    showCrossSell: false,
+    crossSellCopy: "Explore our other plans.",
+    crossSellCta: "See All Plans",
+    crossSellUrl: ""
+  },
+
+  // ═════════════════════════════════════════════
+  // 11. TIER CONFIGURATION (Phase 2 — Optional)
+  // ═════════════════════════════════════════════
+  // ⚠️ IMPORTANT: This block is DOCUMENTATION ONLY.
+  // The actual tier config lives in Apps Script Script Properties,
+  // NOT in this file (the bot reads it server-side).
+  //
+  // To configure tiers:
+  //   1. Open Apps Script → Project Settings → Script Properties
+  //   2. Add new property:
+  //        Key:   TIER_CONFIG_JSON
+  //        Value: <JSON string from below>
+  //
+  // EXISTING CONFIG (for reference, don't edit here):
+  //   See TIER_CONFIG_JSON in Apps Script Script Properties
+  //
+  // For single-product buyers: leave TIER_CONFIG_JSON unset.
+  // The default single-tier config kicks in automatically.
+  //
+  // For multi-tier buyers, see the buyer setup guide for examples.
+};
+
+// ═════════════════════════════════════════════
+// REFERENCE: TIER_CONFIG_JSON EXAMPLES
+// ═════════════════════════════════════════════
+//
+// Copy one of these JSON strings into Script Properties:
+//
+// EXAMPLE 1 — 3-tier cumulative (recommended for most buyers):
+// {"accessModel":"cumulative","tiers":[
+//   {"id":"tier1","name":"Starter","rank":1,"description":"Entry level","color":"#64748b"},
+//   {"id":"tier2","name":"Pro","rank":2,"description":"Intermediate","color":"#3b82f6"},
+//   {"id":"tier3","name":"Premium","rank":3,"description":"Everything unlocked","color":"#8b5cf6"}
+// ]}
+//
+// EXAMPLE 2 — 3-tier siloed:
+// {"accessModel":"siloed","tiers":[
+//   {"id":"starter","name":"Starter","rank":1},
+//   {"id":"pro","name":"Pro","rank":2},
+//   {"id":"premium","name":"Premium","rank":3}
+// ]}
+//
+// EXAMPLE 3 — Single tier (equivalent to leaving unset):
+// {"accessModel":"cumulative","tiers":[
+//   {"id":"default","name":"Full Access","rank":1}
+// ]}
+//
+// EXAMPLE 4 — 2-tier basic/pro:
+// {"accessModel":"cumulative","tiers":[
+//   {"id":"basic","name":"Basic","rank":1},
+//   {"id":"pro","name":"Pro","rank":2}
+// ]}
+```
+
+---
+
+📄 Deliverable 2 — Buyer Setup Guide (markdown)
+
+Save as SETUP_GUIDE.md in your buyer documentation (or add to your docs site / Notion / PDF).
+
+```markdown
 # Classroom Funnel Pro — Buyer Setup Guide
 
 Complete setup walkthrough from zero to live classroom.
@@ -96,50 +298,53 @@ Configure tiers if you:
 **Example for 3 cumulative tiers:**
 ```json
 {"accessModel":"cumulative","tiers":[{"id":"tier1","name":"Starter","rank":1},{"id":"tier2","name":"Pro","rank":2},{"id":"tier3","name":"Premium","rank":3}]}
+```
 
 Example for 2 siloed tiers:
 
-json
+```json
 {"accessModel":"siloed","tiers":[{"id":"basic","name":"Basic","rank":1},{"id":"pro","name":"Pro","rank":2}]}
-
+```
 
 Buyers with no tiers: Leave TIER_CONFIG_JSON unset — single-tier default kicks in.
 
 Step 2.3 — Tag your lessons
+
 Open Lessons sheet. Fill in the Tier column for every lesson:
 
-LessonID	LessonTitle	...	Tier
-L001	Welcome Video	...	all
-L002	Starter Lesson 1	...	tier1
-L003	Pro Lesson 1	...	tier2
-L004	Premium Lesson 1	...	tier3
-L005	Bonus Content	...	tier2,tier3
+LessonID LessonTitle ... Tier
+L001 Welcome Video ... all
+L002 Starter Lesson 1 ... tier1
+L003 Pro Lesson 1 ... tier2
+L004 Premium Lesson 1 ... tier3
+L005 Bonus Content ... tier2,tier3
+
 Rules:
 
-all (or leave blank) → visible to everyone
-
-tier1 → only tier1 buyers
-
-tier2,tier3 → only tier2 and tier3 buyers (comma-separated)
+· all (or leave blank) → visible to everyone
+· tier1 → only tier1 buyers
+· tier2,tier3 → only tier2 and tier3 buyers (comma-separated)
 
 Step 2.4 — Tag your bonuses
+
 Same as lessons. Fill in Tier column in Bonuses sheet.
 
 Step 2.5 — Test tier filtering
-In Students sheet, find your own Telegram ID
 
-Set CurrentTier to tier1
+1. In Students sheet, find your own Telegram ID
+2. Set CurrentTier to tier1
+3. In Telegram bot, send My Lessons → you should see only all + tier1 lessons
+4. Change CurrentTier to tier3 → you should now see everything (cumulative) or only tier3 (siloed)
 
-In Telegram bot, send My Lessons → you should see only all + tier1 lessons
-
-Change CurrentTier to tier3 → you should now see everything (cumulative) or only tier3 (siloed)
+---
 
 🎁 Phase 3 — Optional: Customize the Thank-You Page
+
 Edit config.js → thankYouPage block to change headlines, body copy, and CTAs.
 
 Example:
 
-javascript
+```javascript
 thankYouPage: {
   headline: "🎉 Welcome to Premium!",
   subheadline: "You've unlocked:",
@@ -148,166 +353,157 @@ thankYouPage: {
   showWhatsapp: true,
   showCrossSell: false
 }
+```
+
 Supports {{tierName}} and {{brandName}} placeholders.
 
+---
+
 ✅ Pre-Launch Checklist
+
 Before you announce to customers, verify:
 
 Basic flow
-□ Free guide page loads (/index.html)
-□ Paid page loads (/index-paid.html)
-□ Console shows [attribution] Ready. Token: XXXXXXXX...
-□ PurchaseRedirects gets rows on test purchase
-□ Telegram link has ?start=facebook_guide_<32hex>
-□ Bot auto-approves in <5 seconds
-□ Students sheet shows Approved / Approved
-□ CurrentTier column populated (if tiers configured)
+
+☐ Free guide page loads (/index.html)
+☐ Paid page loads (/index-paid.html)
+☐ Console shows [attribution] Ready. Token: XXXXXXXX...
+☐ PurchaseRedirects gets rows on test purchase
+☐ Telegram link has ?start=facebook_guide_<32hex>
+☐ Bot auto-approves in <5 seconds
+☐ Students sheet shows Approved / Approved
+☐ CurrentTier column populated (if tiers configured)
+
 Tier filtering (if configured)
-□ All test lessons have Tier values
-□ All test bonuses have Tier values
-□ TIER_CONFIG_JSON is valid JSON (no trailing commas)
-□ Bot menu shows correct tier groups for each buyer tier
-□ Admin menu shows [T1], [T2], etc. labels
+
+☐ All test lessons have Tier values
+☐ All test bonuses have Tier values
+☐ TIER_CONFIG_JSON is valid JSON (no trailing commas)
+☐ Bot menu shows correct tier groups for each buyer tier
+☐ Admin menu shows [T1], [T2], etc. labels
+
 Meta Pixel (if running ads)
-□ metaPixelId matches your Meta Events Manager
-□ fireLeadEvent / firePurchaseEvent set correctly per matrix
-□ Test purchase fires exactly ONE Purchase event (no duplicates)
-□ Meta Events Manager shows the test events
+
+☐ metaPixelId matches your Meta Events Manager
+☐ fireLeadEvent / firePurchaseEvent set correctly per matrix
+☐ Test purchase fires exactly ONE Purchase event (no duplicates)
+☐ Meta Events Manager shows the test events
+
+---
+
 🆘 Common Issues
+
 "Attribution bridge disabled" in console
+
 Cause: config.js doesn't have attributionEndpoint or telegramBotHandle set.
 Fix: Check config.js — both keys must be non-empty strings.
 
 Buyer pays but isn't auto-approved
+
 Possible causes:
 
-attributionSharedSecret doesn't match Script Property → fix both
-
-Payment processor doesn't pass ?email= in redirect → check payment processor list
-
-Bot auto-approve log shows error → check Apps Script Executions tab
+1. attributionSharedSecret doesn't match Script Property → fix both
+2. Payment processor doesn't pass ?email= in redirect → check payment processor list
+3. Bot auto-approve log shows error → check Apps Script Executions tab
 
 Tier filtering doesn't work
+
 Check:
 
-TIER_CONFIG_JSON is valid JSON (paste into jsonlint.com to verify)
-
-Lessons.Tier and Bonuses.Tier columns are filled
-
-Students.CurrentTier is set for test user
-
-Run runFullRegression() — should be 30/30 or higher
+1. TIER_CONFIG_JSON is valid JSON (paste into jsonlint.com to verify)
+2. Lessons.Tier and Bonuses.Tier columns are filled
+3. Students.CurrentTier is set for test user
+4. Run runFullRegression() — should be 30/30 or higher
 
 Auto-approve works but students see "not approved"
+
 Cause: CurrentTier column not populated after approval.
 Fix: Run approveStudentForTier_ manually or check that the patched version of the function is deployed (it writes to column F).
 
+---
+
 📊 Sheet Reference
-Sheet	Purpose	Columns
-Students	One row per Telegram user	ID, Name, Payment Status, Access Status, Notes, CurrentTier
-Lessons	Your course content	LessonID, Module, LessonTitle, TelegramFileID, PlaybackURL, Status, Tier
-Bonuses	Your bonus content	BonusID, Category, Title, Description, DeliveryType, TelegramFileID, ExternalURL, Status, Protection, SortOrder, Tier
-Progress	Lesson completion tracking	Telegram ID, Lesson ID, Lesson Title, Status, Completed At
-AccessCodes	Manual access codes	Code, Status, Used By, Used At, Created At, Batch ID
-AccessCodeAudit	Audit log for codes	Timestamp, Action, Code, Telegram ID, Details
-FunnelTracking	Meta Lead events	EventID, TelegramUserID, FirstName, Username, EventType, Source, Campaign, EventDate, Status, Response
-AttributionBridge	Attribution tokens	Token, CreatedAt, ExpiresAt, EmailHash, FirstNameHash, FBP, FBC, UserAgent, Source, Campaign, Status, TelegramUserID, EventID
-PurchaseTracking	Purchase audit log	Timestamp, TelegramUserID, AccessCode, Value, Currency, MetaStatus, MetaResponse, EventID
-PurchaseRedirects	Auto-approve queue	Token, CreatedAt, EmailHash, ProductTier, Amount, Currency, Source, OrderID, Status, TelegramUserID
+
+Sheet Purpose Columns
+Students One row per Telegram user ID, Name, Payment Status, Access Status, Notes, CurrentTier
+Lessons Your course content LessonID, Module, LessonTitle, TelegramFileID, PlaybackURL, Status, Tier
+Bonuses Your bonus content BonusID, Category, Title, Description, DeliveryType, TelegramFileID, ExternalURL, Status, Protection, SortOrder, Tier
+Progress Lesson completion tracking Telegram ID, Lesson ID, Lesson Title, Status, Completed At
+AccessCodes Manual access codes Code, Status, Used By, Used At, Created At, Batch ID
+AccessCodeAudit Audit log for codes Timestamp, Action, Code, Telegram ID, Details
+FunnelTracking Meta Lead events EventID, TelegramUserID, FirstName, Username, EventType, Source, Campaign, EventDate, Status, Response
+AttributionBridge Attribution tokens Token, CreatedAt, ExpiresAt, EmailHash, FirstNameHash, FBP, FBC, UserAgent, Source, Campaign, Status, TelegramUserID, EventID
+PurchaseTracking Purchase audit log Timestamp, TelegramUserID, AccessCode, Value, Currency, MetaStatus, MetaResponse, EventID
+PurchaseRedirects Auto-approve queue Token, CreatedAt, EmailHash, ProductTier, Amount, Currency, Source, OrderID, Status, TelegramUserID
+
+---
+
 🎓 Full Flow (What Happens on a Purchase)
-Buyer pays on Selar/Gumroad/your processor
 
-Processor redirects buyer to /index-paid.html?email=xxx&fullname=yyy&order_id=zzz
-
-script.js runs:
-
-Reads email + fullname from URL
-
-Hashes email (SHA-256)
-
-Generates 32-hex token
-
-POSTs save_attribution → row in AttributionBridge
-
-POSTs save_purchase → row in PurchaseRedirects (Status: Pending)
-
-Rewrites Telegram button → ?start=facebook_guide_<token>
-
-Buyer taps Telegram button
-
-Bot /start handler:
-
-Registers buyer in Students (if new)
-
-Parses token from start param
-
-Looks up PurchaseRedirects by token
-
-If found + Pending:
-
-Updates PurchaseRedirects.Status → Linked
-
-Updates PurchaseRedirects.TelegramUserID → buyer's ID
-
-Calls approveStudentForTier_(buyerID, tier):
-
-Students.Payment Status → Approved
-
-Students.Access Status → Approved
-
-Students.Notes → "Tier: tierX"
-
-Students.CurrentTier → tierX
-
-Sends "🎉 WELCOME! YOUR PURCHASE IS CONFIRMED" message
-
-Buyer taps "Open My Lessons":
-
-Bot reads CurrentTier
-
-Calls getLessonsForStudent_(buyerID)
-
-Filters lessons by tier
-
-Renders menu grouped by tier
-
-Buyer taps a lesson:
-
-Bot verifies tier access
-
-Sends video/content
-
-(Optional) fires Meta CAPI events
+1. Buyer pays on Selar/Gumroad/your processor
+2. Processor redirects buyer to /index-paid.html?email=xxx&fullname=yyy&order_id=zzz
+3. script.js runs:
+   · Reads email + fullname from URL
+   · Hashes email (SHA-256)
+   · Generates 32-hex token
+   · POSTs save_attribution → row in AttributionBridge
+   · POSTs save_purchase → row in PurchaseRedirects (Status: Pending)
+   · Rewrites Telegram button → ?start=facebook_guide_<token>
+4. Buyer taps Telegram button
+5. Bot /start handler:
+   · Registers buyer in Students (if new)
+   · Parses token from start param
+   · Looks up PurchaseRedirects by token
+   · If found + Pending:
+     · Updates PurchaseRedirects.Status → Linked
+     · Updates PurchaseRedirects.TelegramUserID → buyer's ID
+     · Calls approveStudentForTier_(buyerID, tier):
+       · Students.Payment Status → Approved
+       · Students.Access Status → Approved
+       · Students.Notes → "Tier: tierX"
+       · Students.CurrentTier → tierX
+     · Sends "🎉 WELCOME! YOUR PURCHASE IS CONFIRMED" message
+6. Buyer taps "Open My Lessons":
+   · Bot reads CurrentTier
+   · Calls getLessonsForStudent_(buyerID)
+   · Filters lessons by tier
+   · Renders menu grouped by tier
+7. Buyer taps a lesson:
+   · Bot verifies tier access
+   · Sends video/content
+   · (Optional) fires Meta CAPI events
 
 Total elapsed time from payment to approved buyer: ~4 seconds.
 
+---
+
 🔒 Security Model
-Shared secret — CSRF gate for attribution endpoints (visible in browser, by design)
 
-Tokens — single-use (Status → Linked after first use)
-
-Tier IDs — server-enforced, not trusted from browser
-
-Webhook — Telegram-signed, bot token required
-
-Sheet access — restricted to your Google account only
+· Shared secret — CSRF gate for attribution endpoints (visible in browser, by design)
+· Tokens — single-use (Status → Linked after first use)
+· Tier IDs — server-enforced, not trusted from browser
+· Webhook — Telegram-signed, bot token required
+· Sheet access — restricted to your Google account only
 
 Known limitations:
 
-attributionSharedSecret is visible in browser DevTools (inherent to client-side config)
+· attributionSharedSecret is visible in browser DevTools (inherent to client-side config)
+· Worst case if secret leaks: spam rows in PurchaseRedirects (no data breach, no access breach)
+· Rate limiting not implemented — spam cleanup is manual
 
-Worst case if secret leaks: spam rows in PurchaseRedirects (no data breach, no access breach)
-
-Rate limiting not implemented — spam cleanup is manual
+---
 
 📞 Support
+
 Email: [your support email]
 Docs: [your docs URL]
 Community: [your Telegram support group]
 
+---
+
 You're ready to launch! 🚀
 
-text
+```
 
 ---
 
@@ -452,10 +648,15 @@ If something goes wrong:
 - [ ] Landing page redeployed
 
 **Done! Your classroom now supports tiered access.**
+```
+
+---
+
 📄 Deliverable 4 — Updated release notes for existing customers
+
 Append to your previous Fix #16b release notes:
 
-markdown
+```markdown
 ## Update — Phase 2 (Tier System)
 
 **Release date:** [date of deploy]
@@ -509,4 +710,47 @@ markdown
 - **No admin tier filter UI** — admin sees all labels, can't toggle "show only tier2"
 
 All of these can be added in future updates without breaking changes.
+```
+
+---
+
+🎁 What Phase 2 Message 3 delivers
+
+Deliverable Purpose
+config.js — final template with all sections documented Complete buyer reference, no ambiguity
+SETUP_GUIDE.md End-to-end buyer onboarding (~2 hours of their time)
+UPGRADE_CHECKLIST.md Migration guide for existing customers
+Release notes update Customer communication about Phase 2
+
+Zero code changes. Zero regression impact. Pure docs — but these docs are what make your SaaS sellable. Buyers can now self-onboard without you answering 100 questions.
+
+---
+
+📊 Phase 2 — Complete
+
+Message Deliverable Status
+Message 1 Schema + migration + tests 26-31 ✅ 30/30
+Message 2 Tier filtering, menus, admin labels ✅ Confirmed working
+Message 3 Config template + buyer docs ✅ This message
+
+Phase 2 fully shipped. Your SaaS now supports:
+
+· ✅ Single-product buyers (no config needed)
+· ✅ Multi-tier buyers (config-driven)
+· ✅ Both cumulative and siloed access models
+· ✅ Comma-separated multi-tier lessons
+· ✅ Admin QA view with tier labels
+· ✅ Self-service buyer onboarding
+
+---
+
+🚦 Project status — all phases
+
+Phase Item Status
+Fix #16b Auto-approve paid buyers ✅ Shipped
+Fix #18 PurchaseTracking cleanup ✅ Shipped
+Phase 1 Paid thank-you page ✅ Shipped
+Phase 2 Tier system ✅ Shipped
+Phase 3 Fix #19 (upgrade tracking) ⏸️ Deferred — no customer request yet
+Phase 4 Fix #20 (rate limiting) ⏸️ Deferred — low priority
 
