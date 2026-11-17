@@ -56,8 +56,8 @@ window.CLASSROOM_CONFIG = {
   productTier: "tier2",         // tier1 / tier2 / tier3 (or your custom ID)
   productAmount: 1090,             // ⚠️ SET TO REAL PRICE (e.g. 1090)
   productCurrency: "NGN",       // ⚠️ SET TO REAL CURRENCY (NGN / USD / EUR / GBP)
-  isFreeProduct: true,         // true for free products, false for paid
-  fireLeadEvent: true,         // See matrix below
+  isFreeProduct: false,         // true for free products, false for paid
+  fireLeadEvent: false,         // See matrix below
   firePurchaseEvent: false,     // See matrix below
 
   // EVENT-FIRING MATRIX:
