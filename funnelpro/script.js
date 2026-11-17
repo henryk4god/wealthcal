@@ -251,7 +251,8 @@
     console.log('[attribution] Waiting for confirmation...');
     await confirmAttributionRecord(token);
 
-    // 8b. Save purchase record
+    // 8b. Fix #16b: save purchase record (paid only)
+    await new Promise(resolve => setTimeout(resolve, 1500));
     await savePurchaseRecord(token, emailHash);
 
     // 8c. Lead event
