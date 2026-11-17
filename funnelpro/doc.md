@@ -88,10 +88,10 @@ firePurchaseEvent: false    // for paid products with no CAPI processor
 
 | Your Setup | `fireLeadEvent` | `firePurchaseEvent` |
 |---|---|---|
-| Free product on Selar (CAPI enabled) | `false` | `false` |
-| Free product on Paystack/Stripe/custom | `true` | `false` |
-| Paid product on Selar (CAPI enabled) | `false` | `false` |
-| Paid product on Paystack/Flutterwave/manual | `false` | `true` |
+| Free product on Selar (CAPI enabled) | `false` Or NO | `false` Or NO |
+| Free product on Paystack/Stripe/custom | `true` Or YES | `false` Or NO |
+| Paid product on Selar (CAPI enabled) | `false` Or NO | `false` Or NO |
+| Paid product on Paystack/Flutterwave/manual | `false` Or NO | `true` Or YES |
 
 **Rule:** if your payment processor **already fires the event server-side** (Selar does this when CAPI is enabled), leave both `false`. Firing twice breaks Meta's algorithm — you'll be charged for phantom conversions.
 
