@@ -48,13 +48,13 @@ window.CLASSROOM_CONFIG = {
   // ═════════════════════════════════════════════
   // 6. BRAND NAME
   // ═════════════════════════════════════════════
-  brandName: "Classroom Funnel Pro",
+  brandName: "AI Agent Creator System",
 
   // ═════════════════════════════════════════════
   // 7. PRODUCT CONFIG (Required for auto-approve)
   // ═════════════════════════════════════════════
-  productTier: "tier3",         // tier1 / tier2 / tier3 (or your custom ID)
-  productAmount: 0,             // ⚠️ SET TO REAL PRICE (e.g. 1090)
+  productTier: "tier2",         // tier1 / tier2 / tier3 (or your custom ID)
+  productAmount: 1090,             // ⚠️ SET TO REAL PRICE (e.g. 1090)
   productCurrency: "NGN",       // ⚠️ SET TO REAL CURRENCY (NGN / USD / EUR / GBP)
   isFreeProduct: false,         // true for free products, false for paid
   fireLeadEvent: false,         // See matrix below
@@ -98,7 +98,7 @@ window.CLASSROOM_CONFIG = {
   // Supported placeholders: {{tierName}}, {{brandName}}
   thankYouPage: {
     headline: "Thank You For Your Purchase!",
-    subheadline: "You now have access to {{tierName}}.",
+    subheadline: "You now have access to {{brandName}}.",
     bodyCopy: "Open Telegram to start learning immediately.",
     ctaText: "👉 Open Your Classroom",
     showWhatsapp: true,
@@ -143,6 +143,7 @@ window.CLASSROOM_CONFIG = {
 //   {"id":"tier3","name":"Premium","rank":3,"description":"Everything unlocked","color":"#8b5cf6"}
 // ]}
 //
+
 // EXAMPLE 2 — 3-tier siloed:
 // {"accessModel":"siloed","tiers":[
 //   {"id":"starter","name":"Starter","rank":1},
@@ -160,3 +161,7 @@ window.CLASSROOM_CONFIG = {
 //   {"id":"basic","name":"Basic","rank":1},
 //   {"id":"pro","name":"Pro","rank":2}
 // ]}
+
+
+
+
