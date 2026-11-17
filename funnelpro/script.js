@@ -1,42 +1,17 @@
 /**
  * script.js — Attribution Bridge + Fix #16b Auto-Approve (TIER 3)
  * ===============================================================
- *
- * Drop this into ANY landing page with a single <script> tag.
- *
- * DEPENDS ON: config.js must load FIRST (before this file).
- *
- * WHAT IT DOES:
- *   1. Reads email + fullname from URL (Selar redirect)
- *   2. Captures fbclid, _fbp, _fbc cookies
- *   3. Hashes email + first name (SHA-256)
- *   4. POSTs save_attribution → creates AttributionBridge row
- *   5. Polls check_attribution to confirm save
- *   6. Fix #16b: POSTs save_purchase → creates PurchaseRedirects row
- *   7. Fix #16b: optionally fires browser Lead / Purchase pixel events
- *   8. Rewrites ALL Telegram links with ?start=facebook_guide_<token>
- *
- * EVENT FIRING RULES (Fix #16b):
- *
- *   Free product + Selar CAPI:     fireLeadEvent=false, firePurchaseEvent=false
- *   Free product + no CAPI:        fireLeadEvent=true,  firePurchaseEvent=false
- *   Paid product + Selar CAPI:     fireLeadEvent=false, firePurchaseEvent=false
- *   Paid product + no CAPI:        fireLeadEvent=false, firePurchaseEvent=true
  */
 
 (function () {
   'use strict';
 
-  // ─────────────────────────────────────────
-  // CONFIG
-  // ─────────────────────────────────────────
   var CFG = window.CLASSROOM_CONFIG || {};
   var ATTRIBUTION_ENDPOINT = String(CFG.attributionEndpoint || "").trim();
   var TELEGRAM_BOT_HANDLE = String(CFG.telegramBotHandle || "").trim().replace(/^@/, "");
   var TELEGRAM_BASE = TELEGRAM_BOT_HANDLE ? "https://t.me/" + TELEGRAM_BOT_HANDLE + "?start=facebook_guide_" : "";
   var META_PIXEL_ID = String(CFG.metaPixelId || "").trim();
 
-  // Fix #16b product config
   var PRODUCT_TIER        = String(CFG.productTier || "").trim().toLowerCase();
   var PRODUCT_AMOUNT      = Number(CFG.productAmount) || 0;
   var PRODUCT_CURRENCY    = String(CFG.productCurrency || "USD").trim().toUpperCase();
@@ -45,16 +20,12 @@
   var FIRE_LEAD_EVENT     = Boolean(CFG.fireLeadEvent);
   var FIRE_PURCHASE_EVENT = Boolean(CFG.firePurchaseEvent);
 
-  // ─────────────────────────────────────────
-  // 1. CAPTURE URL PARAMS (before cleaning)
-  // ─────────────────────────────────────────
   var landingParams = new URLSearchParams(window.location.search);
   var selarFullName  = landingParams.get('fullname') || landingParams.get('name') || '';
   var selarEmail     = landingParams.get('email') || '';
   var landingFbclid  = landingParams.get('fbclid') || '';
   var landingOrderId = landingParams.get('order_id') || landingParams.get('orderId') || '';
 
-  // Preserve existing _fbc cookie
   var existingFbc = document.cookie.split(';').some(function (cookie) {
     return cookie.trim().startsWith('_fbc=');
   });
@@ -64,7 +35,6 @@
     document.cookie = '_fbc=' + encodeURIComponent(fbcValue) + '; Path=/; Max-Age=7776000; SameSite=Lax; Secure';
   }
 
-  // Clean URL (so refresh doesn't re-fire)
   if (landingParams.has('fullname') || landingParams.has('email') ||
       landingParams.has('fbclid') || landingParams.has('name') ||
       landingParams.has('order_id') || landingParams.has('orderId')) {
@@ -78,9 +48,6 @@
     window.history.replaceState({}, document.title, cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
   }
 
-  // ─────────────────────────────────────────
-  // 2. META PIXEL BOOT (only if configured)
-  // ─────────────────────────────────────────
   if (META_PIXEL_ID) {
     !function(f,b,e,v,n,t,s) {
       if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -93,17 +60,11 @@
     window.fbq('track', 'PageView');
   }
 
-  // ─────────────────────────────────────────
-  // 3. GUARD
-  // ─────────────────────────────────────────
   if (!ATTRIBUTION_ENDPOINT || !TELEGRAM_BASE) {
     console.warn('Attribution bridge disabled: missing attributionEndpoint or telegramBotHandle in CLASSROOM_CONFIG.');
     return;
   }
 
-  // ─────────────────────────────────────────
-  // 4. FIND TELEGRAM LINKS
-  // ─────────────────────────────────────────
   var telegramLinks = Array.prototype.slice.call(
     document.querySelectorAll('a[href*="t.me/"], a[href*="telegram.me/"]')
   );
@@ -126,9 +87,6 @@
     });
   });
 
-  // ─────────────────────────────────────────
-  // 5. HELPERS
-  // ─────────────────────────────────────────
   function getCookie(name) {
     var prefix = name + '=';
     var item = document.cookie.split(';')
@@ -157,9 +115,6 @@
       .join('');
   }
 
-  // ─────────────────────────────────────────
-  // 6. POLL CONFIRMATION
-  // ─────────────────────────────────────────
   function confirmAttributionRecord(token) {
     var startTime = Date.now();
     var maxWaitMs = 15000;
@@ -219,9 +174,6 @@
     });
   }
 
-  // ─────────────────────────────────────────
-  // 7. FIX #16b: SAVE PURCHASE (paid only)
-  // ─────────────────────────────────────────
   async function savePurchaseRecord(token, emailHash) {
     if (IS_FREE_PRODUCT || !PRODUCT_TIER || PRODUCT_TIER === 'free') {
       return;
@@ -248,15 +200,12 @@
         body: formData.toString(),
         cache: 'no-store'
       });
-      console.log('[purchase] POST sent (no-cors, response unreadable).');
+      console.log('[purchase] POST sent successfully.');
     } catch (err) {
       console.error('[purchase] Save failed:', err);
     }
   }
 
-  // ─────────────────────────────────────────
-  // 8. MAIN
-  // ─────────────────────────────────────────
   async function prepareAttribution() {
     if (!window.crypto || !window.crypto.subtle) {
       throw new Error('Browser encryption unavailable.');
@@ -278,7 +227,7 @@
     var firstNameHash = firstName ? await sha256Hex(firstName) : '';
     var token = generateAttributionToken();
 
-    // 8a. Save attribution (always)
+    // 8a. Save attribution
     var formData = new URLSearchParams();
     formData.set('action', 'save_attribution');
     formData.set('token', token);
@@ -290,21 +239,22 @@
 
     var sharedSecret = String(CFG.attributionSharedSecret || '').trim();
     if (sharedSecret) formData.set('secret', sharedSecret);
-      
-      console.log('[purchase] Saving purchase record for ' + PRODUCT_TIER + '...');
-      var resp = await fetch(ATTRIBUTION_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, // ✅ ADD THIS LINE
-        body: formData.toString(), // ✅ Make sure this has .toString()
-        cache: 'no-store'
-      });
+
+    console.log('[attribution] Sending save_attribution POST...');
+    await fetch(ATTRIBUTION_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formData.toString(),
+      cache: 'no-store'
+    });
+    
     console.log('[attribution] Waiting for confirmation...');
     await confirmAttributionRecord(token);
 
-    // 8b. Fix #16b: save purchase record (paid only)
+    // 8b. Save purchase record
     await savePurchaseRecord(token, emailHash);
 
-    // 8c. Optional: browser Lead event
+    // 8c. Lead event
     if (FIRE_LEAD_EVENT && window.fbq) {
       try {
         window.fbq('track', 'Lead', {}, { eventID: token });
@@ -314,7 +264,7 @@
       }
     }
 
-    // 8d. Optional: browser Purchase event
+    // 8d. Purchase event
     if (FIRE_PURCHASE_EVENT && window.fbq && !IS_FREE_PRODUCT) {
       try {
         window.fbq('track', 'Purchase', {
@@ -340,7 +290,6 @@
     console.log('[attribution] Ready. Token: ' + token.slice(0, 8) + '...');
   }
 
-  // ─── RUN ───
   prepareAttribution().catch(function (err) {
     console.error('[attribution] Preparation failed:', err);
     telegramLinks.forEach(function (link, i) {
