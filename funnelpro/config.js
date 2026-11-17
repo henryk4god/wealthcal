@@ -56,9 +56,9 @@ window.CLASSROOM_CONFIG = {
   productTier: "tier2",         // tier1 / tier2 / tier3 (or your custom ID)
   productAmount: 1090,             // ⚠️ SET TO REAL PRICE (e.g. 1090)
   productCurrency: "NGN",       // ⚠️ SET TO REAL CURRENCY (NGN / USD / EUR / GBP)
-  isFreeProduct: false,         // true for free products, false for paid
-  fireLeadEvent: false,         // See matrix below
-  firePurchaseEvent: true,     // See matrix below
+  isFreeProduct: true,         // true for free products, false for paid
+  fireLeadEvent: true,         // See matrix below
+  firePurchaseEvent: false,     // See matrix below
 
   // EVENT-FIRING MATRIX:
   //   Free product + Selar CAPI:  fireLeadEvent=false, firePurchaseEvent=false
@@ -102,10 +102,10 @@ window.CLASSROOM_CONFIG = {
     bodyCopy: "Open Telegram to start learning immediately.",
     ctaText: "👉 Open Your Classroom",
     showWhatsapp: true,
-    showCrossSell: true,
+    showCrossSell: false,
     crossSellCopy: "Explore our other plans.",
     crossSellCta: "See All Plans",
-    crossSellUrl: "https://google.com"
+    crossSellUrl: ""
   },
 
   // ═════════════════════════════════════════════
