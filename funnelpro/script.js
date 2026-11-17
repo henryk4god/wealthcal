@@ -176,7 +176,7 @@
     });
   }
 
-  async function prepareAttribution() {
+    async function prepareAttribution() {
     if (!window.crypto || !window.crypto.subtle) {
       throw new Error('Browser encryption unavailable.');
     }
@@ -197,7 +197,11 @@
     var firstNameHash = firstName ? await sha256Hex(firstName) : '';
     var token = generateAttributionToken();
 
-    // 8a. Save attribution using sendBeacon
+    var sharedSecret = String(CFG.attributionSharedSecret || '').trim();
+
+    // ──────────────────────────────────────────────
+    // 1. SAVE ATTRIBUTION (Wait for it to finish)
+    // ──────────────────────────────────────────────
     var formData = new URLSearchParams();
     formData.set('action', 'save_attribution');
     formData.set('token', token);
@@ -206,17 +210,22 @@
     formData.set('fbp', fbp);
     formData.set('fbc', fbc);
     formData.set('userAgent', navigator.userAgent);
-
-    var sharedSecret = String(CFG.attributionSharedSecret || '').trim();
     if (sharedSecret) formData.set('secret', sharedSecret);
 
-    var blob = new Blob([formData.toString()], { type: 'application/x-www-form-urlencoded' });
-    navigator.sendBeacon(ATTRIBUTION_ENDPOINT, blob);
+    console.log('[attribution] Sending save_attribution POST...');
+    await fetch(ATTRIBUTION_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formData.toString(),
+      keepalive: true // Tells the mobile browser not to kill this
+    });
     
-    // Poll to ensure it saved
+    console.log('[attribution] Waiting for confirmation...');
     await confirmAttributionRecord(token);
 
-    // 8b. Fix #16b: save purchase record (paid only)
+    // ──────────────────────────────────────────────
+    // 2. SAVE PURCHASE (Only if paid)
+    // ──────────────────────────────────────────────
     if (!IS_FREE_PRODUCT && PRODUCT_TIER && PRODUCT_TIER !== 'free') {
       var purchaseData = new URLSearchParams();
       purchaseData.set('action', 'save_purchase');
@@ -229,16 +238,23 @@
       if (landingOrderId) purchaseData.set('orderId', landingOrderId);
       if (sharedSecret) purchaseData.set('secret', sharedSecret);
 
-      var purchaseBlob = new Blob([purchaseData.toString()], { type: 'application/x-www-form-urlencoded' });
-      navigator.sendBeacon(ATTRIBUTION_ENDPOINT, purchaseBlob);
+      console.log('[purchase] Sending save_purchase POST...');
+      await fetch(ATTRIBUTION_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: purchaseData.toString(),
+        keepalive: true // Tells the mobile browser not to kill this
+      });
+      console.log('✅ [purchase] POST sent successfully.');
     }
 
-    // 8c. Lead event
+    // ──────────────────────────────────────────────
+    // 3. PIXEL EVENTS
+    // ──────────────────────────────────────────────
     if (FIRE_LEAD_EVENT && window.fbq) {
       try { window.fbq('track', 'Lead', {}, { eventID: token }); } catch (err) {}
     }
 
-    // 8d. Purchase event
     if (FIRE_PURCHASE_EVENT && window.fbq && !IS_FREE_PRODUCT) {
       try {
         window.fbq('track', 'Purchase', {
@@ -250,7 +266,9 @@
       } catch (err) {}
     }
 
-    // 8e. Rewrite Telegram links
+    // ──────────────────────────────────────────────
+    // 4. UNLOCK TELEGRAM BUTTON
+    // ──────────────────────────────────────────────
     telegramLinks.forEach(function (link) {
       link.href = TELEGRAM_BASE + token;
       var originalText = link.getAttribute('data-original-text');
@@ -258,8 +276,9 @@
     });
 
     attributionReady = true;
+    console.log('[attribution] Ready. Token: ' + token.slice(0, 8) + '...');
   }
-
+  
   prepareAttribution().catch(function (err) {
     console.error('[attribution] Preparation failed:', err);
     telegramLinks.forEach(function (link, i) {
