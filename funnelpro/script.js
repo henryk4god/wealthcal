@@ -244,7 +244,6 @@
       console.log('[purchase] Saving purchase record for ' + PRODUCT_TIER + '...');
       var resp = await fetch(ATTRIBUTION_ENDPOINT, {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: formData.toString(),
         cache: 'no-store'
@@ -295,7 +294,6 @@
       console.log('[purchase] Saving purchase record for ' + PRODUCT_TIER + '...');
       var resp = await fetch(ATTRIBUTION_ENDPOINT, {
         method: 'POST',
-        mode: 'no-cors', // ❌ DELETE THIS LINE
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, // ✅ ADD THIS LINE
         body: formData.toString(), // ✅ Make sure this has .toString()
         cache: 'no-store'
