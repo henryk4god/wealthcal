@@ -176,7 +176,7 @@
     });
   }
 
-     async function prepareAttribution() {
+  async function prepareAttribution() {
     if (!window.crypto || !window.crypto.subtle) throw new Error('Browser encryption unavailable.');
     var normalizedEmail = selarEmail.trim().toLowerCase();
     if (!normalizedEmail) throw new Error('No email found in URL. Add ?email=xxx@example.com to the redirect.');
@@ -240,24 +240,26 @@
     // Unlock Button
     telegramLinks.forEach(function (link) {
       link.href = TELEGRAM_BASE + token;
-      var originalText = link.getAttribute('data-original-text');
-      if (originalText) link.textContent = originalText;
-    });
-
-    attributionReady = true;
-    console.log('[attribution] Ready. Token: ' + token.slice(0, 8) + '...');
-  }
-  
-  prepareAttribution().catch(function (err) {
-    console.error('[attribution] Preparation failed:', err);
-    telegramLinks.forEach(function (link) {
-      link.href = TELEGRAM_BASE + token;
-      // Keep it locked for 3 more seconds to ensure data is saved
+      
+      // Keep it locked for 3 more seconds to ensure data is saved safely
       setTimeout(function() {
         var originalText = link.getAttribute('data-original-text');
         if (originalText) link.textContent = originalText;
         attributionReady = true;
       }, 3000);
     });
-    
+
+    console.log('[attribution] Ready. Token: ' + token.slice(0, 8) + '...');
+  }
+
+  prepareAttribution().catch(function (err) {
+    console.error('[attribution] Preparation failed:', err);
+    telegramLinks.forEach(function (link, i) {
+      link.href = originalHrefs[i];
+      var originalText = link.getAttribute('data-original-text');
+      if (originalText) link.textContent = originalText;
+    });
+    attributionReady = true;
+  });
+
 })();
