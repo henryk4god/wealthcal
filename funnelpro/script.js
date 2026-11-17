@@ -291,14 +291,15 @@
 
     var sharedSecret = String(CFG.attributionSharedSecret || '').trim();
     if (sharedSecret) formData.set('secret', sharedSecret);
-
-    console.log('[attribution] Sending save_attribution POST...');
-    await fetch(ATTRIBUTION_ENDPOINT, {
-      method: 'POST',
-      mode: 'no-cors',
-      body: formData,
-      cache: 'no-store'
-    });
+      
+      console.log('[purchase] Saving purchase record for ' + PRODUCT_TIER + '...');
+      var resp = await fetch(ATTRIBUTION_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors', // ❌ DELETE THIS LINE
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, // ✅ ADD THIS LINE
+        body: formData.toString(), // ✅ Make sure this has .toString()
+        cache: 'no-store'
+      });
     console.log('[attribution] Waiting for confirmation...');
     await confirmAttributionRecord(token);
 
