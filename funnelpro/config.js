@@ -96,12 +96,12 @@ window.CLASSROOM_CONFIG = {
   // ═════════════════════════════════════════════
   // All fields optional. Defaults shown below.
   // Supported placeholders: {{tierName}}, {{brandName}}
-  thankYouPage: {
+    thankYouPage: {
     headline: "Thank You For Your Purchase!",
-    subheadline: "You now have access to {{brandName}}.",
-    bodyCopy: "Open Telegram to start learning immediately.",
-    ctaText: "👉 Open Your Classroom",
-    showWhatsapp: true,
+    subheadline: "Your payment is confirmed.",
+    bodyCopy: "To get your private classroom link and access code, send us a message on WhatsApp. We will reply within minutes.",
+    ctaText: "👉 Message Admin on WhatsApp",
+    showWhatsapp: false, // Hidden because the main button is now WhatsApp
     showCrossSell: false,
     crossSellCopy: "Explore our other plans.",
     crossSellCta: "See All Plans",
