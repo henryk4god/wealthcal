@@ -43,7 +43,7 @@ window.CLASSROOM_CONFIG = {
   // ═════════════════════════════════════════════
   // International format, no + or spaces. Leave "" to hide.
   supportWhatsappNumber: "2348033867642",
-  supportWhatsappMessage: "Hello, I need help with my course.",
+  supportWhatsappMessage: "Hi, I just purchased the course. Please send me my Access Code and Telegram bot link.",
 
   // ═════════════════════════════════════════════
   // 6. BRAND NAME
