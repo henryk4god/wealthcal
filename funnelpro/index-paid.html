@@ -26,22 +26,24 @@
       <p class="js-body-copy">Open Telegram to start learning immediately.</p>
     </section>
 
-    <section class="card recommended">
+      <section class="card recommended">
       <span class="badge">Next Step</span>
-      <h3>🤖 Open Your Classroom</h3>
-      <p>Your access is ready. Tap below to open your private classroom on Telegram.</p>
-      <a class="btn btn-tg js-telegram-btn" href="https://t.me/PLACEHOLDER_BOT?start=facebook_guide" target="_blank" rel="noopener noreferrer">
-        <span class="js-cta-text">👉 Open Your Classroom</span>
+      <h3>💬 Get Your Access Code</h3>
+      <p>Tap below to message our support team on WhatsApp to receive your private Telegram link and access code.</p>
+      
+      <a class="btn btn-wa" id="whatsapp-redirect-btn" href="#" target="_blank" rel="noopener noreferrer">
+        <span class="js-cta-text">👉 Message Admin on WhatsApp</span>
       </a>
+      
       <p><strong>What happens next:</strong></p>
       <ol class="steps">
-        <li>Tap the button above.</li>
-        <li>Tap <strong>START</strong> if Telegram asks.</li>
-        <li>Your access is confirmed automatically in seconds.</li>
-        <li>Use <strong>/menu</strong> to browse your lessons.</li>
+        <li>Tap the button above to open WhatsApp.</li>
+        <li>Send us the pre-filled message (this proves your purchase).</li>
+        <li>We will reply within minutes with your Access Code and Telegram Bot link.</li>
+        <li>Open the bot, click START, and paste your Access Code.</li>
       </ol>
     </section>
-
+    
     <section class="card js-whatsapp-section">
       <h3>💬 Need help?</h3>
       <p>If you have any questions about your purchase, contact us on WhatsApp.</p>
@@ -118,11 +120,13 @@
       document.querySelector(".js-body-copy").textContent = render(val("bodyCopy"));
       document.querySelector(".js-cta-text").textContent = render(val("ctaText"));
 
-      // ─── Telegram button ───
-      var botHandle = String(cfg.telegramBotHandle || "").trim().replace(/^@/, "");
-      if (botHandle) {
-        var tgBtn = document.querySelector(".js-telegram-btn");
-        if (tgBtn) tgBtn.href = "https://t.me/" + botHandle + "?start=facebook_guide";
+            // ─── WhatsApp Redirect Button ───
+      var waNumber = String(cfg.supportWhatsappNumber || "").trim();
+      var waMessage = String(cfg.supportWhatsappMessage || "Hello, I need help.").trim();
+      var waBtn = document.getElementById("whatsapp-redirect-btn");
+      
+      if (waNumber && waBtn) {
+        waBtn.href = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(waMessage);
       }
 
       // ─── WhatsApp section ───
