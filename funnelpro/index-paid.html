@@ -26,14 +26,29 @@
       <p class="js-body-copy">Open Telegram to start learning immediately.</p>
     </section>
 
-      <section class="card recommended">
+    <section class="card recommended">
       <span class="badge">Next Step</span>
       <h3>💬 Get Your Access Code</h3>
-      <p>Tap below to message our support team on WhatsApp to receive your private Telegram link and access code.</p>
+      <p>Your payment is confirmed! To get your private classroom link, send us a message on WhatsApp.</p>
       
+      <!-- NEW: Email fallback input (hidden by default) -->
+      <div id="email-fallback-container" style="display: none; margin-bottom: 15px; text-align: left;">
+        <label for="buyer-email" style="font-size: 14px; font-weight: bold; color: #555;">Confirm the email you paid with:</label>
+        <input type="email" id="buyer-email" placeholder="you@example.com" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px;">
+      </div>
+
       <a class="btn btn-wa" id="whatsapp-redirect-btn" href="#" target="_blank" rel="noopener noreferrer">
         <span class="js-cta-text">👉 Message Admin on WhatsApp</span>
       </a>
+      
+      <p><strong>What happens next:</strong></p>
+      <ol class="steps">
+        <li>Tap the button above to open WhatsApp.</li>
+        <li>Send us the pre-filled message (this proves your purchase).</li>
+        <li>We will reply within minutes with your Access Code and Telegram Bot link.</li>
+        <li>Open the bot, click START, and paste your Access Code.</li>
+      </ol>
+    </section>
       
       <p><strong>What happens next:</strong></p>
       <ol class="steps">
