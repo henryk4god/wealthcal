@@ -117,15 +117,13 @@
             return;
           }
 
-          // Temporarily change button text to show it's saving
-          var originalText = waBtn.innerHTML;
-          waBtn.innerHTML = "⏳ Preparing WhatsApp link...";
-
-          await saveAttribution(typedEmail);
+          // 1. Instantly update the WhatsApp link with the typed email
           setupWhatsAppButton(typedEmail);
+
+          // 2. Save the attribution in the background (don't wait for it to finish to open WhatsApp)
+          saveAttribution(typedEmail);
           
-          // Restore text and let the click proceed
-          waBtn.innerHTML = originalText;
+          // The browser will now open the updated WhatsApp link instantly!
         });
       }
     }
