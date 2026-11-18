@@ -12,7 +12,7 @@
 
   <!-- config.js MUST load first -->
   <script src="./config.js?v=3"></script>
-  <script src="./script.js?v=28" defer></script>
+  <script src="./script.js?v=29" defer></script>
 </head>
 <body>
   <main class="wrap">
@@ -31,8 +31,11 @@
       <h3>💬 Get Your Access Code</h3>
       <p>Your payment is confirmed! To get your private classroom link, send us a message on WhatsApp.</p>
       
-      <!-- NEW: Email fallback input (hidden by default) -->
+       <!-- NEW: Name & Email fallback input (hidden by default) -->
       <div id="email-fallback-container" style="display: none; margin-bottom: 15px; text-align: left;">
+        <label for="buyer-name" style="font-size: 14px; font-weight: bold; color: #555;">Your First Name:</label>
+        <input type="text" id="buyer-name" placeholder="e.g. John" style="width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        
         <label for="buyer-email" style="font-size: 14px; font-weight: bold; color: #555;">Confirm the email you paid with:</label>
         <input type="email" id="buyer-email" placeholder="you@example.com" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px;">
       </div>
