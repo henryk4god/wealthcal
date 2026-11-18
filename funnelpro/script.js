@@ -111,7 +111,7 @@
         var sharedSecret = String(CFG.attributionSharedSecret || '').trim();
 
         var formData = new URLSearchParams();
-        formData.set('action', 'save_attribution');
+        formData.set('action', 'save_attribution_and_purchase');
         formData.set('token', token);
         formData.set('emailHash', emailHash);
         formData.set('firstNameHash', firstNameHash);
