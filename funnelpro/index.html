@@ -11,8 +11,8 @@
   <link rel="stylesheet" href="./style.css?v=3">
 
   <!-- config.js MUST load first -->
-<script src="./config.js?v=3"></script>
-<script src="./script.js?v=22" defer></script>
+  <script src="./config.js?v=3"></script>
+  <script src="./script.js?v=31" defer></script>
 </head>
 <body>
   <main class="wrap">
@@ -35,9 +35,20 @@
       <span class="badge">Recommended</span>
       <h3>🤖 Option 1: Get it on Telegram</h3>
       <p>Your free guide is available in our Telegram bot through a pinned message.</p>
-      <a class="btn btn-tg js-telegram-btn" href="https://t.me/PLACEHOLDER_BOT?start=facebook_guide" target="_blank" rel="noopener noreferrer">
+      
+      <!-- Form collector for Free Guide -->
+      <div id="free-guide-form" style="margin-bottom: 15px; text-align: left;">
+        <label for="fg-name" style="font-size: 14px; font-weight: bold; color: #555;">Your First Name:</label>
+        <input type="text" id="fg-name" placeholder="e.g. John" style="width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        
+        <label for="fg-email" style="font-size: 14px; font-weight: bold; color: #555;">Your Email Address:</label>
+        <input type="email" id="fg-email" placeholder="you@example.com" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px;">
+      </div>
+
+      <a class="btn btn-tg js-telegram-btn" id="free-guide-btn" href="https://t.me/PLACEHOLDER_BOT?start=facebook_guide" target="_blank" rel="noopener noreferrer">
         👉 Click here to open the Telegram bot
       </a>
+      
       <p><strong>Follow these steps:</strong></p>
       <ol class="steps">
         <li>Open the Telegram bot.</li>
@@ -78,12 +89,7 @@
     (function () {
       const cfg = window.CLASSROOM_CONFIG || {};
 
-      const botHandle = String(cfg.telegramBotHandle || "").trim().replace(/^@/, "");
-      if (botHandle) {
-        const tgBtn = document.querySelector(".js-telegram-btn");
-        if (tgBtn) tgBtn.href = "https://t.me/" + botHandle + "?start=facebook_guide";
-      }
-
+      // ─── WhatsApp Support ───
       const waNumber = String(cfg.supportWhatsappNumber || "").trim();
       const waMessage = String(cfg.supportWhatsappMessage || "Hello, I need help.").trim();
       const waSection = document.querySelector(".js-whatsapp-section");
@@ -95,6 +101,7 @@
         waSection.style.display = "none";
       }
 
+      // ─── Brand Name ───
       const brandName = String(cfg.brandName || "").trim();
       if (brandName) {
         document.querySelectorAll(".js-brand-name").forEach(function (el) { el.textContent = brandName; });
