@@ -44,11 +44,12 @@
     return Array.from(bytes).map(b => ('0' + b.toString(16)).slice(-2)).join('');
   }
 
-  async function saveAttribution(email) {
+    async function saveAttribution(email, name) {
     if (!email || !ATTRIBUTION_ENDPOINT) return;
     
     try {
       var emailHash = await sha256Hex(email);
+      var firstNameHash = name ? await sha256Hex(name.split(' ')[0]) : "";
       var token = generateToken();
       var sharedSecret = String(CFG.attributionSharedSecret || '').trim();
       var fbp = getCookie('_fbp');
@@ -59,7 +60,7 @@
       formData.set('action', 'save_attribution');
       formData.set('token', token);
       formData.set('emailHash', emailHash);
-      formData.set('firstNameHash', '');
+      formData.set('firstNameHash', firstNameHash);
       formData.set('fbp', fbp);
       formData.set('fbc', fbc);
       formData.set('userAgent', navigator.userAgent);
@@ -99,7 +100,7 @@
 
     if (urlEmail) {
       // SCENARIO A: Processor passed email in URL (Selar/Gumroad)
-      await saveAttribution(urlEmail);
+      await saveAttribution(urlEmail, urlName);
       setupWhatsAppButton(urlEmail);
         } else {
       // SCENARIO B: No email in URL (Paystack/Stripe)
