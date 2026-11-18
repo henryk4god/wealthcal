@@ -101,29 +101,34 @@
       // SCENARIO A: Processor passed email in URL (Selar/Gumroad)
       await saveAttribution(urlEmail);
       setupWhatsAppButton(urlEmail);
-    } else {
+        } else {
       // SCENARIO B: No email in URL (Paystack/Stripe)
       // Show the email input field
+      var nameInputField = document.getElementById("buyer-name");
       if (emailInputContainer) emailInputContainer.style.display = "block";
       
       // Change the button to handle the click
       if (waBtn) {
         waBtn.addEventListener("click", async function(event) {
           var typedEmail = emailInputField ? emailInputField.value.trim() : "";
+          var typedName = nameInputField ? nameInputField.value.trim() : "";
           
           if (!typedEmail || typedEmail.indexOf("@") === -1) {
             event.preventDefault(); // Stop the link
             alert("Please enter a valid email address before continuing.");
             return;
           }
+          if (!typedName) {
+            event.preventDefault(); // Stop the link
+            alert("Please enter your first name before continuing.");
+            return;
+          }
 
           // 1. Instantly update the WhatsApp link with the typed email
           setupWhatsAppButton(typedEmail);
 
-          // 2. Save the attribution in the background (don't wait for it to finish to open WhatsApp)
-          saveAttribution(typedEmail);
-          
-          // The browser will now open the updated WhatsApp link instantly!
+          // 2. Save the attribution in the background
+          saveAttribution(typedEmail, typedName);
         });
       }
     }
